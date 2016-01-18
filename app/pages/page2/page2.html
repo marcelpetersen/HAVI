@@ -1,0 +1,13 @@
+
+<ion-navbar *navbar>
+  <ion-title>
+    Tab 2
+  </ion-title>
+</ion-navbar>
+<ion-content class="page2">
+    <h2>{{error}}</h2>
+        <img id="image" [src]="url || '//:0'">
+<input style="width:100%" class="upload" id="house" type="file" accept="image/*" capture doc="house" name="files[]" data-url="/api/upload/detail" onchange="loadFile(event)" multiple>
+<button class="btn-high" (click)="uploadPhoto()">Foto uploaden</button>
+<button (click)="takePhoto()">Foto nemen</button>
+</ion-content>

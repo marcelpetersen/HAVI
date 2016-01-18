@@ -1,0 +1,19 @@
+<ion-navbar *navbar>
+  <ion-title>
+    Tab 3
+  </ion-title>
+</ion-navbar>
+
+<ion-content class="page3">
+    <span class="error" [hidden]="!error">{{error}}</span>
+    <div class="message-input">
+    <input [disabled]="error" (keyup)="doneTyping($event)" placeholder="Enter a message... + press enter">
+    </div>
+    <div *ngIf="!messages">
+        Loading...
+    </div>
+    <ul>
+        <li template="ngFor #latest of messages | async"><strong>{{latest.name}}</strong> - {{latest.text}} - {{latest.datetime}}</li>
+    </ul>
+
+</ion-content>
