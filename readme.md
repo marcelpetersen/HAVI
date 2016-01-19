@@ -1,6 +1,6 @@
 HAVA
 ==================
-* Pieter-Jan Sas
+Pieter-Jan Sas
 
 Code
 ------------------
