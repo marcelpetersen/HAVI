@@ -1,6 +1,9 @@
+// Page:        Small messaging with Firebase & RXJS
+// Author:      Pieter-Jan Sas
+// Last update: 28/01/16
+
 import { Page} from 'ionic/ionic';
 import { Cookie } from 'ng2-cookies/ng2-cookies';
-import { Pipe } from 'angular2/core';
 import 'rxjs/add/operator/debounceTime';
 import {Observable} from 'rxjs/Observable';
 import {observableFirebaseArray} from 'angular2-firebase';
@@ -37,10 +40,8 @@ export class Page3 {
                 name: this.name,
                 text: newString,
                 datetime: new Date().toDateString()
-            });
-            
+            });            
         }
-      
   }
   onPageWillEnter(){
       

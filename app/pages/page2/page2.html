@@ -1,13 +1,21 @@
 
 <ion-navbar *navbar>
   <ion-title>
-    Tab 2
+    Photo wall
   </ion-title>
 </ion-navbar>
 <ion-content class="page2">
-    <h2>{{error}}</h2>
-        <img id="image" [src]="url || '//:0'">
-<input style="width:100%" class="upload" id="house" type="file" accept="image/*" capture doc="house" name="files[]" data-url="/api/upload/detail" onchange="loadFile(event)" multiple>
-<button class="btn-high" (click)="uploadPhoto()">Foto uploaden</button>
-<button (click)="takePhoto()">Foto nemen</button>
+     <h2 [hidden]="!error" class="error">{{error}}</h2>
+     <label class="myLabel">
+        <input [disabled]="error" style="width:100%" class="upload" id="house" type="file" accept="image/*" capture doc="house" name="files[]"  multiple on-change="handleFileSelect($event)">
+        <span>Foto uploaden</span>
+    </label>
+    <h1 (click)="takePhoto()">Foto nemen</h1>
+    <ul>
+        <li template="ngFor #img of images | async">
+                <h2>{{img.name}}</h2>
+                <img [src]="img.src || '//:0'" class="image" alt="">  
+                <span>{{img.datetime}}</span>
+        </li>
+    </ul>
 </ion-content>

@@ -1,0 +1,11 @@
+<ion-navbar *navbar>
+  <ion-title>
+    {{title}}
+  </ion-title>
+</ion-navbar>
+
+<ion-content padding class="page1">
+    <h2 [hidden]="name">Geliev je onderaan <strong>in te loggen</strong>, a.u.b.</h2>
+    <h3>Groetjes het GSecure-team, <data></data></h3>
+    <button [hidden]="name" (click)="login()">Facebook</button>
+</ion-content>

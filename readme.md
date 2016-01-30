@@ -2,7 +2,7 @@ HAVA
 ==================
 Pieter-Jan Sas
 
-Code
+Frameworks
 ------------------
 * Angular 2 
 * Ionic 2 
@@ -16,4 +16,6 @@ Installation
 
 Credits
 ------------------
-Pieter-Jan Sas © 2015 - 2016 Arteveldehogeschool
+> Pieter-Jan Sas 
+> Arteveldehogeschool © 2015 - 2016 
+> <http://www.arteveldehogeschool.be>

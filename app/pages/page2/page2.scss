@@ -1,13 +1,89 @@
-.page2 {
-
+.page2{
+ .spinner {
+    height: 50px;
+    margin: 0 auto;
+    display: inherit;
 }
 .button{
     text-align: center;
     display:block;
+    position: relative;
+    top:20px;
 }
 .upload{
     margin-left:30px;
 }
-.btn-high{
-    bottom:100px !important;
+h2.error{
+    background-color: #D64541;
+    margin:0;
+    font-size:14px;
+}
+
+li{
+    width:90%;
+    background-color: #333;
+    float:left;
+    margin-top:20px;
+   .image{
+    float:left;
+    max-width:100%;
+    }
+    h2{
+        font-size:12px;
+        margin:0;
+        padding:10px;
+        color:#fff;
+        text-align: center;
+        &::first-letter{
+            text-transform: uppercase;
+        }
+    } 
+    span{
+        font-size:9px;
+        margin:0;
+        padding:10px;
+        color:#fff;
+    }
+
+}
+	
+
+    label.myLabel input[type="file"] {
+        position: fixed;
+        top: -1000px;
+    }
+    /***** Example custom styling *****/
+    .myLabel {
+        background: #188CDD;
+        color:#fff;
+        padding:10px;
+        width: 50%;
+        text-align: center;
+        margin:0px auto;
+        font-size:15px;
+        float:left;
+         border:0;
+         cursor: pointer;
+    }
+    .myLabel:hover {
+        background: #333;
+    }
+    .myLabel:active {
+        background: #333;
+    }
+    .myLabel :invalid + span,
+     .myLabel :valid + span {
+        color: #fff;
+    }
+    h1{
+        background-color: #355C7D;
+        color:#fff;
+        padding:10px 0px 13px 0px;
+        width: 50%;
+        text-align: center;
+        margin:0px auto;
+        font-size:15px;
+        float:left;
+        cursor: pointer;
+    }
 }
