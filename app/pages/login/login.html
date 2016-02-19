@@ -1,11 +1,13 @@
-<ion-navbar *navbar>
-  <ion-title>
-    {{title}}
-  </ion-title>
-</ion-navbar>
-
-<ion-content padding class="page1">
-    <h2 [hidden]="name">Geliev je onderaan <strong>in te loggen</strong>, a.u.b.</h2>
-    <h3>Groetjes het GSecure-team, <data></data></h3>
-    <button [hidden]="name" (click)="login()">Facebook</button>
+<ion-content padding class="login">
+    <div class="top">
+        <img src="build/images/logo.png" alt="">
+    </div>
+    <div class="login-form">
+        <label for="email">Email <i class="icon ion-email"></i></label>
+        <input type="email" name="email" [(ngModel)]="email">
+        <label for="password">Passwoord <i class="icon ion-locked"></i></label>
+        <input type="password" name="password" [(ngModel)]="password">
+        <button class="login-button">Inloggen</button>
+    </div>
+    <button id="facebook" (click)="login()"><i class="icon logo-facebook"></i> Inloggen met Facebook</button>
 </ion-content>

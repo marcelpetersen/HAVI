@@ -1,0 +1,102 @@
+$yellow:        #F5D76E;
+$darkyellow:    #F4B350;
+$white:         #fff;
+$facebook:      #3B5998;
+.login scroll-content{
+    padding:0;
+}
+.login{
+    background-color: $yellow;
+}
+.top{
+    background-color: $yellow;
+    width: 100%;
+    text-align: center;
+    padding-top:40px;
+    padding-bottom:40px;
+    img{
+       max-height: 180px;
+    }
+}
+ul.choose{
+    padding-left:0;
+    margin-top:0;
+    li{
+        padding:10px;
+        float:left;
+        width:50%;
+        text-align: center;
+        background-color: $darkyellow;
+        color:$white;
+        &.active{
+            color:$yellow;
+        }
+    }
+}
+
+form{
+    input{
+        width: 100%;
+        border:0;
+        background-color: #333;
+        margin:0;
+    }
+}
+#facebook{
+    width:100%;
+    border-radius: 0;
+    background-color: $facebook;
+    bottom:0;
+    position: absolute;
+    left:0;
+    margin:0;
+    i{
+        color:#fff;
+    }
+}
+
+/*
+* Form
+*/
+.login-form{
+    position: absolute;
+    bottom:60px;
+    width:100%;
+    label{
+        color:#fff;
+        padding-top:10px;
+        font-size:15px;
+        font-weight: 100;
+        line-height: 20px;
+        width:90%;
+        margin:0 auto;
+        display: block;
+        i{
+           float:right;
+           margin-right:5%;
+        }
+    }
+    input{
+        border:0;
+        border-bottom:1px solid #fff;
+        width: 90%;
+        margin:0 auto !important;
+        display: block;
+        color:#fff;
+        min-height: 20px;
+        background-color: transparent;
+    }
+    input:-webkit-autofill{
+        background-color: green !important;
+         -webkit-box-shadow: 0 0 0px 1000px white inset;
+    }
+}
+.login .login-button{
+    background-color: $darkyellow;
+    color:#fff;
+    width:90%;
+    border-radius: 0;
+    position: relative;
+    margin:30px auto 0px auto;
+    display: inherit;
+}

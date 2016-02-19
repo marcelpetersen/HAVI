@@ -1,0 +1,99 @@
+$color: #7D671E;
+
+tabbar{
+    border-top:0;
+    overflow: visible;
+    .tab-button{
+        background-color: $darkyellow;
+        min-height: 39px;
+        &:nth-child(3){
+            background-color: $yellow;
+            /*
+            margin-top:-15px;
+            height:55px;
+            z-index: 20;
+            border-top-right-radius: 15px;
+            border-top-left-radius: 15px;*/
+        }
+        .tab-button-icon{
+        color:$color;
+        }
+        .tab-button-text{
+            display: none;
+        }
+    }   
+}
+.add{
+    position: absolute;
+    bottom:50px;
+    left:0;
+    right:0;
+    text-align: center;
+    z-index: 2;
+    ul{
+        padding-left: 10px;
+        li{
+            background-color: transparent;
+            color:#fff;
+            margin:0 auto;
+            width:50px;
+            display: inline-block;
+            .icon{
+                background-color: $yellow;
+                padding:5px 15px;
+                border-radius:100px;
+                color:#333;
+                font-size:30px;
+            }
+            &:first-child{
+                text-align: left;
+                margin-left:-60px;
+            }
+            &:nth-child(2){
+                position: absolute;
+                bottom:50px;
+                left:0;
+                right:0;
+                text-align: center;
+            }
+            &:nth-child(3){
+                .icon{
+                    margin-left:50px;
+                }
+            }
+        }
+    }
+}
+.note{
+    position: absolute;
+    background-color: $white;
+    top:10px;
+    width:90%;
+    z-index: 2;
+    left:0;
+    right:0;
+    margin:0 auto;
+    border-radius:10px;
+    padding:5px;
+    span.close{
+        position: absolute;
+        top: -5px;
+        right: 10px;
+        font-size: 40px;
+    }
+    h1{
+        font-size:18px;
+        color:#333;
+        margin-top:5px;
+        margin-bottom:10px;
+        padding-left:5px;
+    }
+    textarea{
+        width:99%;
+        border:0;
+        margin:0 auto;
+        background-color: #EEE;
+         border-radius:10px;
+         padding:5px;
+    }
+}

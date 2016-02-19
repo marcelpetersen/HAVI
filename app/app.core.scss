@@ -7,7 +7,9 @@
 // By default each design mode includes these shared imports.
 // App Shared Sass variables belong in app.variables.scss.
 
-@import "pages/page1/page1";
+@import "pages/login/login";
+
+@import "pages/tabs/tabs";
 
 @import "pages/page2/page2";
 
@@ -30,10 +32,21 @@ h3{
     text-align: center; 
     padding-top:20px;  
 }
+ul{
+    list-style: none;
+    padding-left:0;
+}
 .toolbar-background{
     background-color: #355C7D;
     border:0;
 }
 .toolbar-title{
     color:#fff;
+}
+.tab-button{
+   min-width: 0;
+   padding:0;
+}
+ion-navbar-section{
+    display: none;
 }

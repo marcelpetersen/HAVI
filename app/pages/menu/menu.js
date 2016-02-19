@@ -7,7 +7,7 @@ import {Page} from 'ionic/ionic';
 
 export class Menu {
     constructor() {
-        this.titleRoot = "Gsecure";
+       console.log('here');
     }
 }
 

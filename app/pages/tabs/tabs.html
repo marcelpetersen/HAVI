@@ -1,5 +1,22 @@
+<ion-content>
+        <div class="note" [hidden]="!noteVisible">
+            <span class="close" (click)="close()"><i class="icon ion-ios-close-outline"></i></span>
+            <h1>Geef hier je notitie in</h1>
+            <textarea name="" id="" cols="30" rows="10"></textarea>
+        </div>
+        <div class="add" [hidden]="!now">
+        <ul>
+            <li (click)="note()"><i class="icon ion-ios-compose-outline"></i></li>
+            <li><i class="icon ion-ios-camera-outline"></i></li>
+            <li><i class="icon ion-ios-navigate-outline"></i></li>
+        </ul>
+    </div>
+</ion-content>
+
 <ion-tabs>
   <ion-tab [root]="tab1Root" tabTitle="Home" tabIcon="home"></ion-tab>
-    <ion-tab [root]="tab2Root" tabTitle="Foto" tabIcon="camera"></ion-tab>
+  <ion-tab tabTitle="Picture" tabIcon="albums"></ion-tab>
+  <ion-tab tabTitle="Picture" tabIcon="plus" (select)="now =! now"></ion-tab>
+  <ion-tab [root]="tab2Root" tabTitle="Wall" tabIcon="camera"></ion-tab>
   <ion-tab [root]="tab3Root" tabTitle="Berichten" tabIcon="chatbubbles"></ion-tab>
 </ion-tabs>

@@ -1,4 +1,34 @@
 .page2{
+    position: relative;
+    background-color: #333;
+    scroll-content{
+       overflow-y: auto;
+    }
+ .screen{
+     position: absolute;
+     top:0;
+     right:0;
+     left:0;
+     bottom:0;
+     width:100%;
+     height:100%;
+     background-color: #333;
+     z-index: 10;
+     .numbers{
+         margin:40px auto;
+         display: inherit;
+         width:90%;
+        input{
+            width: 25%;
+            float:left;
+            background-color: rgba(0,0,0,0.3);
+            border:0;
+            color:#fff;
+            font-size:30px;
+            text-align: center;
+        }
+     }
+ }   
  .spinner {
     height: 50px;
     margin: 0 auto;
@@ -18,35 +48,67 @@ h2.error{
     margin:0;
     font-size:14px;
 }
-
-li{
-    width:90%;
+.list{
+    padding-left:0;
     background-color: #333;
-    float:left;
-    margin-top:20px;
-   .image{
-    float:left;
-    max-width:100%;
-    }
-    h2{
-        font-size:12px;
-        margin:0;
-        padding:10px;
-        color:#fff;
-        text-align: center;
-        &::first-letter{
-            text-transform: uppercase;
-        }
-    } 
-    span{
-        font-size:9px;
-        margin:0;
-        padding:10px;
-        color:#fff;
-    }
+    margin-top:50px;
 
+    li{
+        width: 50%;
+        height: auto;
+        background-color: #333;
+        float:left;
+        position: relative;
+    .image{
+            float: left;
+            background-position: top center;
+            width: 100%;
+            max-height: 107px;
+        }
+        h2{
+            font-size:12px;
+            margin:0;
+            padding:10px;
+            color:#fff;
+            background-color: rgba(0,0,0,0.7);
+            width: 100%;
+            text-align: center;
+            &::first-letter{
+                text-transform: uppercase;
+            }
+            position: absolute;
+        } 
+        span{
+            font-size:9px;
+            margin:0;
+            padding:10px 0 10px 0px;
+            color:#fff;
+        }
+        &:first-child{
+            width:66.66%;
+            height: auto;
+            img{
+                min-height: 132px;
+            }
+        }
+        &:nth-child(2),&:nth-child(3){
+            width:33.33%;
+            height: auto;
+        }
+        &:after{
+            position: absolute;
+            top:0;
+            bottom:0;
+            right:0;
+            left:0;
+            width:100%;
+            height:100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 1;
+            content:'';
+        }
+    }
 }
-	
 
     label.myLabel input[type="file"] {
         position: fixed;
@@ -56,7 +118,7 @@ li{
     .myLabel {
         background: #188CDD;
         color:#fff;
-        padding:10px;
+        padding:15px;
         width: 50%;
         text-align: center;
         margin:0px auto;
@@ -78,7 +140,7 @@ li{
     h1{
         background-color: #355C7D;
         color:#fff;
-        padding:10px 0px 13px 0px;
+        padding:16px 0px 16px 0px;
         width: 50%;
         text-align: center;
         margin:0px auto;

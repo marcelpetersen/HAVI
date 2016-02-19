@@ -1,21 +1,28 @@
-
-<ion-navbar *navbar>
-  <ion-title>
-    Photo wall
-  </ion-title>
-</ion-navbar>
-<ion-content class="page2">
+<ion-content class="page2" has-header="false">
      <h2 [hidden]="!error" class="error">{{error}}</h2>
      <label class="myLabel">
         <input [disabled]="error" style="width:100%" class="upload" id="house" type="file" accept="image/*" capture doc="house" name="files[]"  multiple on-change="handleFileSelect($event)">
         <span>Foto uploaden</span>
     </label>
-    <h1 (click)="takePhoto()">Foto nemen</h1>
-    <ul>
-        <li template="ngFor #img of images | async">
-                <h2>{{img.name}}</h2>
-                <img [src]="img.src || '//:0'" class="image" alt="">  
-                <span>{{img.datetime}}</span>
+    <h1 (click)="takePhoto()">Locatie</h1>
+    <div class="screen" [hidden]="!showscreen">
+        <div class="numbers">
+            <input type="password" maxlength="1" id="one" autofocus (keyup)="focus($event)">
+            <input type="password" maxlength="1" id="two"   (keyup)="focus($event)">
+            <input type="password" maxlength="1" id="three" (keyup)="focus($event)">
+            <input type="password" maxlength="1" id="four"  (keyup)="focus($event)">
+        </div>
+    </div>
+    <ul class="list">
+        <li template="ngFor #img of images | async" (click)="exif(img)">
+                <img [src]="img.src || '//:0'" class="image">  
+                <span [hidden]="img">{{img.datetime}}</span>
+        </li>
+    </ul>
+    <ul class="list">
+        <li template="ngFor #img of images | async" >
+                <img [src]="img.src || '//:0'" class="image">  
+                <span [hidden]="img">{{img.datetime}}</span>
         </li>
     </ul>
 </ion-content>
