@@ -1,7 +1,6 @@
-$yellow:        #F5D76E;
-$darkyellow:    #F4B350;
-$white:         #fff;
-$facebook:      #3B5998;
+
+
+
 .login scroll-content{
     padding:0;
 }
@@ -50,6 +49,7 @@ form{
     position: absolute;
     left:0;
     margin:0;
+    display: inherit;
     i{
         color:#fff;
     }
@@ -99,4 +99,32 @@ form{
     position: relative;
     margin:30px auto 0px auto;
     display: inherit;
+}
+.choose-button{
+    width:auto;
+    padding:0;
+    border-radius:0;
+    background-color: transparent;
+    border-bottom:1px solid #fff;
+    display: inherit;
+    line-height: 17px;
+    min-height: 0;
+    margin:10px auto;
+    font-size:12px;
+    &:first-child{
+        border-right:1px solid #fff;
+    }
+}
+.error{
+    width: 100%;
+    position: absolute;
+    top:0;
+    right:0;
+    left:0;
+    background-color: #E74C3C;
+    color:#fff;
+    text-align: center;
+    display: inherit;
+    margin:0;
+    line-height: 30px;
 }

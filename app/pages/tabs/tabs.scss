@@ -1,13 +1,11 @@
-$color: #7D671E;
-
 tabbar{
     border-top:0;
     overflow: visible;
     .tab-button{
-        background-color: $darkyellow;
+        background-color: $darkblue;
         min-height: 39px;
         &:nth-child(3){
-            background-color: $yellow;
+            background-color: $darkyellow;
             /*
             margin-top:-15px;
             height:55px;
@@ -16,7 +14,7 @@ tabbar{
             border-top-left-radius: 15px;*/
         }
         .tab-button-icon{
-        color:$color;
+          color:$white;
         }
         .tab-button-text{
             display: none;
@@ -29,7 +27,8 @@ tabbar{
     left:0;
     right:0;
     text-align: center;
-    z-index: 2;
+    z-index: 30;
+    cursor:pointer;
     ul{
         padding-left: 10px;
         li{
@@ -69,7 +68,7 @@ tabbar{
     background-color: $white;
     top:10px;
     width:90%;
-    z-index: 2;
+    z-index: 30;
     left:0;
     right:0;
     margin:0 auto;

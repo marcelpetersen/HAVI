@@ -1,5 +1,5 @@
 {
-  "firebase": "gsecure",
+  "firebase": "havas",
   "public": "www",
   "ignore": [
     "firebase.json",

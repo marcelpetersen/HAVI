@@ -1,99 +1,132 @@
-// Page:        Facebook log in using Firebase Authentication
+// Page:        Facebook log in using Firebase Authentication & Other authentication
 // Author:      Pieter-Jan Sas
-// Last update: 28/01/16
+// Last update: 20/02/16
+// TODO: Icons vervangen in html door ionic 2
 
-import { Page, Platform, NavController } from 'ionic/ionic';
+import { Page, Platform, NavController } from 'ionic-angular';
 import { Cookie } from 'ng2-cookies/ng2-cookies';
+
 // Own Pages
 import { TabsPage } from '../tabs/tabs';
+import { Firebase_const } from '../../const';
+
 // Directives in app/directives/..
-import { Data } from '../../directives/data';
+//import { Data } from '../../directives/data';
 
 @Page({
-  name:'login',
-  path: '/login',
-  directives: [Data],
-  templateUrl: 'build/pages/login/login.html',
+  selector:'Login',
+  //directives: [Data],
+  templateUrl: 'build/pages/login/login.html'
 })
 
 export class Login {
-    constructor(nav: NavController) {
+    static get parameters() {
+        return [[NavController]];
+    }
+    constructor(nav) {
         this.title = "Login";
         this.nav = nav;
+        this.firebaseUrl = new Firebase(Firebase_const.API_URL);
+        this.email = "pieter_jansas@hotmail.com";
+        this.password = "pieterjans";
     }
-    login(){
-         this.angular = "Even geduld a.u.b.";        
-         var ref = new Firebase("https://gsecure.firebaseio.com");
-         
-            /*
-            // Firebase Authentication Popup       
-                ref.authWithOAuthPopup("facebook",function(error, authData) {
+    register(){
+        this.error = "";
+        
+       if(this.register.password == this.register.passwordRepeat){
+        // Create user
+        this.firebaseUrl.child('users').createUser({
+                email    : this.register.email,
+                password : this.register.password
+            }, (error, userData) => {
                 if (error) {
-                    if (error.code === "TRANSPORT_UNAVAILABLE") {
-                    // fall-back to browser redirects, and pick up the session
-                    // automatically when we come back to the origin page
-                    ref.authWithOAuthRedirect("facebook", function(error) { 
-                        // Silence is gold
-                    });
-                    }else{
-                        console.log(error);
+                    switch (error.code) {
+                    case "EMAIL_TAKEN":
+                        console.log("The new user account cannot be created because the email is already in use.");
+                        this.error = "Account bestaat al";
+                        this.login =! this.login; 
+                        break;
+                    case "INVALID_EMAIL":
+                        console.log("The specified email is not a valid email.");
+                        this.error = "E-mailadres is incorrect";
+                        this.login =! this.login; 
+                        break;
+                    default:
+                        console.log("Error creating user:", error);
                     }
                 } else {
-                remember: "sessionOnly";
-                scope: "email";
-                this.name = authData.facebook.displayName;
-                    // Set up Cookie for authentication multipage
-                    Cookie.setCookie('user', authData.facebook.displayName);
+                    console.log("Successfully created user account with uid:", userData.uid);
+                     this.firebaseUrl.child('users').child(this.register.username).set({ email: this.register.email, name: this.register.name });
+                     // Clear all
+                     this.login =! this.login;
+                     this.email = this.register.email;
+                     this.password = "";
+                     this.register.name = "";
+                     this.register.email = "";
+                     this.register.password = "";
+                     this.register.username = "";
+                     this.register.passwordRepeat = "";
                 }
-            });*/
-        
-            
-            
-            // Create user
-            /*
-            ref.child('users').createUser({
-            email    : "pieter_jansas@hotmail.com",
-            password : "pieterjans"
-            }, function(error, userData) {
-            if (error) {
-                switch (error.code) {
-                case "EMAIL_TAKEN":
-                    console.log("The new user account cannot be created because the email is already in use.");
-                    break;
-                case "INVALID_EMAIL":
-                    console.log("The specified email is not a valid email.");
-                    break;
-                default:
-                    console.log("Error creating user:", error);
-                }
-            } else {
-                console.log("Successfully created user account with uid:", userData.uid);
-            }
-            });*/
-                
+            }); 
+       }else{
+           this.error = "Paswoord is niet correct";
+       }
+
+    }
+    loginMail(){
             if(this.email && this.password){
                 // Check if user is correct    
-                var ref = new Firebase("https://gsecure.firebaseio.com/users");
-                ref.authWithPassword({
-                email    : this.email,
-                password : this.password
-                }, function(error, authData) {
+                this.firebaseUrl.authWithPassword({
+                    email    : this.email,
+                    password : this.password
+                }, (error, authData) => {
                 if (error) {
                     console.log("Login Failed!", error);
                 } else {
                     console.log("Authenticated successfully with payload:", authData);
                     Cookie.setCookie('user', authData.uid);
+                    this.nav.push(TabsPage,{"name":authData.uid});
                 }
                 });
-                 this.nav.push(TabsPage); 
+                // https://egghead.io/lessons/angular-2-passing-data-to-components-with-input
+               /*
+                var count = 0;
+                
+                var timer = setInterval(() => {
+                    count ++;
+                    if(count == 3){
+                        this.nav.push(TabsPage);
+                        clearInterval(timer);
+                    }
+                },1000);*/
             }else{
                 console.log('No Credentials');
             } 
-
-
-           
-             
-          
+    }
+    loginFacebook(){
+         this.angular = "Even geduld a.u.b.";        
+        // Firebase Authentication Popup       
+            this.firebaseUrl.authWithOAuthPopup("facebook",function(error, authData) {
+            if (error) {
+                if (error.code === "TRANSPORT_UNAVAILABLE") {
+                // fall-back to browser redirects, and pick up the session
+                // automatically when we come back to the origin page
+                this.firebaseUrl.authWithOAuthRedirect("facebook", function(error) { 
+                    // Silence is gold
+                });
+                }else{
+                    console.log(error);
+                }
+            }else{
+                remember: "sessionOnly";
+                scope: "email";
+                
+                this.name = authData.facebook.displayName;
+                // Set up Cookie for authentication multipage
+                Cookie.setCookie('user', authData.facebook.displayName);
+            }
+        });
 
     }
+   
 }

@@ -1,0 +1,23 @@
+<ion-content class="profile" has-header="false">
+    <div id="profile-box">
+        <img [src]="" alt="">
+        <ul>
+            <li>Trips</li>
+            <li>Followers</li>
+            <li>Following</li>
+        </ul>
+    </div>
+    <ul id="all-items">
+        <li *ngFor="#question of questions | async">
+            {{question}}
+        </li>
+        <li>
+            <h1>Titel</h1>
+            <h2>City</h2>
+            <p>Text comes here</p>
+            <span class="arrow">></span>
+        </li>
+    </ul>
+</ion-content>
+
+

@@ -1,0 +1,25 @@
+<ion-content class="search">
+    <span class="error" [hidden]="!error">{{error}}</span>
+    <div class="picture">
+        <h1>Search for a LOCATION, PHOTO or a NOTE</h1>
+        <input type="text" [(ngModel)]="textMessage" (keyup)="searchQeury($event)">
+    </div>
+    <span (click)="back()" [hidden]="show">Back</span>
+    <div class="message-input" [hidden]="show">
+    <input [disabled]="error" (keyup)="doneTyping($event)" [(ngModel)]="textMessage" placeholder="Enter a message...">
+    <button (click)="send(textMessage)">Send</button>
+    </div>
+    <div *ngIf="!cities">
+        Loading...
+    </div>
+    <ul [hidden]="!show">
+        <li class="cities" template="ngFor #latest of cities | async" (click)="chooseCity(latest)">
+            <strong>{{latest.name}}</strong>
+        </li>
+    </ul>
+    <ul [hidden]="show">
+        <li template="ngFor #latest of messages | async">
+            <strong>{{latest.name}} <small>{{latest.datetime}}</small> </strong> {{latest.text}}
+        </li>
+    </ul>
+</ion-content>

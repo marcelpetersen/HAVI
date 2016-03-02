@@ -9,10 +9,11 @@ import { observableFirebaseArray } from 'angular2-firebase';
 import { Firebase_const } from '../../const';
 
 @Page({
-  templateUrl: 'build/pages/page3/page3.html'
+  templateUrl: 'build/pages/search/search.html'
 })
 
-export class Page3 {
+export class Search {
+  
   constructor() {
        this.firebaseUrl = Firebase_const.API_URL;
        this.show = true;
@@ -59,8 +60,21 @@ export class Page3 {
       Cookie.deleteCookie('city');
   }
   
-  onPageWillEnter(){
-      
+  
+  // Search https://www.firebase.com/blog/2013-10-01-queries-part-one.html
+  searchQeury($event){
+    var e = $event.target.value;
+    
+    if($event.which === 13) {
+        console.log(e);
+        new Firebase(this.firebaseUrl).child('users')
+            .startAt(e)
+            .endAt(e)
+            .once('value', function(snap) {
+            console.log('accounts matching email address', snap.val())
+        });
+    }
+
   }
 }
 
