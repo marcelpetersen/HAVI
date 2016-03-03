@@ -24,6 +24,8 @@ export class Search {
        this.cities = observableFirebaseArray(
            new Firebase(this.firebaseUrl).child('cities').limitToLast(5));
   }
+  
+  
   doneTyping($event) {
         if($event.which === 13) {
             this.addMessage($event.target.value);
@@ -40,7 +42,7 @@ export class Search {
         this.ref = new Firebase(this.firebaseUrl)
                             .child('messages')
                             .child(Cookie.getCookie('city'));
-        if(this.name){
+        if(this.name && message){
             this.ref.push({
                 name: this.name,
                 text: newString,
@@ -75,6 +77,24 @@ export class Search {
         });
     }
 
+  }
+  activeClass(e){
+       this.firstClass = "";
+       this.secondClass = "";
+       this.tirthClass = "";
+       switch (e) {
+           case 1:
+                  this.firstClass = "active";
+           break;
+           case 2:
+                  this.secondClass = "active";
+                  this.firstClass += "middle";
+           break;
+           case 3:
+                  this.tirthClass = "active";
+                  this.secondClass = "middle";
+               break;
+       }
   }
 }
 

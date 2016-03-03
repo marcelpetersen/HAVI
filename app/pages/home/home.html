@@ -16,11 +16,15 @@
     </div>
     <ul class="list">
         <li template="ngFor #img of images | async">
-            <div class="image" [ngStyle]="{'background-image': 'url(' + img.src + ')'}" ></div>
+            <div class="image" [ngStyle]="{'background-image': 'url(' + img.src + ')'}" (click)="goToTrip(img)"></div>
                 <!--<img [src]="img.src || '//:0'" class="image" (click)="doThis($event,img)"> --> 
                 <span>{{img.address}}</span>
         </li>
-        <span class="own" (click)="goOwn()">...</span>
+        <div class="more" (click)="goOwn()">
+            <span class="own">
+                <i class="fa fa-ellipsis-h"></i>
+            </span>
+        </div>
     </ul>
     <ul class="list2">
         <li template="ngFor #img of images | async">

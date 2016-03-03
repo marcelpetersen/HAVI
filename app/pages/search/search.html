@@ -2,9 +2,17 @@
     <span class="error" [hidden]="!error">{{error}}</span>
     <div class="picture">
         <h1>Search for a LOCATION, PHOTO or a NOTE</h1>
-        <input type="text" [(ngModel)]="textMessage" (keyup)="searchQeury($event)">
+        <div class="input-icon">
+            <ion-icon name="search" class="icon"></ion-icon>
+            <input type="text" [(ngModel)]="textMessage" (keyup)="searchQeury($event)" placeholder="Copenhagen, Denmark, Scandinavia, Europe, ...">
+        </div>
     </div>
-    <span (click)="back()" [hidden]="show">Back</span>
+    <ul id="specify">
+        <li (click)="activeClass(1)" [class]="firstClass"><i class="fa fa-user"></i></li>
+        <li (click)="activeClass(2)" [class]="secondClass"><i class="fa fa-map-marker"></i></li>
+        <li (click)="activeClass(3)" [class]="tirthClass"><i class="fa fa-globe"></i></li>
+    </ul>
+    <button class="back" (click)="back()" [hidden]="show">Back</button>
     <div class="message-input" [hidden]="show">
     <input [disabled]="error" (keyup)="doneTyping($event)" [(ngModel)]="textMessage" placeholder="Enter a message...">
     <button (click)="send(textMessage)">Send</button>

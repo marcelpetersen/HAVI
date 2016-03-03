@@ -37,11 +37,20 @@
             p{
                 margin:10px 0px;
             }
-            span.arrow{
-                position: absolute;
-                right:0;
-                top:40%;
-                z-index: 2;
+            span.arrow {
+                    position: absolute;
+                    right:0;
+                    top:0;
+                    bottom:0;
+                i{
+                    position: absolute;
+                    bottom:35%;
+                    z-index: 2;
+                    font-size:45px;
+                    color:$yellow;
+                    right:5px;
+                    
+                }
             }
         }
     }

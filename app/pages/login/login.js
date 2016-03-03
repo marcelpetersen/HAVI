@@ -85,20 +85,11 @@ export class Login {
                 } else {
                     console.log("Authenticated successfully with payload:", authData);
                     Cookie.setCookie('user', authData.uid);
+                    Cookie.setCookie('picture', authData.password.profileImageURL);
                     this.nav.push(TabsPage,{"name":authData.uid});
                 }
                 });
                 // https://egghead.io/lessons/angular-2-passing-data-to-components-with-input
-               /*
-                var count = 0;
-                
-                var timer = setInterval(() => {
-                    count ++;
-                    if(count == 3){
-                        this.nav.push(TabsPage);
-                        clearInterval(timer);
-                    }
-                },1000);*/
             }else{
                 console.log('No Credentials');
             } 
@@ -120,7 +111,6 @@ export class Login {
             }else{
                 remember: "sessionOnly";
                 scope: "email";
-                
                 this.name = authData.facebook.displayName;
                 // Set up Cookie for authentication multipage
                 Cookie.setCookie('user', authData.facebook.displayName);

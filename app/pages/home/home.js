@@ -4,18 +4,19 @@
 // Author:      Pieter-Jan Sas
 // Last update: 28/01/16
 
-import {Page,Platform,NavController} from 'ionic-angular';
+import {Page,Platform,NavController,Navparams} from 'ionic-angular';
 import { Observable } from 'rxjs/Observable';
 import { observableFirebaseArray } from 'angular2-firebase';
 import { Firebase_const } from '../../const';
 import { Cookie } from 'ng2-cookies/ng2-cookies';
 import { Profile } from '../profile/profile';
+import { Trip } from '../trip/trip';
 
 @Page({
-  templateUrl: 'build/pages/page2/page2.html'
+  templateUrl: 'build/pages/home/home.html'
 })
 
-export class Page2 {
+export class Home {
     static get parameters() {
         return [[NavController]];
     }
@@ -39,30 +40,7 @@ export class Page2 {
     this.images = observableFirebaseArray(
             new Firebase(this.firebaseUrl).child('photos').child(this.name).limitToLast(3));
    }
-   
-  // Take picture with Camera (Works only on native application) 
-  takePhoto() {
-    var geocoder = new google.maps.Geocoder;
-  navigator.geolocation.getCurrentPosition(
-      (position) => {
-          var latlng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-            geocoder.geocode({'location': latlng}, (results, status)=> {
-                if (status === google.maps.GeocoderStatus.OK) {
-                if (results[1]) {
-                     window.alert(results[0].formatted_address);
-                } else {
-                    window.alert('No results found');
-                }
-                } else {
-                  window.alert('Geocoder failed due to: ' + status);
-                }
-            });
-      },
-      (error) => {
-          console.log(error);
-      })
-  } 
- 
+    
  
   takePicture() {
     this.platform.ready().then(() => {
@@ -246,9 +224,20 @@ export class Page2 {
         });			
     }       
     };
-    
+    goToTrip($event){
+        var ev = $event;
+        this.nav.push(Trip,{data:ev});
+    }
     goOwn(){
         this.nav.push(Profile);
+    }
+    onPageLoaded(){
+        // TODO: put images in localstorage
+    }
+    onPageWillEnter(){
+        if(Cookie.getCookie('images')){
+            //console.log(JSON.parse(Cookie.getCookie('images')));
+        }
     }
 }
 

@@ -1,0 +1,15 @@
+<ion-content class="trip" has-header="false">
+    <div id="trip-buttons">
+        <div id="trip-head">
+            <img [src]="data.src || '//:0'" alt="trip-picture">
+        </div>
+        <span id="back-home" class="yellow" (click)="goBackHome()">
+            <i class="fa fa-chevron-left"></i>
+        </span>
+        <span id="trip-location" class="yellow" (click)="goMaps()">
+            <i class="fa fa-map-marker"></i>
+        </span>
+    </div>
+
+    <h1>Trip</h1>
+</ion-content>

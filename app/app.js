@@ -9,6 +9,7 @@ import { enableProdMode } from 'angular2/core';
 import { Cookie } from 'ng2-cookies/ng2-cookies';
 import {TabsPage} from './pages/tabs/tabs';
 import { Login } from './pages/login/login';
+import { Maps } from './pages/maps/maps';
 
 
 @App({
@@ -36,6 +37,7 @@ export class MyApp {
         }else{
             this.root = TabsPage;
         }
+        
     platform.ready().then(() => {
       // The platform is now ready. Note: if this callback fails to fire, follow
       // the Troubleshooting guide for a number of possible solutions:

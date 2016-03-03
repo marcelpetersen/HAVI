@@ -1,6 +1,6 @@
 <ion-content class="profile" has-header="false">
     <div id="profile-box">
-        <img [src]="" alt="">
+        <img [src]="profileImg || '//:0'" alt="">
         <ul>
             <li>Trips</li>
             <li>Followers</li>
@@ -15,9 +15,7 @@
             <h1>Titel</h1>
             <h2>City</h2>
             <p>Text comes here</p>
-            <span class="arrow">></span>
+            <span class="arrow"><i class="fa fa-angle-right"></i></span>
         </li>
     </ul>
 </ion-content>
-
-

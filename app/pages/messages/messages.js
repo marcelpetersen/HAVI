@@ -12,7 +12,7 @@ import { Firebase_const } from '../../const';
   templateUrl: 'build/pages/page3/page3.html'
 })
 
-export class Page3 {
+export class Messages {
   constructor() {
        this.firebaseUrl = Firebase_const.API_URL;
        this.show = true;
@@ -39,7 +39,7 @@ export class Page3 {
         this.ref = new Firebase(this.firebaseUrl)
                             .child('messages')
                             .child(Cookie.getCookie('city'));
-        if(this.name){
+        if(this.name && message){
             this.ref.push({
                 name: this.name,
                 text: newString,

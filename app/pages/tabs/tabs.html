@@ -6,17 +6,17 @@
         </div>
         <div class="add" [hidden]="!now">
         <ul>
-            <li (click)="note()"><i class="icon ion-ios-compose-outline"></i></li>
-            <li><i class="icon ion-ios-camera-outline"></i></li>
-            <li><i class="icon ion-ios-navigate-outline"></i></li>
+            <li (click)="getNote()"><i class="icon ion-ios-compose-outline"></i></li>
+            <li (click)="getPicture()"><i class="icon ion-ios-camera-outline"></i></li>
+            <li (click)="getLocation()"><i class="icon ion-ios-navigate-outline"></i></li>
         </ul>
     </div>
 </ion-content>
 
 <ion-tabs>
   <ion-tab [root]="tab1Root" tabTitle="Home" tabIcon="home"></ion-tab>
-  <ion-tab tabTitle="Picture" tabIcon="albums"></ion-tab>
-  <ion-tab tabTitle="Picture" tabIcon="plus" (select)="now =! now"></ion-tab>
+  <ion-tab tabTitle="Picture" tabIcon="globe"></ion-tab>
+  <ion-tab tabTitle="Picture" tabIcon="add" (select)="now =! now">Hier</ion-tab>
   <ion-tab [root]="tab2Root" tabTitle="Search" tabIcon="search"></ion-tab>
   <ion-tab [root]="tab3Root" tabTitle="Berichten" tabIcon="chatbubbles"></ion-tab>
 </ion-tabs>

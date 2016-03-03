@@ -6,8 +6,8 @@ import { observableFirebaseArray } from 'angular2-firebase';
 // PAGES
 import {Search} from '../search/search';
 import {Page1} from '../page1/page1';
-import {Page2} from '../page2/page2';
-import {Page3} from '../page3/page3';
+import {Home} from '../home/home';
+import {Messages} from '../messages/messages';
 
 
 @Page({
@@ -23,38 +23,56 @@ export class TabsPage {
   constructor(navParams) {
     // this tells the tabs component which Pages
     // should be each tab's root Page
-    this.tab1Root = Page2;
+    this.tab1Root = Home;
     this.tab2Root = Search;
-    this.tab3Root = Page3;
+    this.tab3Root = Messages;
     
     // Get name by Cookie Auth
     this.name =  navParams.get('name'); 
   }
-  photo(){
+  getPicture(){
     if(navigator.camera){
-        // GetPicture from ngCordova
-        // TODO: Ionic2 with ngCordova (Apache Cordova)
-        /*
-        navigator.camera.getPicture( (imageURI) => {
-        var f = new Firebase("https://gsecure.firebaseio.com/photos");
-            // Push item to firebase URL (ref)
-            f.child(this.name).push({
-                src: imageURI,
-                datetime: new Date().toDateString()
-            });
-        }, function (err) {
-            this.error = err;
-        }, {});*/
+        // Upload picture
     }else{
       //alert('Nog geen ondersteuning');
       this.number = "something";
     }
   }
-  note(){
+  getLocation(){
+      // Upload picture
+     
+       // Take picture with Camera (Works only on native application) 
+     var geocoder = new google.maps.Geocoder;
+     console.log(geocoder);
+        navigator.geolocation.getCurrentPosition(
+            (position) => {
+                 console.log('hier');
+                var latlng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+                    geocoder.geocode({'location': latlng}, (results, status)=> {
+                        console.log(results);
+                        if (status === google.maps.GeocoderStatus.OK) {
+                        if (results[1]) {
+                            window.alert(results[0].formatted_address);
+                        } else {
+                            window.alert('No results found');
+                        }
+                        } else {
+                        window.alert('Geocoder failed due to: ' + status);
+                        }
+                    });
+            },
+            (error) => {
+                console.log(error);
+            })
+    this.now =! this.now;
+  }
+  getNote(){
+      // Upload picture
      this.now =! this.now;
      this.noteVisible = true;
   }
   close(){
+      // Upload Close
        this.noteVisible = false;
        // Keep data from textarea
        // TODO: ...

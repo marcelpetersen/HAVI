@@ -27,9 +27,20 @@ Test website
 <https://havas.firebaseapp.com/>
 
 
+ERRORS
+------------------
+- For browsers changed all code of FirebaseObservableObject to 'use strict'. 
+  Changed some args[] here in too.
+  ERROR: can't use Let in 'Strict mode'. So for dekstop browser need strict mode & the mobile browser can't use let in strict mode.
+  Fixing it with/in time...
+   
+
+
+
+
 Credits
 ------------------
-> Pieter-Jan Sas 
-> 3 Multimediaproduction 
+> Pieter-Jan Sas - 
+> 3 MMP (ProDEV)- 
 > Arteveldehogeschool © 2015 - 2016 
-> <http://www.arteveldehogeschool.be>
+<http://www.arteveldehogeschool.be>
