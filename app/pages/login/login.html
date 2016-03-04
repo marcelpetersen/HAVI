@@ -6,17 +6,17 @@
     <div class="login-form" [hidden]="login">
         <!-- Icons vervangen door Ionic 2 -->
         <label for="email">Email <i class="icon ion-email"></i></label>
-        <input type="email" name="email" [(ngModel)]="email">
+        <input type="email" name="email" [(ngModel)]="email" placeholder="name@providor.com">
         <label for="password">Passwoord <i class="icon ion-locked"></i></label>
         <input type="password" name="password" [(ngModel)]="password">
         <button class="login-button" (click)="loginMail()">Inloggen</button>
         <button (click)="login =! login" class="choose-button">Registreren</button>
     </div>
     <div class="login-form" [hidden]="!login">
-        <label for="name">Naam </label>
-        <input type="text" name="name" [(ngModel)]="register.name">
+        <label for="surname">Naam </label>
+        <input type="text" name="surname" [(ngModel)]="register.surname">
         <label for="name">Gebruikersnaam </label>
-        <input type="text" name="name" [(ngModel)]="register.username">
+        <input type="username" name="username" [(ngModel)]="register.username">
         <label for="email">Email </label>
         <input type="text" name="email" [(ngModel)]="register.email">
         <label for="password">Paswoord</label>

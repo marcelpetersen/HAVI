@@ -7,9 +7,8 @@
 import { App, Platform, Config  } from 'ionic-angular';
 import { enableProdMode } from 'angular2/core';
 import { Cookie } from 'ng2-cookies/ng2-cookies';
-import {TabsPage} from './pages/tabs/tabs';
+import { TabsPage } from './pages/tabs/tabs';
 import { Login } from './pages/login/login';
-import { Maps } from './pages/maps/maps';
 
 
 @App({
@@ -27,11 +26,9 @@ export class MyApp {
   static get parameters() {
     return [[Platform]];
   }
-  //static get API_URL(): string { return 'https://havas.firebaseio.com/'; }
-
   constructor(platform) {
         // Check if user already logged in go to different pages
-        this.name = Cookie.getCookie('user');
+        this.name = localStorage.getItem('user');
         if(!this.name){
             this.root = Login;
         }else{

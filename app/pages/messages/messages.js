@@ -16,10 +16,9 @@ export class Messages {
   constructor() {
        this.firebaseUrl = Firebase_const.API_URL;
        this.show = true;
-       this.name = Cookie.getCookie('user');
-       if(!this.name){
-            this.error = "Eerst inloggen a.u.b.";
-       }
+       this.name = localStorage.getItem('user');
+
+
        this.cities = observableFirebaseArray(
            new Firebase(this.firebaseUrl).child('cities').limitToLast(5));
   }

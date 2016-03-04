@@ -3,8 +3,10 @@
 // Page:        Photo wall connecting with Firebase & RXJS
 // Author:      Pieter-Jan Sas
 // Last update: 28/01/16
+// TODO: USe ngZone for the spinner when the images are loading and there's no image
+// TODO: Fix the 3 x random into 1. foreach with 3 differen variables without numbers
 
-import {Page,Platform,NavController,Navparams} from 'ionic-angular';
+import { Page,Platform,NavController,NavParams} from 'ionic-angular';
 import { Observable } from 'rxjs/Observable';
 import { observableFirebaseArray } from 'angular2-firebase';
 import { Firebase_const } from '../../const';
@@ -12,35 +14,88 @@ import { Cookie } from 'ng2-cookies/ng2-cookies';
 import { Profile } from '../profile/profile';
 import { Trip } from '../trip/trip';
 
+
 @Page({
   templateUrl: 'build/pages/home/home.html'
 })
 
+
 export class Home {
     static get parameters() {
-        return [[NavController]];
+        return [[NavController],[NavParams]];
     }
-    constructor(nav){
+    constructor(nav,params){
         this.platform = Platform;
         this.photos = [];
         this.nav = nav;
         this.firebaseUrl = Firebase_const.API_URL;
         this.showscreen = "";
-    
-    this.name = "e1f0c3b9-4f93-4c8b-8863-7723a18be597";
-    /*
-    var ref = new Firebase(this.firebaseUrl).child('photos').child(this.name);
+   this.name = localStorage.getItem('user');
+   
+   this.randomImages1 = {
+       src:'',
+       location:''
+   };
+   this.randomImages2 = {
+       src:'',
+       location:''
+   };
+   this.randomImages3 = {
+       src:'',
+       location:''
+   };
+    var ref = new Firebase(this.firebaseUrl).child('photos');
     ref.on("value", (snapshot) => {
-        console.log(snapshot.val());
-        this.images = snapshot.val();
+                var i = 0;
+                var rand = Math.floor(Math.random() * snapshot.numChildren());
+                    snapshot.forEach((snapshot)=> {
+                    if (i == rand && snapshot.val().name != this.name) {
+                        var src = snapshot.val().src;
+                        var location = snapshot.val().location;
+                        this.randomImages1 = {
+                            src: src,
+                            location:location
+                        };
+                    }
+                i++;
+                });
+                var i = 0;
+                var rand = Math.floor(Math.random() * snapshot.numChildren());
+                    snapshot.forEach((snapshot)=> {
+                    if (i == rand && snapshot.val().name != this.name) {
+                        var src = snapshot.val().src;
+                        var location = snapshot.val().location;
+                        this.randomImages2 = {
+                            src: src,
+                            location:location
+                        };
+                    }
+                i++;
+                });
+                var i = 0;
+                var rand = Math.floor(Math.random() * snapshot.numChildren());
+                    snapshot.forEach((snapshot)=> {
+                    if (i == rand && snapshot.val().name != this.name) {
+                        var src = snapshot.val().src;
+                        var location = snapshot.val().location;
+                        this.randomImages3 = {
+                            src: src,
+                            location:location
+                        };
+                    }
+                i++;
+                });
+           
+
         },  (errorObject) => {
         console.log("The read failed: " + errorObject.code);
-        });*/
+        });
     // Load all images when page enter
     this.images = observableFirebaseArray(
-            new Firebase(this.firebaseUrl).child('photos').child(this.name).limitToLast(3));
+            new Firebase(this.firebaseUrl).child('photos').orderByChild('name').startAt(this.name).endAt(this.name).limitToLast(3));
+    console.log(this.images);        
+
    }
-    
  
   takePicture() {
     this.platform.ready().then(() => {
@@ -75,56 +130,6 @@ export class Home {
       );
     });
   }
-  
-  // Push uploaded picture in firebase 
-  handleFileSelect(evt) {
-
-    var f = evt.target.files[0];
-    var reader = new FileReader();
-    reader.onload = ((theFile) => {
-        return (e) => {
-            //var data = image_result.replace("data:image/jpeg;base64,", "");
-			//var decoded_data = decode64(data);
-            
-            //var filePayload = e.target.result;
-            //var hash = e.target.result;
-            this.firebaseUrl = Firebase_const.API_URL;
-            var ref = new Firebase(this.firebaseUrl).child('photos');
-            this.name = Cookie.getCookie('user');
-            // Push item to firebase URL (ref)
-            ref.child(this.name).push({
-                src: e.target.result,
-                datetime: Firebase.ServerValue.TIMESTAMP
-            });
-            
-        };
-    })(f);
-    reader.readAsDataURL(f);
-    }
-    focus(evt){
-        var element;
-        element = evt.srcElement.id;
-        if(evt.srcElement.value){
-            this.arr.push(evt.srcElement.value);
-            switch (element) {
-                case "one":
-                    element = document.getElementById('two');
-                    element.focus();
-                    break;
-                case "two":
-                    element = document.getElementById('three');
-                    element.focus();
-                    break;
-                case "three":
-                    element = document.getElementById('four');
-                    element.focus();
-                    break;
-                case "four":
-                    this.validatePassword(this.arr);
-                    break;
-            }
-        }
-    }
     
     validatePassword(e){    
       if(e.length = 4){
@@ -144,7 +149,7 @@ export class Home {
             });
       }
     }
-    
+    /*
     doThis(e,x){
     if(x.address){
      alert(x.address);
@@ -223,12 +228,13 @@ export class Home {
             
         });			
     }       
-    };
+    }*/
     goToTrip($event){
         var ev = $event;
         this.nav.push(Trip,{data:ev});
     }
     goOwn(){
+        this.now = false;
         this.nav.push(Profile);
     }
     onPageLoaded(){
@@ -240,5 +246,4 @@ export class Home {
         }
     }
 }
-
 

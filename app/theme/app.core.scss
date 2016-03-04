@@ -7,6 +7,8 @@
 // By default each design mode includes these shared imports.
 // App Shared Sass variables belong in app.variables.scss.
 
+@import "../pages/settings/settings";
+
 @import "../pages/maps/maps";
 
 @import "../pages/trip/trip";
@@ -63,3 +65,21 @@ ul{
 ion-navbar-section{
     display: none;
 }
+
+            ::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+                color:    #FFF;
+            }
+            :-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+            color:    #FFF;
+            opacity:  1;
+            }
+            ::-moz-placeholder { /* Mozilla Firefox 19+ */
+            color:    #FFF;
+            opacity:  1;
+            }
+            :-ms-input-placeholder { /* Internet Explorer 10-11 */
+            color:    #FFF;
+            }
+            :placeholder-shown { /* Standard (https://drafts.csswg.org/selectors-4/#placeholder) */
+            color:    #FFF;
+            } 

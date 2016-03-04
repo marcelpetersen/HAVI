@@ -1,5 +1,8 @@
 <ion-content class="profile" has-header="false">
     <div id="profile-box">
+        <span id="settings" (click)="goSettings()">
+            <i class="fa fa-ellipsis-h"></i>
+        </span>
         <img [src]="profileImg || '//:0'" alt="">
         <ul>
             <li>Trips</li>

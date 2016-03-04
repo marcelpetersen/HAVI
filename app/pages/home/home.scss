@@ -64,14 +64,11 @@ h2.error{
         content:'My trips';
         text-transform: uppercase;
         color:$white;
-        font-size:20px;
-        font-weight: bold;
-        text-align: center;
         font-size:12px;
         font-weight: bold;
         text-align: center;
-        padding:0px 7px 0px 5px;
-        background-color: $yellow; //rgba(249,195,111,0.7);
+        padding:2px 7px 1px 5px;
+        background-color: $yellow;
         border-bottom-right-radius: 10px;
         margin:0;
     }
@@ -259,33 +256,6 @@ h2.error{
     }
 }
 
-    label.myLabel input[type="file"] {
-        position: fixed;
-        top: -1000px;
-    }
-    /***** Example custom styling *****/
-    .myLabel {
-        background: #188CDD;
-        color:#fff;
-        padding:15px;
-        width: 50%;
-        text-align: center;
-        margin:0px auto;
-        font-size:15px;
-        float:left;
-         border:0;
-         cursor: pointer;
-    }
-    .myLabel:hover {
-        background: #333;
-    }
-    .myLabel:active {
-        background: #333;
-    }
-    .myLabel :invalid + span,
-     .myLabel :valid + span {
-        color: #fff;
-    }
     h1{
         background-color: #355C7D;
         color:#fff;

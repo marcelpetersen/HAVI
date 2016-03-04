@@ -1,4 +1,17 @@
 .profile{
+    #settings{
+        position: absolute;
+        top:5px;
+        right:5px;
+        width:30px;
+        height:30px;
+        border-radius:30px;
+        padding-top:8px;
+        color:#fff;
+        background-color: $darkyellow;
+        cursor:pointer;
+        font-size:15px;
+    }
     #profile-box{
         background-color: $yellow;
         text-align: center;

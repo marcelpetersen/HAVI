@@ -96,3 +96,42 @@ tabbar{
          padding:5px;
     }
 }
+
+  label.myLabel input[type="file"] {
+        position: fixed;
+        top: -1000px;
+    }
+    /***** Example custom styling *****/
+    .myLabel {
+        color:#fff;
+         cursor: pointer;
+    }
+    .myLabel:hover {
+        background: transparent;
+    }
+    .myLabel:active {
+        background: transparent;
+    }
+    .myLabel :invalid + span,
+     .myLabel :valid + span {
+        color: transparent;
+    }
+    
+    #preview-image{
+        border: 0;
+        max-width: 100%;
+        width: 200px;
+        height: 500px;
+        z-index: 20;
+        position: absolute;
+        top: 30px;
+        left: 0;
+        right: 0;
+        margin: 0 auto;
+    }
+    .confirm-button{
+        position: absolute;
+        z-index:20;
+        bottom:150px;
+        right:40px;
+    }

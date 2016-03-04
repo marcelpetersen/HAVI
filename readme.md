@@ -41,6 +41,6 @@ ERRORS
 Credits
 ------------------
 > Pieter-Jan Sas - 
-> 3 MMP (ProDEV)- 
-> Arteveldehogeschool © 2015 - 2016 
-<http://www.arteveldehogeschool.be>
+> 3 MMP (ProDEV) - 
+> Arteveldehogeschool © 2015 - 2016__ 
+> <http://www.arteveldehogeschool.be>

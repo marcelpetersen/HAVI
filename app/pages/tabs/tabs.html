@@ -4,19 +4,29 @@
             <h1>Geef hier je notitie in</h1>
             <textarea name="" id="" cols="30" rows="10"></textarea>
         </div>
+        
+        <div class="confirm" [hidden]="pictureVisible">
+            <img [src]="previewImage || '//:0'" id="preview-image">
+            <button (click)="getPicture(previewImage)" class="confirm-button">Confirm</button>
+        </div>
         <div class="add" [hidden]="!now">
         <ul>
-            <li (click)="getNote()"><i class="icon ion-ios-compose-outline"></i></li>
-            <li (click)="getPicture()"><i class="icon ion-ios-camera-outline"></i></li>
-            <li (click)="getLocation()"><i class="icon ion-ios-navigate-outline"></i></li>
+            <li (click)="getNote()"><i class="icon fa fa-sticky-note-o"></i></li>
+            <li>
+                <label class="myLabel">
+                    <input [disabled]="error" style="width:100%" class="upload" id="house" type="file" accept="image/*" capture doc="house" name="files[]" multiple on-change="uploadPicture($event)">
+                    <span><i class="icon fa fa-camera"></i></span>
+                </label>
+            </li>
+            <li (click)="getLocation()"><i class="icon fa fa-map-marker"></i></li>
         </ul>
     </div>
 </ion-content>
 
 <ion-tabs>
-  <ion-tab [root]="tab1Root" tabTitle="Home" tabIcon="home"></ion-tab>
-  <ion-tab tabTitle="Picture" tabIcon="globe"></ion-tab>
+  <ion-tab [root]="tab1Root" tabTitle="Home" tabIcon="home" (select)="now = false"></ion-tab>
+  <ion-tab tabTitle="Picture" tabIcon="globe" (select)="now = false"></ion-tab>
   <ion-tab tabTitle="Picture" tabIcon="add" (select)="now =! now">Hier</ion-tab>
-  <ion-tab [root]="tab2Root" tabTitle="Search" tabIcon="search"></ion-tab>
-  <ion-tab [root]="tab3Root" tabTitle="Berichten" tabIcon="chatbubbles"></ion-tab>
+  <ion-tab [root]="tab2Root" tabTitle="Search" tabIcon="search" (select)="now = false"></ion-tab>
+  <ion-tab [root]="tab3Root" tabTitle="Berichten" tabIcon="chatbubbles" (select)="now = false"></ion-tab>
 </ion-tabs>

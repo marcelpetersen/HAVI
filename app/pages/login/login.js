@@ -27,12 +27,12 @@ export class Login {
         this.title = "Login";
         this.nav = nav;
         this.firebaseUrl = new Firebase(Firebase_const.API_URL);
-        this.email = "pieter_jansas@hotmail.com";
-        this.password = "pieterjans";
+        this.email = ""; 
+        this.password = "";
     }
     register(){
-        this.error = "";
         
+        this.error = "";
        if(this.register.password == this.register.passwordRepeat){
         // Create user
         this.firebaseUrl.child('users').createUser({
@@ -56,12 +56,12 @@ export class Login {
                     }
                 } else {
                     console.log("Successfully created user account with uid:", userData.uid);
-                     this.firebaseUrl.child('users').child(this.register.username).set({ email: this.register.email, name: this.register.name });
+                     this.firebaseUrl.child('users').child(this.register.username).set({ email: this.register.email, name: this.register.surname });
                      // Clear all
                      this.login =! this.login;
                      this.email = this.register.email;
                      this.password = "";
-                     this.register.name = "";
+                     this.register.surname = "";
                      this.register.email = "";
                      this.register.password = "";
                      this.register.username = "";
@@ -83,14 +83,15 @@ export class Login {
                 if (error) {
                     console.log("Login Failed!", error);
                 } else {
-                    console.log("Authenticated successfully with payload:", authData);
-                    Cookie.setCookie('user', authData.uid);
-                    Cookie.setCookie('picture', authData.password.profileImageURL);
-                    this.nav.push(TabsPage,{"name":authData.uid});
+                    //console.log("Authenticated successfully with payload:", authData);
+                    
+                    localStorage.setItem('user',authData.uid);
+                    this.nav.push(TabsPage);
                 }
                 });
                 // https://egghead.io/lessons/angular-2-passing-data-to-components-with-input
             }else{
+                this.error = "No password/email";
                 console.log('No Credentials');
             } 
     }
@@ -113,7 +114,7 @@ export class Login {
                 scope: "email";
                 this.name = authData.facebook.displayName;
                 // Set up Cookie for authentication multipage
-                Cookie.setCookie('user', authData.facebook.displayName);
+                localStorage.setItem('user', authData.facebook.displayName);
             }
         });
 
