@@ -1,0 +1,17 @@
+
+<ion-content class="part" has-header="false">
+    <div id="trip-buttons">
+        <ion-icon class="heart" ios="ios-heart-outline" md="md-heart-outline"></ion-icon>
+        <div id="trip-head">
+            <img [src]="data.src || '//:0'" alt="trip-picture">
+        </div>
+        <span id="back-home" class="yellow" (click)="goBackHome()">
+            <i class="fa fa-chevron-left"></i>
+        </span>
+        <span id="trip-location" class="yellow" (click)="goMaps()">
+            <i class="fa fa-map-marker"></i>
+        </span>
+    </div>
+    <h1>{{ data.location }}</h1>
+    <p>{{ data.text }}</p>
+</ion-content>

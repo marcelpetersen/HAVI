@@ -31,7 +31,6 @@ export class Login {
         this.password = "";
     }
     register(){
-        
         this.error = "";
        if(this.register.password == this.register.passwordRepeat){
         // Create user
@@ -43,12 +42,12 @@ export class Login {
                     switch (error.code) {
                     case "EMAIL_TAKEN":
                         console.log("The new user account cannot be created because the email is already in use.");
-                        this.error = "Account bestaat al";
+                        this.error = "User already exist";
                         this.login =! this.login; 
                         break;
                     case "INVALID_EMAIL":
                         console.log("The specified email is not a valid email.");
-                        this.error = "E-mailadres is incorrect";
+                        this.error = "E-mailaddress is incorrect";
                         this.login =! this.login; 
                         break;
                     default:
@@ -56,7 +55,8 @@ export class Login {
                     }
                 } else {
                     console.log("Successfully created user account with uid:", userData.uid);
-                     this.firebaseUrl.child('users').child(this.register.username).set({ email: this.register.email, name: this.register.surname });
+                     this.firebaseUrl.child('users').child(userData.uid)
+                            .set({ email: this.register.email, name: this.register.surname});
                      // Clear all
                      this.login =! this.login;
                      this.email = this.register.email;
@@ -69,11 +69,12 @@ export class Login {
                 }
             }); 
        }else{
-           this.error = "Paswoord is niet correct";
+           this.error = "Password is not correct";
        }
 
     }
-    loginMail(){
+    doneTypingLogin($event){
+        if($event.which === 13) {
             if(this.email && this.password){
                 // Check if user is correct    
                 this.firebaseUrl.authWithPassword({
@@ -81,7 +82,8 @@ export class Login {
                     password : this.password
                 }, (error, authData) => {
                 if (error) {
-                    console.log("Login Failed!", error);
+                    //console.log("Login Failed!", error);
+                    this.error = "User doesn't exist";
                 } else {
                     //console.log("Authenticated successfully with payload:", authData);
                     
@@ -93,29 +95,64 @@ export class Login {
             }else{
                 this.error = "No password/email";
                 console.log('No Credentials');
+            }   
+            this.error = "One second please";          
+        }
+    }
+    loginMail(){
+            if(this.email && this.password){
+                // Check if user is correct    
+                this.firebaseUrl.authWithPassword({
+                    email    : this.email,
+                    password : this.password
+                }, (error, authData) => {
+                if (error) {
+                    //console.log("Login Failed!", error);
+                    this.error = "User doesn't exist";
+                } else {
+                    //console.log("Authenticated successfully with payload:", authData);
+                    localStorage.setItem('user',authData.uid);
+                    this.nav.push(TabsPage);
+                }
+                });
+                // https://egghead.io/lessons/angular-2-passing-data-to-components-with-input
+            }else{
+                this.error = "No password/email";
+                console.log('No Credentials');
             } 
     }
     loginFacebook(){
-         this.angular = "Even geduld a.u.b.";        
+         this.angular = "One second please";        
         // Firebase Authentication Popup       
-            this.firebaseUrl.authWithOAuthPopup("facebook",function(error, authData) {
-            if (error) {
-                if (error.code === "TRANSPORT_UNAVAILABLE") {
-                // fall-back to browser redirects, and pick up the session
-                // automatically when we come back to the origin page
-                this.firebaseUrl.authWithOAuthRedirect("facebook", function(error) { 
-                    // Silence is gold
-                });
+            this.firebaseUrl.authWithOAuthPopup("facebook",(error, authData)=> {
+                if (error) {
+                    if (error.code === "TRANSPORT_UNAVAILABLE") {
+                    // fall-back to browser redirects, and pick up the session
+                    // automatically when we come back to the origin page
+                    this.firebaseUrl.authWithOAuthRedirect("facebook", (error) => { 
+                        // Silence is gold
+                    });
+                    }else{
+                        console.log(error);
+                    }
                 }else{
-                    console.log(error);
+                    var ref = this.firebaseUrl.child('users').child(authData.facebook.id);
+                    ref.on('value',(snap) => {
+                        if(snap.exists() === false){
+                            console.log(authData.facebook.email);
+                            var ref  = this.firebaseUrl.child('users').child(authData.facebook.id)
+                                .set({ email: authData.facebook.email, name: authData.facebook.displayName});
+                        }
+                        // Set up Cookie for authentication multipage
+                        // TODO: If first time, store the userid
+                        // TODO: check if user is not already login with authentication
+                        localStorage.setItem('user', authData.facebook.id);
+                        localStorage.setItem('picture', authData.facebook.profileImageURL);
+                        this.nav.push(TabsPage); 
+                    });
                 }
-            }else{
-                remember: "sessionOnly";
-                scope: "email";
-                this.name = authData.facebook.displayName;
-                // Set up Cookie for authentication multipage
-                localStorage.setItem('user', authData.facebook.displayName);
-            }
+        },{
+             scope: "email,public_profile"
         });
 
     }

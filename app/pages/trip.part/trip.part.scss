@@ -1,0 +1,62 @@
+.part{
+    position: relative;
+    .heart{
+        position: absolute;
+        top:10px;
+        right:30px;
+        color:$white;
+        z-index:20;
+        font-size:20px;
+    }
+    #trip-buttons{
+        height:30%;
+        position: relative;
+        #trip-head{
+            width:100%;
+            height:100%;
+            position: relative;
+            float:left;
+            overflow: hidden;
+            img{
+                background-position: center center;
+                background-size: cover;
+                background-repeat: no-repeat;
+                width: 100%;
+                min-height: 30%;
+            }
+        }
+        .yellow{
+            position: absolute;
+            bottom:-20px;
+            z-index:20;
+            margin-top:-20px;
+            cursor:pointer;
+            .fa{
+            width:40px;
+            height:40px;
+            border-radius: 40px;
+            background-color: $yellow;
+            color:$white;
+            text-align: center;
+            padding-top:12px;
+            font-size:20px;
+            }
+        } 
+        #back-home{
+            left:20px; 
+        }
+        #trip-location{
+            right:20px;
+        }
+    }
+    h1{
+       color:$yellow;
+       width:100%;
+       text-align: center;
+       margin-bottom:0;
+    }
+    p{
+        padding:0px 20px;
+        width:100%;
+    }
+}

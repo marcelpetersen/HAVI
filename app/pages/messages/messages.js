@@ -17,8 +17,6 @@ export class Messages {
        this.firebaseUrl = Firebase_const.API_URL;
        this.show = true;
        this.name = localStorage.getItem('user');
-
-
        this.cities = observableFirebaseArray(
            new Firebase(this.firebaseUrl).child('cities').limitToLast(5));
   }

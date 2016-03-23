@@ -1,10 +1,34 @@
 <ion-content class="settings" has-header="false">
-
-    <h1>Settings</h1>
-    <ul>
-        <li>Instellingen voor Slideshow</li>
-        <li>Nightlife</li>
-        <li></li>
-    </ul>
-    <button (click)="logOut()">Uitloggen</button>
+    <ion-list-header>
+      Instellingen voor Slideshow
+    </ion-list-header>
+    <ion-item>
+        <ion-label> Nightlife</ion-label>
+        <ion-toggle  energized checked="false"></ion-toggle>
+    </ion-item>
+    <ion-item>
+        <ion-label> Some</ion-label>
+        <ion-toggle disabled energized checked="false"></ion-toggle>
+    </ion-item>
+    <ion-item>
+        <ion-label> Some 2</ion-label>
+        <ion-toggle disabled energized checked="false"></ion-toggle>
+    </ion-item>
+    <ion-item>
+        <ion-label> Some 3</ion-label>
+        <ion-toggle disabled energized checked="false"></ion-toggle>
+    </ion-item>
+    <ion-item>
+        <ion-label> Some 4</ion-label>
+        <ion-toggle disabled energized checked="false"></ion-toggle>
+    </ion-item>
+    <ion-item>
+        <ion-label> Some 5</ion-label>
+        <ion-toggle disabled energized checked="false"></ion-toggle>
+    </ion-item>
+    <ion-item>
+        <ion-label> Some 6</ion-label>
+        <ion-toggle disabled energized checked="false"></ion-toggle>
+    </ion-item>
+    <button id="logout" (click)="logOut()">Uitloggen</button>
 </ion-content>

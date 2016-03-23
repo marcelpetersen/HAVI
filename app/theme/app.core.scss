@@ -11,7 +11,11 @@
 
 @import "../pages/maps/maps";
 
+@import "../pages/add/add";
+
 @import "../pages/trip/trip";
+
+@import "../pages/trip.part/trip.part";
 
 @import "../pages/profile/profile";
 
@@ -24,6 +28,8 @@
 @import "../pages/home/home";
 
 @import "../pages/messages/messages";
+
+@import "../pages/favourites/favourites";
 
 html,body{
     background-color: #355C7D;
@@ -63,23 +69,33 @@ ul{
    padding:0;
 }
 ion-navbar-section{
-    display: none;
+    display: block;
 }
 
-            ::-webkit-input-placeholder { /* WebKit, Blink, Edge */
-                color:    #FFF;
-            }
-            :-moz-placeholder { /* Mozilla Firefox 4 to 18 */
-            color:    #FFF;
-            opacity:  1;
-            }
-            ::-moz-placeholder { /* Mozilla Firefox 19+ */
-            color:    #FFF;
-            opacity:  1;
-            }
-            :-ms-input-placeholder { /* Internet Explorer 10-11 */
-            color:    #FFF;
-            }
-            :placeholder-shown { /* Standard (https://drafts.csswg.org/selectors-4/#placeholder) */
-            color:    #FFF;
-            } 
+::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+    color:    #FFF;
+}
+:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+color:    #FFF;
+opacity:  1;
+}
+::-moz-placeholder { /* Mozilla Firefox 19+ */
+color:    #FFF;
+opacity:  1;
+}
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+color:    #FFF;
+}
+:placeholder-shown { /* Standard (https://drafts.csswg.org/selectors-4/#placeholder) */
+color:    #FFF;
+} 
+// NAVBAR
+.toolbar-background{
+    background-color: $yellow;
+}
+.toolbar-title{
+    margin-top:25px;
+}
+.back-button{
+    display: none !important;
+}

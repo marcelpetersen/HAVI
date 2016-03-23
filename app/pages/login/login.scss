@@ -1,20 +1,33 @@
-
-
-
 .login scroll-content{
     padding:0;
 }
 .login{
-    background-color: $yellow;
+    background: url('../images/background.jpg');
+    background-size: 200% 100%;
+    background-position: center center;
+    position: relative;
+    &:before{
+        position: absolute;
+        top:0;
+        right:0;
+        left:0;
+        bottom:0;
+        /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#e5e5e5+0,1166a6+50,1166a6+100&0+0,0.3+49,1+100 */
+        background: -moz-linear-gradient(top,  rgba(229,229,229,0) 0%, rgba(21,105,167,0.3) 49%, rgba(17,102,166,0.31) 50%, rgba(17,102,166,1) 100%); /* FF3.6-15 */
+        background: -webkit-linear-gradient(top,  rgba(229,229,229,0) 0%,rgba(21,105,167,0.3) 49%,rgba(17,102,166,0.31) 50%,rgba(17,102,166,1) 100%); /* Chrome10-25,Safari5.1-6 */
+        background: linear-gradient(to bottom,  rgba(229,229,229,0) 0%,rgba(21,105,167,0.3) 49%,rgba(17,102,166,0.31) 50%,rgba(17,102,166,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00e5e5e5', endColorstr='#1166a6',GradientType=0 ); /* IE6-9 */
+        content:'';
+    }
 }
-.top{
-    background-color: $yellow;
+.top{    
     width: 100%;
     text-align: center;
     padding-top:40px;
     padding-bottom:40px;
+    position: absolute;
     img{
-       max-height: 180px;
+       max-height: 100px;
     }
 }
 ul.choose{
@@ -44,7 +57,8 @@ form{
 #facebook{
     width:100%;
     border-radius: 0;
-    background-color: $facebook;
+    background-color: $darkyellow;
+        text-transform:uppercase;
     bottom:0;
     position: absolute;
     left:0;
@@ -78,27 +92,34 @@ form{
     }
     input{
         border:0;
-        border-bottom:1px solid #fff;
+        border-bottom:1px solid $white;
         width: 90%;
         margin:0 auto !important;
         display: block;
-        color:#fff;
+        color:$white;
         min-height: 20px;
         background-color: transparent;
+        border-radius: 0;
+        -webkit-appearance: none;
+        -webkit-border-radius:0px;
     }
     input:-webkit-autofill{
-        background-color: green !important;
-         -webkit-box-shadow: 0 0 0px 1000px white inset;
+        -webkit-box-shadow: 0 0 0px 1000px $white inset;
     }
 }
 .login .login-button{
-    background-color: $darkyellow;
-    color:#fff;
+    background-color: transparent;
+    //border:1px solid $white;
+    color:$darkyellow;
     width:90%;
+    border:1px solid $darkyellow;
     border-radius: 0;
     position: relative;
     margin:30px auto 0px auto;
     display: inherit;
+    padding:0px;
+    height:2.1em;
+    text-transform: uppercase;
 }
 .choose-button{
     width:auto;
@@ -107,9 +128,9 @@ form{
     background-color: transparent;
     border-bottom:1px solid #fff;
     display: inherit;
-    line-height: 17px;
+    height:1.3em;
     min-height: 0;
-    margin:10px auto;
+    margin:20px auto 0px auto;
     font-size:12px;
     &:first-child{
         border-right:1px solid #fff;

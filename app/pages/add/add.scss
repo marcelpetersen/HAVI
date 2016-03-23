@@ -1,0 +1,220 @@
+.add-item{
+    background-color: $brown;
+    #title{
+        width:100%;
+        text-align: center;
+        background-color: $darkyellow;
+        border:0;
+        line-height: 40px;
+        color:$white;
+        float:left;
+    }
+    h1{
+        width:100%;
+        background-color: $lightblue;
+        color:$white;
+        float:left;
+        text-align: center;
+        margin:0;
+        line-height: 30px;
+        font-size:15px;
+    }
+    #update-title{
+        float:left;
+        width:40% !important;
+    }
+    .inputwidth{
+        width:60% !important;
+        margin:0;
+        border-radius:0;
+        height: 40px;
+        text-align: left !important;
+        padding-left:5px;
+    }
+    #choose-trip{
+        width:100%;
+        float:left;
+        color:$white;
+        margin:0;
+        li{
+            width:25%;
+            float:left;
+            background-color:$yellow;
+            text-align: center;
+            //line-height: 100px;
+            vertical-align: bottom;
+            min-height: 100px;
+            position: relative;
+            .image{
+               background-size: cover; 
+               background-repeat: no-repeat;
+               background-position: center center;
+               min-height:100px;
+               width:100%;
+               position: relative;
+            }
+            &:after{
+                position: absolute;
+                top:0;
+                right:0;
+                left:0;
+                bottom:0;
+                content:'';
+                background-color:rgba(0,0,0,0.4);
+            }
+            span{
+                position:absolute;
+                top:10px;
+                left:0;
+                right:0;
+                z-index:2;
+                opacity: 0.7;
+            }
+        }   
+        #bottom1,#bottom2{
+            line-height: 100px;
+            &:after{
+                z-index: -2;
+            }
+            cursor:pointer;
+        }
+    }
+    #choose-type{
+        float:left;
+        width:100%;
+        background-color: $lightblue;
+        margin:0;
+       
+        li{
+            width:33.33%;
+            float:left;
+            border-right:1px solid $white;
+            text-align: center;
+            line-height: 60px;
+            color:$white;
+            font-size:25px;
+            opacity: 0.6;
+            border-top:1px solid $white;
+            &:last-child{
+                border-right:none;
+            }
+            &:focus,&:hover,&:active{
+                opacity: 1;
+            }
+        }
+        #pic span{
+            color:$white;
+        }
+    }
+    #trip-album{
+        float:left;
+        width:100%;
+        margin:0;
+        li{
+            width:25%;
+            float:left;
+            background-color: $brown;
+            color:$white;
+            min-height: 100px;
+            img{
+                width:100px;
+                height:100px;
+            }
+        }
+    }
+    #button-new{
+        width:100%;
+        float:left;
+        position: absolute;
+        z-index: 20;
+        bottom:0;
+        right:0;
+        left:0;
+        border-radius: 0;
+        background-color: $green;
+        margin:0;
+    }
+    .confirm{
+        background-color: $brown;
+        border-radius:20px;
+        width:95%;
+        height:70%;
+        max-height: 60%;
+        display: inline-block;
+        position: absolute;
+        left:10px;
+        right:10px;
+        top:50px;
+        z-index:20;
+        input{
+            width:100%;
+            z-index:0;
+            position: absolute;
+            top:0;
+            left:0;
+            right:0;
+            border-top-right-radius: 15Px;
+            border-top-left-radius: 15Px;
+            border:0;
+            min-height: 44px;
+            text-align: center;
+            background-color: $yellow;
+            color:$white;
+        }
+        #preview-image{
+            border: 0;
+            max-width: 90%;
+            height: auto;
+            max-height: 80%;
+            position: relative;
+            display: block;
+            text-align: center;
+            margin:30px auto;
+        }
+        .confirm-button{
+            position: absolute;
+            width:100%;
+            bottom:0;
+            border-bottom-right-radius: 20px;
+            border-bottom-left-radius: 20px;
+            border-top-left-radius: 0px;
+            border-top-right-radius: 0px;
+            margin:0;
+        } 
+        .cancel-button{
+            position: relative;
+            float:right;
+            margin-top:0;
+            margin-bottom:20px;
+            margin-right:0;
+            border-radius:0;
+            border-top-right-radius: 15px;
+            background-color: $red;
+        }
+    }
+      label.myLabel input[type="file"] {
+        position: fixed;
+        top: -1000px;
+    }
+    /***** Example custom styling *****/
+    .myLabel {
+        color:#fff;
+         cursor: pointer;
+    }
+    .myLabel:hover {
+        background: transparent;
+    }
+    .myLabel:active {
+        background: transparent;
+    }
+    .myLabel :invalid + span,
+     .myLabel :valid + span {
+        color: transparent;
+    }
+    .focus{
+        background-color: $red !important;
+    }
+    .hidden{
+        display: none;
+    }
+}

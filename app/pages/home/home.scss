@@ -43,13 +43,13 @@
     margin-left:30px;
 }
 h2.error{
-    background-color: #D64541;
+    background-color: $red;
     margin:0;
     font-size:14px;
 }
 .list{
     padding-left:0;
-    background-color: #333;
+    background-color: $white;
     margin:0px;
     float:left;
     width: 100%;
@@ -73,9 +73,9 @@ h2.error{
         margin:0;
     }
     .more{
-        height: 90px;
-        width: 110px;
-        border-bottom-left-radius: 120px;
+        height: 30px;
+        width: 50px;
+        border-bottom-left-radius: 50px;
         right:0px;
         top:0px;
         position: absolute;
@@ -91,7 +91,6 @@ h2.error{
             line-height: 20px;
             border-bottom-left-radius: 30px;
             color:#fff;
-
             z-index: 3;
             padding-bottom:10px;
             background-color: $yellow;
@@ -104,7 +103,7 @@ h2.error{
         } 
     }
     li{
-        background-color: #333;
+         //background-color: $yellow;
         float:left;
         height: 50%;
         width: 35%;
@@ -176,7 +175,7 @@ h2.error{
 }
 .list2{
     padding-left:0;
-    background-color: #333;
+    background-color: $white;
     margin:0px;
     float:left;
     width: 100%;
@@ -199,10 +198,10 @@ h2.error{
         margin:0;
     }
     li{
-        background-color: #333;
+        //background-color: $yellow;
         float:left;
         height: 50%;
-        width: 35%;
+        width: 33.33%;
         position: relative;
     .image{
             background-position: center center;
@@ -245,14 +244,14 @@ h2.error{
             margin:0;
             padding:10px 0 10px 0px;
             color:#fff;
-        }
+        }/*
         &:first-child{
             width: 65%;
              height: 100%;
             .image{
                 background-position: center center;
             }
-        }
+        }*/
     }
 }
 

@@ -1,15 +1,23 @@
 <ion-content class="trip" has-header="false">
-    <div id="trip-buttons">
-        <div id="trip-head">
-            <img [src]="data.src || '//:0'" alt="trip-picture">
+    <ion-icon [hidden]="heart" id="top-heart" ios="ios-heart-outline" md="md-heart-outline" (click)="favouriteTrip()"></ion-icon>
+    <ion-icon [hidden]="!heart" id="top-heart" ios="ios-heart" md="md-heart-outline" (click)="favouriteTrip()"></ion-icon>
+    <h1>{{ data.location }}</h1>
+    <h2>{{ data.datetime | date:'yyyy'}}</h2>
+    <ion-scroll id="all-items" scrollX="true">
+        <div id="timeline">
+            <div *ngFor="#trip of pictures | async;#i = index;" (click)="goPart(trip)">
+                <div class="parts">
+                    <img [src]="trip.src || '//:0'" class="image" >
+                </div>
+                <div class="parts">
+                    <h1>Day {{ i + 1 }} <ion-icon class="heart" ios="ios-heart-outline" md="md-heart-outline"></ion-icon></h1>
+                    <h2><i class="fa fa-map-marker"></i> {{ trip.location }}</h2>
+                    <p>{{( trip.text ? trip.text : "") | slice:0:75}}...</p>
+                </div>
+            </div>
         </div>
-        <span id="back-home" class="yellow" (click)="goBackHome()">
-            <i class="fa fa-chevron-left"></i>
+        <span id="more">
+            <ion-icon name="add"></ion-icon>
         </span>
-        <span id="trip-location" class="yellow" (click)="goMaps()">
-            <i class="fa fa-map-marker"></i>
-        </span>
-    </div>
-
-    <h1>Trip</h1>
+    </ion-scroll>
 </ion-content>

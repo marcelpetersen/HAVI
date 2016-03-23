@@ -1,4 +1,4 @@
-<ion-content class="page2" has-header="false">
+<ion-content class="page2">
      <h2 [hidden]="!error" class="error">{{error}}</h2>
      <!--<label class="myLabel">
         <input [disabled]="error" style="width:100%" class="upload" id="house" type="file" accept="image/*" capture doc="house" name="files[]"  multiple on-change="handleFileSelect($event)">
@@ -15,7 +15,7 @@
         </div>
     </div>
     <ul class="list">
-        <li template="ngFor #img of images | async">
+        <li template="ngFor #img of images| async;#c = index" [hidden]="c > 3">
             <div class="image" [ngStyle]="{'background-image': 'url(' + img.src + ')'}" (click)="goToTrip(img)"></div>
                 <!--<img [src]="img.src || '//:0'" class="image" (click)="doThis($event,img)"> --> 
             <span>{{img.location}}</span>
@@ -27,21 +27,12 @@
         </div>
     </ul>
     <ul class="list2">
-        <li> <!--template="ngFor #img of randomImages"-->
-            <div class="image" [ngStyle]="{'background-image': 'url(' + randomImages1.src + ')'}" ></div>
+        <li template="ngFor #img of array" (click)="goToTrip(img)"> <!--template="ngFor #img of randomImages"-->
+            <div class="image" [ngStyle]="{'background-image': 'url(' + img.src + ')'}" ></div>
                 <!--<img [src]="img.src || '//:0'" class="image" (click)="doThis($event,img)"> --> 
-                <span>{{randomImages1.location}}</span>
+                <span>{{img.location}}</span>
         </li>
-        <li> <!--template="ngFor #img of randomImages"-->
-            <div class="image" [ngStyle]="{'background-image': 'url(' + randomImages2.src + ')'}" ></div>
-                <!--<img [src]="img.src || '//:0'" class="image" (click)="doThis($event,img)"> --> 
-                <span>{{randomImages2.location}}</span>
-        </li>
-        <li> <!--template="ngFor #img of randomImages"-->
-            <div class="image" [ngStyle]="{'background-image': 'url(' + randomImages3.src + ')'}" ></div>
-                <!--<img [src]="img.src || '//:0'" class="image" (click)="doThis($event,img)"> --> 
-                <span>{{randomImages3.location}}</span>
-        </li>
+
     </ul>
 </ion-content>
 

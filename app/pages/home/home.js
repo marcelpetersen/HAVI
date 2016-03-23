@@ -26,75 +26,109 @@ export class Home {
     }
     constructor(nav,params){
         this.platform = Platform;
-        this.photos = [];
+        this.trips = [];
         this.nav = nav;
         this.firebaseUrl = Firebase_const.API_URL;
         this.showscreen = "";
    this.name = localStorage.getItem('user');
-   
-   this.randomImages1 = {
-       src:'',
-       location:''
-   };
-   this.randomImages2 = {
-       src:'',
-       location:''
-   };
-   this.randomImages3 = {
-       src:'',
-       location:''
-   };
-    var ref = new Firebase(this.firebaseUrl).child('photos');
-    ref.on("value", (snapshot) => {
-                var i = 0;
-                var rand = Math.floor(Math.random() * snapshot.numChildren());
-                    snapshot.forEach((snapshot)=> {
-                    if (i == rand && snapshot.val().name != this.name) {
-                        var src = snapshot.val().src;
-                        var location = snapshot.val().location;
+
+    this.randomImages1 = {
+        src:'',
+        location:''
+    };
+    this.randomImages2 = {
+        src:'',
+        location:''
+    };
+    this.randomImages3 = {
+        src:'',
+        location:''
+    };
+    this.randomImages4 = {
+        src:'',
+        location:''
+    };
+    this.randomImages5 = {
+        src:'',
+        location:''
+    };
+    this.randomImages6 = {
+        src:'',
+        location:''
+    };
+       // Load all images when page enter
+    this.images = observableFirebaseArray(
+            new Firebase(this.firebaseUrl).child('trips').orderByChild('name').startAt(this.name).endAt(this.name).limitToLast(3));
+          
+
+    var ref = new Firebase(this.firebaseUrl).child('trips');
+    ref.once("value", (snapshot) => {
+        this.array = [];
+        var i = 1;
+        var rand = Math.floor(Math.random() * snapshot.numChildren());
+            snapshot.forEach((snapshot)=> {
+            if (snapshot.val().name != this.name) {
+                
+                this.array.push(snapshot.val());
+                /*
+                switch (i) {
+                    case 1:
                         this.randomImages1 = {
-                            src: src,
-                            location:location
+                            sort:  snapshot.val().sort,
+                            text:  snapshot.val().text,
+                            src:  snapshot.val().src,
+                            location: snapshot.val().location,
+                            pictures: snapshot.val().pictures,
+                            datetime: snapshot.val().datetime
                         };
-                    }
-                i++;
-                });
-                var i = 0;
-                var rand = Math.floor(Math.random() * snapshot.numChildren());
-                    snapshot.forEach((snapshot)=> {
-                    if (i == rand && snapshot.val().name != this.name) {
-                        var src = snapshot.val().src;
-                        var location = snapshot.val().location;
+                        break;
+                    case 2:
                         this.randomImages2 = {
                             src: src,
                             location:location
                         };
-                    }
-                i++;
-                });
-                var i = 0;
-                var rand = Math.floor(Math.random() * snapshot.numChildren());
-                    snapshot.forEach((snapshot)=> {
-                    if (i == rand && snapshot.val().name != this.name) {
-                        var src = snapshot.val().src;
-                        var location = snapshot.val().location;
+                        break;
+                    case 3:
                         this.randomImages3 = {
                             src: src,
                             location:location
                         };
-                    }
+                        break;
+                
+                    case 4:
+                        this.randomImages4 = {
+                            src: src,
+                            location:location
+                        };
+                        break;
+                    case 5:
+                        this.randomImages5 = {
+                            src: src,
+                            location:location
+                        };
+                        break;
+                
+                    case 6:
+                        this.randomImages6 = {
+                            src: src,
+                            location:location
+                        };
+                        break;
+                
+                    default:
+                        break;
+                }*/
                 i++;
-                });
-           
-
+            }else{
+                rand += 1;
+            }
+       
+        });
+   
         },  (errorObject) => {
         console.log("The read failed: " + errorObject.code);
         });
-    // Load all images when page enter
-    this.images = observableFirebaseArray(
-            new Firebase(this.firebaseUrl).child('photos').orderByChild('name').startAt(this.name).endAt(this.name).limitToLast(3));
-    console.log(this.images);        
-
+      
    }
  
   takePicture() {
@@ -117,7 +151,7 @@ export class Home {
            this.img = data;
            let imagedata = "data:image/jpeg;base64," + data;
             this.firebaseUrl = Firebase_const.API_URL;
-            var ref = new Firebase(this.firebaseUrl).child('photos');
+            var ref = new Firebase(this.firebaseUrl).child('trips');
             this.name = Cookie.getCookie('user');
             // Push item to firebase URL (ref)
             ref.child(this.name).push({
@@ -163,7 +197,7 @@ export class Home {
                 
                 this.firebaseUrl = Firebase_const.API_URL;
                 this.name = Cookie.getCookie('user');
-                var ref = new Firebase(this.firebaseUrl).child('photos').child(this.name);
+                var ref = new Firebase(this.firebaseUrl).child('trips').child(this.name);
                
                 // Get the same address as the previous picture
                 // TODO: Watch the time between the two pictures and then set the address to the same address
@@ -212,7 +246,7 @@ export class Home {
                 if (results[1]) {
                         this.firebaseUrl = Firebase_const.API_URL;
                          this.name = Cookie.getCookie('user');
-                        var ref = new Firebase(this.firebaseUrl).child('photos').child(this.name).child(x.$$fbKey);
+                        var ref = new Firebase(this.firebaseUrl).child('trips').child(this.name).child(x.$$fbKey);
                         ref.update({
                             src     : x.src,
                             datetime: x.datetime,
@@ -229,8 +263,7 @@ export class Home {
         });			
     }       
     }*/
-    goToTrip($event){
-        var ev = $event;
+    goToTrip(ev){
         this.nav.push(Trip,{data:ev});
     }
     goOwn(){
@@ -241,9 +274,7 @@ export class Home {
         // TODO: put images in localstorage
     }
     onPageWillEnter(){
-        if(Cookie.getCookie('images')){
-            //console.log(JSON.parse(Cookie.getCookie('images')));
-        }
+
     }
 }
 

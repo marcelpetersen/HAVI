@@ -1,43 +1,111 @@
 .trip{
-    #trip-buttons{
-        height:30%;
-        position: relative;
-        #trip-head{
-            width:100%;
-            height:100%;
+    background-color: $white;
+    #top-heart{
+        color:$yellow;
+        position: absolute;
+        top:20px;
+        right:10px;
+        font-size:30px;
+    }
+    h1{
+        text-align: center;
+        color:$yellow;
+    }
+    #all-items{
+        float: left;
+        width: 100%;
+        margin-top:20px;
+        #timeline{
             position: relative;
             float:left;
-            overflow: hidden;
-            img{
-                background-position: center center;
-                background-size: cover;
-                background-repeat: no-repeat;
-                width: 100%;
-                min-height: 30%;
+            .parts{
+                width:50%;
+                float:left;
+                padding:5px;
+                min-height:100px;
+                max-height:100px;
+                &:first-child{
+                    border-right:1px solid $yellow;
+                    text-align: center;
+                }
+                .image{
+                    max-width:100px;
+                }
+                h1{
+                    font-size:14px;
+                    color:$yellow;
+                    margin:0px 0px 5px 0px;
+                    text-align: left;
+                    width:100%;
+                    .heart{
+                        float:right;
+                        margin-right:10px;
+                        margin-top:0px;
+                        font-size:20px;
+                    }
+                }
+                h2{
+                    font-size:12px;
+                    color:$yellow;
+                    text-align: left;
+                }
+                p{
+                    width:100%;
+                    font-size:10px;
+                    color:$yellow;
+                }
+                &:nth-child(2){
+                    position: relative;
+                    padding-left:20px;
+                    &:before{
+                       position: absolute;
+                       left:-3px;
+                       top:40%;
+                       bottom:0;
+                       width:6px;
+                       height:6px;
+                       border-radius:6px;
+                       background-color: $yellow;
+                       z-index: 2;
+                       content:''; 
+                    }
+                }
+            }
+            /*
+            &:after{
+                position: absolute;
+                color:$yellow;
+                bottom: 0;
+                right:0;
+                left:0;
+                z-index: 20;
+                content:'...';
+                text-align: center;
+                transform: rotate(90deg);
+                padding-bottom:8px;
+                padding-left:50px;
+            }*/
+            &:before{
+                position: absolute;
+                color:$yellow;
+                top: 0;
+                right:0;
+                left:0;
+                z-index: 20;
+                content:'...';
+                text-align: center;
+                transform: rotate(90deg);
+                padding-bottom:9px;
+                padding-right:50px;
             }
         }
-        .yellow{
-            position: absolute;
-            bottom:-20px;
-            z-index:20;
-            margin-top:-20px;
-            cursor:pointer;
-            .fa{
-            width:40px;
-            height:40px;
-            border-radius: 40px;
-            background-color: $yellow;
-            color:$white;
-            text-align: center;
-            padding-top:12px;
-            font-size:20px;
-            }
-        } 
-        #back-home{
-            left:20px; 
-        }
-        #trip-location{
-            right:20px;
-        }
+    }
+    span#more{
+        width:100%;
+        margin-top:0px;
+        color:$yellow;
+        text-align: center;
+        float:left;
+        font-size:30px;
     }
 }

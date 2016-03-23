@@ -7,24 +7,22 @@
         <!-- Icons vervangen door Ionic 2 -->
         <label for="email">Email <i class="icon ion-email"></i></label>
         <input type="email" name="email" [(ngModel)]="email" placeholder="name@providor.com">
-        <label for="password">Passwoord <i class="icon ion-locked"></i></label>
-        <input type="password" name="password" [(ngModel)]="password">
-        <button class="login-button" (click)="loginMail()">Inloggen</button>
-        <button (click)="login =! login" class="choose-button">Registreren</button>
+        <label for="password">Password <i class="icon ion-locked"></i></label>
+        <input type="password" name="password" [(ngModel)]="password" (keyup)="doneTypingLogin($event)">
+        <button class="login-button" (click)="loginMail()">Login</button>
+        <button (click)="login =! login" class="choose-button">New to HAVA? Sign up.</button>
     </div>
     <div class="login-form" [hidden]="!login">
-        <label for="surname">Naam </label>
+        <label for="surname">Name </label>
         <input type="text" name="surname" [(ngModel)]="register.surname">
-        <label for="name">Gebruikersnaam </label>
-        <input type="username" name="username" [(ngModel)]="register.username">
         <label for="email">Email </label>
         <input type="text" name="email" [(ngModel)]="register.email">
-        <label for="password">Paswoord</label>
+        <label for="password">Password</label>
         <input type="password" name="password" [(ngModel)]="register.password">
-        <label for="password-repeat">Herhaal Paswoord</label>
+        <label for="password-repeat">Repeat password</label>
         <input type="password" name="password-repeat" [(ngModel)]="register.passwordRepeat">
-        <button class="login-button" (click)="register()">Registreren</button>
-        <button (click)="login =! login" class="choose-button">Inloggen</button>
+        <button class="login-button" (click)="register()">Register</button>
+        <button (click)="login =! login" class="choose-button">Login</button>
     </div>
-    <button id="facebook" (click)="loginFacebook()"><i class="icon logo-facebook"></i> Inloggen met Facebook</button>
+    <button id="facebook" (click)="loginFacebook()"><i class="icon logo-facebook"></i> Login with Facebook</button>
 </ion-content>
