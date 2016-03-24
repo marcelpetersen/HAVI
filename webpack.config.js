@@ -1,15 +1,13 @@
 var path = require('path');
 
-
-
 module.exports = {
   entry: [
     path.normalize('es6-shim/es6-shim.min'),
     'reflect-metadata',
     path.normalize('zone.js/dist/zone-microtask'),
-    'intl/index.js',
-    'intl/locale-data/jsonp/zh.js', // Chinese locale
-    'intl/locale-data/jsonp/en.js', // English locale
+    //'intl/index.js',
+    //'intl/locale-data/jsonp/zh.js', // Chinese locale
+    //'intl/locale-data/jsonp/en.js', // English locale
     path.resolve('app/app')
   ],
   output: {

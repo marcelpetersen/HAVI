@@ -30,105 +30,31 @@ export class Home {
         this.nav = nav;
         this.firebaseUrl = Firebase_const.API_URL;
         this.showscreen = "";
-   this.name = localStorage.getItem('user');
+        this.name = localStorage.getItem('user');
 
-    this.randomImages1 = {
-        src:'',
-        location:''
-    };
-    this.randomImages2 = {
-        src:'',
-        location:''
-    };
-    this.randomImages3 = {
-        src:'',
-        location:''
-    };
-    this.randomImages4 = {
-        src:'',
-        location:''
-    };
-    this.randomImages5 = {
-        src:'',
-        location:''
-    };
-    this.randomImages6 = {
-        src:'',
-        location:''
-    };
-       // Load all images when page enter
-    this.images = observableFirebaseArray(
-            new Firebase(this.firebaseUrl).child('trips').orderByChild('name').startAt(this.name).endAt(this.name).limitToLast(3));
-          
-
-    var ref = new Firebase(this.firebaseUrl).child('trips');
-    ref.once("value", (snapshot) => {
-        this.array = [];
-        var i = 1;
-        var rand = Math.floor(Math.random() * snapshot.numChildren());
-            snapshot.forEach((snapshot)=> {
-            if (snapshot.val().name != this.name) {
-                
-                this.array.push(snapshot.val());
-                /*
-                switch (i) {
-                    case 1:
-                        this.randomImages1 = {
-                            sort:  snapshot.val().sort,
-                            text:  snapshot.val().text,
-                            src:  snapshot.val().src,
-                            location: snapshot.val().location,
-                            pictures: snapshot.val().pictures,
-                            datetime: snapshot.val().datetime
-                        };
-                        break;
-                    case 2:
-                        this.randomImages2 = {
-                            src: src,
-                            location:location
-                        };
-                        break;
-                    case 3:
-                        this.randomImages3 = {
-                            src: src,
-                            location:location
-                        };
-                        break;
-                
-                    case 4:
-                        this.randomImages4 = {
-                            src: src,
-                            location:location
-                        };
-                        break;
-                    case 5:
-                        this.randomImages5 = {
-                            src: src,
-                            location:location
-                        };
-                        break;
-                
-                    case 6:
-                        this.randomImages6 = {
-                            src: src,
-                            location:location
-                        };
-                        break;
-                
-                    default:
-                        break;
-                }*/
-                i++;
-            }else{
-                rand += 1;
-            }
-       
-        });
-   
-        },  (errorObject) => {
-        console.log("The read failed: " + errorObject.code);
-        });
-      
+        // Load all images when page enter
+        this.images = observableFirebaseArray(
+                new Firebase(this.firebaseUrl).child('trips').orderByChild('name').startAt(this.name).endAt(this.name).limitToLast(3));
+            
+        // Load other images from other users         
+        var ref = new Firebase(this.firebaseUrl).child('trips');
+        ref.once("value", (snapshot) => {
+            this.array = [];
+            var i = 1;
+            var rand = Math.floor(Math.random() * snapshot.numChildren());
+                snapshot.forEach((snapshot)=> {
+                    if (snapshot.val().name != this.name) {
+                        this.value = snapshot.val()
+                        this.value.$$fbKey = snapshot.key();
+                        this.array.push(this.value);
+                        i++;
+                    }else{
+                        rand += 1;
+                    }
+                });
+          },  (errorObject) => {
+            console.log("The read failed: " + errorObject.code);
+          });
    }
  
   takePicture() {
@@ -165,105 +91,8 @@ export class Home {
     });
   }
     
-    validatePassword(e){    
-      if(e.length = 4){
-            var ref = new Firebase(this.firebaseUrl);
-            ref.once("value", (snapshot)=> {
-            // The callback function will get called twice, once for "fred" and once for "barney"
-            snapshot.forEach((childSnapshot)=> {
-                // key will be "fred" the first time and "barney" the second time
-                var key = childSnapshot.key();
-                // childData will be the actual contents of the child
-                var childData = childSnapshot.val();
-                if(childData.name){
-                    console.log("you're through");
-                      this.showscreen = "magweg";
-                }
-            });
-            });
-      }
-    }
-    /*
-    doThis(e,x){
-    if(x.address){
-     alert(x.address);
-    }else{
-        EXIF.getData(e.target, ()=> {
-			//console.dir(EXIF.getAllTags(img));
-			var lon = EXIF.getTag(e.target,"GPSLongitude");
-			var lat = EXIF.getTag(e.target,"GPSLatitude");
-			if(!lon || !lat) {
-				console.log("Unfortunately, I can't find GPS info for the picture");
-                
-                this.firebaseUrl = Firebase_const.API_URL;
-                this.name = Cookie.getCookie('user');
-                var ref = new Firebase(this.firebaseUrl).child('trips').child(this.name);
-               
-                // Get the same address as the previous picture
-                // TODO: Watch the time between the two pictures and then set the address to the same address
-                ref.on("value", (snapshot) => {
-                var property, amount = 0;
-                for ( property in  snapshot.val() ) {
-                    amount ++;
-                    if(property == x.$$fbKey){
-                        amount -= 2;
-                        var obj = Object.keys(snapshot.val())[amount];
-                        ref.child(obj).on("value",(data)=>{
-                            var previousAddress = data.val().address
-                                ref.child(x.$$fbKey).update({
-                                    src     : x.src,
-                                    datetime: x.datetime,
-                                    address : previousAddress
-                                });
-                        })
-                    }
-                }
-                
-                },  (errorObject) => {
-                console.log("The read failed: " + errorObject.code);
-                });
-                
-                
-                
-                return;
-			}
-            //utility funct based on https://en.wikipedia.org/wiki/Geographic_coordinate_conversion
-            var convertDegToDec = (arr) => {
-                return (arr[0].numerator + arr[1].numerator/60 + (arr[2].numerator/arr[2].denominator)/3600).toFixed(4);
-            };
-            
-            lon = convertDegToDec(lon);
-            lat = convertDegToDec(lat);
-            //handle W/S
-            if(EXIF.getTag(this,"GPSLongitudeRef") === "W") lon = -1 * lon;
-            if(EXIF.getTag(this,"GPSLatitudeRef") === "S") lat = -1 * lat;
-            
-            
-           var geocoder = new google.maps.Geocoder();
-           let latlng = new google.maps.LatLng(lat, lon);
-            geocoder.geocode({'location': latlng}, (results, status) => {
-                if (status === google.maps.GeocoderStatus.OK) {
-                if (results[1]) {
-                        this.firebaseUrl = Firebase_const.API_URL;
-                         this.name = Cookie.getCookie('user');
-                        var ref = new Firebase(this.firebaseUrl).child('trips').child(this.name).child(x.$$fbKey);
-                        ref.update({
-                            src     : x.src,
-                            datetime: x.datetime,
-                            address : results[0].formatted_address
-                        });
-                } else {
-                    window.alert('No results found');
-                }
-                } else {
-                  window.alert('Geocoder failed due to: ' + status);
-                }
-            });
-            
-        });			
-    }       
-    }*/
-    goToTrip(ev){
+    goToTrip($event){
+        var ev = $event;
         this.nav.push(Trip,{data:ev});
     }
     goOwn(){
@@ -272,9 +101,7 @@ export class Home {
     }
     onPageLoaded(){
         // TODO: put images in localstorage
-    }
-    onPageWillEnter(){
-
+        
     }
 }
 

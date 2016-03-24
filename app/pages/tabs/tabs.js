@@ -4,10 +4,9 @@ import 'rxjs/add/operator/debounceTime';
 import { observableFirebaseArray } from 'angular2-firebase';
 import { Firebase_const } from '../../const';
 import { Cookie } from 'ng2-cookies/ng2-cookies';
-import { EXIF } from 'exif-js';
+
 // PAGES
 import {Search} from '../search/search';
-import {Page1} from '../page1/page1';
 import {Home} from '../home/home';
 import {Messages} from '../messages/messages';
 import {Add} from '../add/add';

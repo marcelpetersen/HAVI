@@ -7,9 +7,11 @@ import { Cookie } from 'ng2-cookies/ng2-cookies';
 import { Observable } from 'rxjs/Observable';
 import { observableFirebaseArray } from 'angular2-firebase';
 import { Firebase_const } from '../../const';
+import { Pipe} from 'angular2/core';
 
 @Page({
-  templateUrl: 'build/pages/page3/page3.html'
+  templateUrl: 'build/pages/messages/messages.html',
+  //pipes: [customPipe] Fixed with beta 7 of angular
 })
 
 export class Messages {
@@ -49,16 +51,21 @@ export class Messages {
     this.messages = observableFirebaseArray(
            new Firebase(this.firebaseUrl).child('messages').child(e.name).limitToLast(5));
     this.show = false;
-    
   }
   back(){
       this.show =! this.show;
       Cookie.deleteCookie('city');
   }
-  
-  onPageWillEnter(){
-      
-  }
+}
+
+// Translate name into real name
+@Pipe({name: 'custom'})
+export class customPipe {
+ transform(value){
+     if(value){
+          return value;
+     }
+ }
 }
 
 

@@ -4,7 +4,6 @@
 // TODO: Icons vervangen in html door ionic 2
 
 import { Page, Platform, NavController } from 'ionic-angular';
-import { Cookie } from 'ng2-cookies/ng2-cookies';
 
 // Own Pages
 import { TabsPage } from '../tabs/tabs';
@@ -139,7 +138,6 @@ export class Login {
                     var ref = this.firebaseUrl.child('users').child(authData.facebook.id);
                     ref.on('value',(snap) => {
                         if(snap.exists() === false){
-                            console.log(authData.facebook.email);
                             var ref  = this.firebaseUrl.child('users').child(authData.facebook.id)
                                 .set({ email: authData.facebook.email, name: authData.facebook.displayName});
                         }

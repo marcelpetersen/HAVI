@@ -1,9 +1,14 @@
 <ion-content class="trip" has-header="false">
-    <ion-icon [hidden]="heart" id="top-heart" ios="ios-heart-outline" md="md-heart-outline" (click)="favouriteTrip()"></ion-icon>
-    <ion-icon [hidden]="!heart" id="top-heart" ios="ios-heart" md="md-heart-outline" (click)="favouriteTrip()"></ion-icon>
+    <span id="back-home" (click)="goBackHome()">
+            <i class="fa fa-chevron-left"></i>
+    </span>
+    <div [hidden]="">
+        <ion-icon [hidden]="heart" id="top-heart" ios="ios-heart-outline" md="md-heart-outline" (click)="favouriteTrip()"></ion-icon>
+        <ion-icon [hidden]="!heart" id="top-heart" ios="ios-heart" md="md-heart-outline" (click)="favouriteTrip()"></ion-icon>
+     </div>
     <h1>{{ data.location }}</h1>
     <h2>{{ data.datetime | date:'yyyy'}}</h2>
-    <ion-scroll id="all-items" scrollX="true">
+    <ion-scroll id="trips-timeline" scrollX="true">
         <div id="timeline">
             <div *ngFor="#trip of pictures | async;#i = index;" (click)="goPart(trip)">
                 <div class="parts">

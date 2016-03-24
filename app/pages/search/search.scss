@@ -1,5 +1,5 @@
 .search {
-    background-color: #EEE;
+    background-color: $white;
     .picture{
         background: url('../images/back-search.jpg') center center no-repeat;
         background-size: 100%;
@@ -43,11 +43,21 @@
         }
 
     }
+    span#message{
+        width:100%;
+        float:left;
+        background-color: $lightblue;
+        padding:10px 0px;
+        text-align: center;
+        color:$white;
+    }
     #specify{
         width:100%;
         float:left;
         background-color: $yellow;
         padding-bottom:5px;
+        margin:0;
+        min-height: 28px;
         li{
             margin-top:5px;
             width:33.33%;
@@ -77,75 +87,16 @@
             border-right: 0px;
          }
     }
-   
-    input{
-        width:70%;
-        margin-top:0px;
-        margin-bottom: 0;
-        min-height: 45px;
-        border:0;
-        padding-left:5px;
-        float:left;
-    }
-    
-    button{
-        width:30%;
-        border-radius:0;
-        float:left;
-        margin:0;
-    }
-    .error{
-        background-color: #D64541;
-        color:#fff;
-        width:100%;
-        float:left;
-        min-height:40px;
-        text-align: center;
-        padding-top:10px;
-    }
-    ul{
-        list-style: none;
-        float:left;
-        width: 100%;
-        padding:0;
-        margin:0;
-        li{
-            font-size:15px;
-            background-color: #E1E1E1;
-            border-radius:10px;
-            margin-top:10px;
-            padding:5px;
-            max-width: 97%;
-            strong{
-                color:#999;
-                width:100%;
-                float:left;
-            }
+    #all-items scroll-content{
+        overflow: visible !important;
+        ul{
+            margin:0;
         }
-        .cities{
-            text-transform: uppercase;
-            min-width:100%;
-            float:left;
-            cursor:pointer;
-            border-radius: 0;
-            margin-top:0;
-            text-align: center;
-            line-height: 40px;
-            &:hover{
-                background-color: #87D37C;
-                strong{color:#fff;}
-            }
-        }   
     }
-    .button.back{
-        background-color:#355C7D;
+    #search-button{
         width:100%;
-        line-height: 35px;
-        max-height: 35px;
-        text-align: center;
-        font-size:20px;
+        border-radius: 0;
         float:left;
-        color:#fff;
-        cursor:pointer; 
-    }    
+        margin:0;
+    }
 }

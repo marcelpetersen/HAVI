@@ -1,3 +1,12 @@
 <ion-content class="favourite">
-    <h1>Hier komen uwe favourites</h1>
+    <ion-scroll id="all-items" scrollX="true">
+    <ul>
+        <li *ngFor="#trip of allFavourites" [hidden]="!trip.location" (click)="goTrip(trip)">
+            <h1>{{ trip.location }}</h1>
+            <h2>{{ trip.sort }} / {{trip.datetime | date:'yyyy'}}</h2>
+            <p>{{ (trip.text ? trip.text : "") | slice:0:75}}...</p>
+            <span class="arrow"><ion-icon class="i" name="arrow-forward"></ion-icon></span>
+        </li>
+    </ul>
+    </ion-scroll>
 </ion-content>

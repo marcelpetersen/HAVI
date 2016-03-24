@@ -27,12 +27,11 @@
         </div>
     </ul>
     <ul class="list2">
-        <li template="ngFor #img of array" (click)="goToTrip(img)"> <!--template="ngFor #img of randomImages"-->
-            <div class="image" [ngStyle]="{'background-image': 'url(' + img.src + ')'}" ></div>
+        <li template="ngFor #img of array"> <!--template="ngFor #img of randomImages"-->
+            <div class="image" [ngStyle]="{'background-image': 'url(' + img.src + ')'}" (click)="goToTrip(img)"></div>
                 <!--<img [src]="img.src || '//:0'" class="image" (click)="doThis($event,img)"> --> 
                 <span>{{img.location}}</span>
         </li>
-
     </ul>
 </ion-content>
 

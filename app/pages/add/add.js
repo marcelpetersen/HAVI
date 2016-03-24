@@ -6,8 +6,18 @@ import { Page } from 'ionic-angular';
 import { Observable } from 'rxjs/Observable';
 import { observableFirebaseArray } from 'angular2-firebase';
 import { Firebase_const } from '../../const';
-import { EXIF } from 'exif-js';
+//import { EXIF } from 'exif-js';
 import { Http,Headers,HTTP_PROVIDERS } from 'angular2/http';
+
+
+/*
+RequestOptions in http
+
+&
+this.makePostRequest(); in constructor
+//https://forum.ionicframework.com/t/ionic-2-http-post-methot-error/47251
+*/
+
 
 
 // import {FILE_UPLOAD_DIRECTIVES, FileUploader} from 'ng2-file-upload/ng2-file-upload';

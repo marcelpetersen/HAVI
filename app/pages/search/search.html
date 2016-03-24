@@ -7,27 +7,21 @@
             <input type="text" [(ngModel)]="textMessage" (keyup)="searchQeury($event)" placeholder="Copenhagen, Denmark, Scandinavia, Europe, ...">
         </div>
     </div>
+    <button id="search-button" (click)="searchButton()">Send</button>
     <ul id="specify">
         <li (click)="activeClass(1)" [class]="firstClass"><i class="fa fa-user"></i></li>
         <li (click)="activeClass(2)" [class]="secondClass"><i class="fa fa-map-marker"></i></li>
         <li (click)="activeClass(3)" [class]="tirthClass"><i class="fa fa-globe"></i></li>
     </ul>
-    <button class="back" (click)="back()" [hidden]="show">Back</button>
-    <div class="message-input" [hidden]="show">
-    <input [disabled]="error" (keyup)="doneTyping($event)" [(ngModel)]="textMessage" placeholder="Enter a message...">
-    <button (click)="send(textMessage)">Send</button>
-    </div>
-    <div *ngIf="!cities">
-        Loading...
-    </div>
-    <ul [hidden]="!show">
-        <li class="cities" template="ngFor #latest of cities | async" (click)="chooseCity(latest)">
-            <strong>{{latest.name}}</strong>
+    <span id="message" [hidden]="!message">{{ message }}</span>
+    <ion-scroll id="all-items" scrollX="true">
+    <ul>
+        <li *ngFor="#trip of querySearch" [hidden]="!trip.location" (click)="goTrip(trip)">
+            <h1>{{ trip.location }}</h1>
+            <h2>{{ trip.sort }} / {{trip.datetime | date:'yyyy'}}</h2>
+            <p>{{(trip.text ? trip.text : "") | slice:0:75}}...</p>
+            <span class="arrow"><ion-icon class="i" name="arrow-forward"></ion-icon></span>
         </li>
     </ul>
-    <ul [hidden]="show">
-        <li template="ngFor #latest of messages | async">
-            <strong>{{latest.name}} <small>{{latest.datetime}}</small> </strong> {{latest.text}}
-        </li>
-    </ul>
+    </ion-scroll>
 </ion-content>

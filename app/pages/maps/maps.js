@@ -22,7 +22,7 @@ export class Maps {
             zoom: 8
         }
         
-        
+        /*
         this.googleMap = new google.maps.Map(document.getElementById('map'),mapOptions);
         geocoder.geocode({'address': this.data}, (results, status) =>  {
             if (status === google.maps.GeocoderStatus.OK) {
@@ -39,11 +39,40 @@ export class Maps {
         alert('Geocode was not successful for the following reason: ' + status);
         }
         });
-        
+        */
 
     }
     goBack(){
         this.nav.pop();
     }
+    onPageLoaded() {
+      let mapEle = document.getElementById('map');
+
+      let map = new google.maps.Map(mapEle, {
+        center: {lat: 55.676098, lng: 12.568337},
+        zoom: 8
+      });
+/*
+      mapData.forEach(markerData => {
+        let infoWindow = new google.maps.InfoWindow({
+          content: `<h5>${markerData.name}</h5>`
+        });
+
+        let marker = new google.maps.Marker({
+          position: markerData,
+          map: map,
+          title: markerData.name
+        });
+
+        marker.addListener('click', () => {
+          infoWindow.open(map, marker);
+        });
+      });
+*/
+      google.maps.event.addListenerOnce(map, 'idle', () => {
+        mapEle.classList.add('show-map');
+      });
+
+  }
 }
 

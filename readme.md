@@ -18,7 +18,6 @@ Installation
 ------------------
     git clone https://github.com/pieterjansas/hava.git
     npm install
-    npm install -save-dev ng2-cookies typescript@1.7.5 angular2-firebase
     ionic serve
     'Get lucky without errors!'
 
@@ -29,15 +28,21 @@ Test website
 
 ERRORS
 ------------------
-- For browsers changed all code of FirebaseObservableObject to 'use strict'. 
-  Changed some args[] here in too.
-  ERROR: can't use Let in 'Strict mode'. So for dekstop browser need strict mode & the mobile browser can't use let in strict mode.
-  Fixing it with/in time...
+
+
+
+ATM
+------------------
+Cordova CLI: 6.1.0 (cordova-lib@undefined)
+Ionic Version: 2.0.0-beta.3
+Ionic CLI Version: 2.0.0-beta.19
+Ionic App Lib Version: 2.0.0-beta.9
+ios-deploy version: Not installed
+ios-sim version: Not installed
+OS: Mac OS X El Capitan
+Node Version: v5.9.0
+Xcode version: Xcode 6.4 Build version 6E35b 
    
-
-
-
-
 Credits
 ------------------
 > Pieter-Jan Sas - 

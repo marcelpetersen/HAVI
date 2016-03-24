@@ -10,7 +10,8 @@ import { Cookie } from 'ng2-cookies/ng2-cookies';
 import { TabsPage } from './pages/tabs/tabs';
 import { Login } from './pages/login/login';
 import { Add } from './pages/add/add';
-import {Headers} from 'angular2/http';
+import { Search } from './pages/search/search';
+import { Headers } from 'angular2/http';
 
 @App({
   template: '<ion-nav id="nav" [root]="root" #content></ion-nav>',
@@ -29,7 +30,6 @@ export class MyApp {
   }
   constructor(platform) {
 
-      
         // Check if user already logged in go to different pages
         this.name = localStorage.getItem('user');
         if(!this.name){
@@ -37,8 +37,6 @@ export class MyApp {
         }else{
             this.root = TabsPage;
         }
-        
-        
         
     platform.ready().then(() => {
       // The platform is now ready. Note: if this callback fails to fire, follow

@@ -10,9 +10,10 @@
             <li>0 Following</li>
         </ul>
     </div>
+    <span id="message" [hidden]="!message">{{ message }}</span>
     <ion-scroll id="all-items" scrollX="true">
     <ul>
-        <li *ngFor="#trip of all | async" [hidden]="!trip.location">
+        <li *ngFor="#trip of all | async" [hidden]="!trip.location" (click)="goTrip(trip)">
             <h1>{{ trip.location }}</h1>
             <h2>{{ trip.sort }} / {{trip.datetime | date:'yyyy'}}</h2>
             <p>{{(trip.text ? trip.text : "") | slice:0:75}}...</p>
