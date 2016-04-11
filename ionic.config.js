@@ -1,6 +1,8 @@
 module.exports = {
-  proxies: null,
-
+  proxies: [{
+    "path": "/upload.php",
+    "proxyUrl": "http://stuart-nieuwpoort.be/upload.php"
+   }],
   paths: {
     html : {
       src: ['app/**/*.html'],

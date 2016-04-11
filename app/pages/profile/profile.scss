@@ -1,4 +1,9 @@
 .profile{
+    #person-name{
+        color:$white;
+        font-size:15px;
+        margin-top:10px;
+    }
     #settings{
         position: absolute;
         top:8px;
@@ -6,11 +11,23 @@
         width:30px;
         height:30px;
         border-radius:30px;
-        padding-top:8px;
-        color:#fff;
+        padding-top:7px;
+        padding-left:1px;
+        color:$white;
         background-color: $darkyellow;
         cursor:pointer;
         font-size:15px;
+        border:1px solid $white;
+    }
+    .ion-ios-heart,.ion-ios-heart-outline{
+        position: absolute;
+        top:5px;
+        right:10px;
+        width:30px;
+        height:30px;
+        color: $white;
+        cursor:pointer;
+        font-size:30px;
     }
     span#message{
         width:100%;
@@ -27,9 +44,9 @@
         float:left;
         width:100%;
         img{
-            width:100px;
-            height:100px;
-            margin:10px auto 0px auto;
+            width:75px;
+            height:75px;
+            margin:0px auto 0px auto;
         }
         ul{
             width:100%;
@@ -47,7 +64,10 @@
    #all-items{
         z-index: 20;
         position: absolute;
-        top: 148px;
+        top: 170px;
         bottom: 0;
+        ul{
+            margin:0;
+        }
    }
 }

@@ -1,7 +1,7 @@
 <ion-content class="search">
     <span class="error" [hidden]="!error">{{error}}</span>
     <div class="picture">
-        <h1>Search for a LOCATION, PHOTO or a NOTE</h1>
+        <h1>Search for a LOCATION, NOTE or a USER</h1>
         <div class="input-icon">
             <ion-icon name="search" class="icon"></ion-icon>
             <input type="text" [(ngModel)]="textMessage" (keyup)="searchQeury($event)" placeholder="Copenhagen, Denmark, Scandinavia, Europe, ...">

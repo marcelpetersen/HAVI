@@ -1,18 +1,13 @@
 {
-    "cordova-plugin-file-transfer": {
+    "cordova-plugin-facebook4": {
         "source": {
             "type": "registry",
-            "id": "cordova-plugin-file-transfer"
+            "id": "cordova-plugin-facebook4"
         },
         "is_top_level": true,
-        "variables": {}
-    },
-    "cordova-plugin-inappbrowser": {
-        "source": {
-            "type": "registry",
-            "id": "cordova-plugin-inappbrowser"
-        },
-        "is_top_level": true,
-        "variables": {}
+        "variables": {
+            "APP_ID": "1735591183389964",
+            "APP_NAME": "HAVI"
+        }
     }
 }

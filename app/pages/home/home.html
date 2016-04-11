@@ -1,34 +1,38 @@
-<ion-content class="page2">
-     <h2 [hidden]="!error" class="error">{{error}}</h2>
-     <!--<label class="myLabel">
-        <input [disabled]="error" style="width:100%" class="upload" id="house" type="file" accept="image/*" capture doc="house" name="files[]"  multiple on-change="handleFileSelect($event)">
-        <span>Foto uploaden</span>
-    </label>-->
-    <!--<h1 (click)="takePicture()">Foto</h1>
-    <h1 (click)="takePhoto()">Locatie</h1>-->
-    <div class="screen" [hidden]="!showscreen">
-        <div class="numbers">
-            <input type="password" maxlength="1" id="one" autofocus (keyup)="focus($event)">
-            <input type="password" maxlength="1" id="two"   (keyup)="focus($event)">
-            <input type="password" maxlength="1" id="three" (keyup)="focus($event)">
-            <input type="password" maxlength="1" id="four"  (keyup)="focus($event)">
-        </div>
-    </div>
-    <ul class="list">
-        <li template="ngFor #img of images| async;#c = index" [hidden]="c > 3">
-            <div class="image" [ngStyle]="{'background-image': 'url(' + img.src + ')'}" (click)="goToTrip(img)"></div>
-                <!--<img [src]="img.src || '//:0'" class="image" (click)="doThis($event,img)"> --> 
+<ion-content class="home" has-header="true">
+    <!--<ion-slides pager>
+
+    <ion-slide style="background-color: green">
+        <h2>Slide 1</h2>
+    </ion-slide>
+
+    <ion-slide style="background-color: blue">
+        <h2>Slide 2</h2>
+    </ion-slide>
+
+    <ion-slide style="background-color: red">
+        <h2>Slide 3</h2>
+    </ion-slide>
+
+    </ion-slides>-->
+    <ion-refresher (start)="doStart($event)"
+                 (refresh)="doRefresh($event)"
+                 (pulling)="doPulling($event)">
+    </ion-refresher>
+    <ul class="list" [class]="lessClass">
+        <h2 [hidden]="!error" class="error">{{error}}</h2>
+        <li template="ngFor #img of images;#c = index" [hidden]="c > 2">
+            <div class="image"  [ngStyle]="img.src ? {'background-image': 'url(' + img.src + ')'} : {'background-image': 'url(' + standardPicture + ')'}" (click)="goToTrip(img)"></div>
             <span>{{img.location}}</span>
         </li>
         <div class="more" (click)="goOwn()">
             <span class="own">
-                <i class="fa fa-ellipsis-h"></i>
+                 <ion-icon name="more"></ion-icon>
             </span>
         </div>
     </ul>
-    <ul class="list2">
-        <li template="ngFor #img of array"> <!--template="ngFor #img of randomImages"-->
-            <div class="image" [ngStyle]="{'background-image': 'url(' + img.src + ')'}" (click)="goToTrip(img)"></div>
+    <ul class="list2" [class]="extraClass">
+        <li template="ngFor #img of array;#amount = index" [hidden]="extraClass != 'list2 extra'? (amount > 5): (amount > 8)"> <!--template="ngFor #img of randomImages"-->
+            <div class="image" [ngStyle]="img.src ? {'background-image': 'url(' + img.src + ')'} : {'background-image': 'url(' + standardPicture + ')'}" (click)="goToTrip(img)"></div>
                 <!--<img [src]="img.src || '//:0'" class="image" (click)="doThis($event,img)"> --> 
                 <span>{{img.location}}</span>
         </li>

@@ -3,14 +3,13 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/debounceTime';
 import { observableFirebaseArray } from 'angular2-firebase';
 import { Firebase_const } from '../../const';
-import { Cookie } from 'ng2-cookies/ng2-cookies';
 
 // PAGES
-import {Search} from '../search/search';
-import {Home} from '../home/home';
-import {Messages} from '../messages/messages';
-import {Add} from '../add/add';
-import {Favourites} from '../favourites/favourites';
+import { Home } from '../home/home';
+import { Favourites } from '../favourites/favourites';
+import { Add } from '../add/add';
+import { Search } from '../search/search';
+import { Messages } from '../messages/messages';
 
 
 @Page({
@@ -27,18 +26,17 @@ export class TabsPage {
     // this tells the tabs component which Pages
     // should be each tab's root Page
     this.home = Home;
+    this.favourites = Favourites;
+    this.add = Add;
     this.search = Search;
     this.messages = Messages;
-    this.add = Add;
-    this.favourites = Favourites;
-
+    
     // Picture hidden = true
     this.pictureVisible = true;
   }
 
   getLocation(){
       // Upload picture
-      
        // Take picture with Camera (Works only on native application) 
      var geocoder = new google.maps.Geocoder;
      console.log(geocoder);
@@ -64,39 +62,5 @@ export class TabsPage {
             })
     this.now =! this.now;
   }
-  getNote(){
-      // Upload picture
-     this.now =! this.now;
-     this.noteVisible = true;
-  }
-  close(){
-      // Upload Close
-       this.noteVisible = false;
-       // Keep data from textarea
-       // TODO: ...
-  }
-  onPageLoad(){
-  }
-  
-  uploadPicture(evt){
-    this.now = false;
-    this.pictureVisible = false;
-    var f = evt.target.files[0];
-    
-    var reader = new FileReader();
-    reader.onload = ((theFile) => {
-            return (e) => {
-                this.previewImage = e.target.result;
-                
-            };
-    })(f);
-    reader.readAsDataURL(f);
-  }
-  
-  // Push uploaded picture in firebase 
-  getPicture(e) {
-			   
-    }
-    
 
 }

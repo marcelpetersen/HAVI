@@ -21,43 +21,13 @@ export class Search {
       this.firebaseUrl = Firebase_const.API_URL;
       this.show = true;
       this.name = localStorage.getItem('user');
+      this.secondClass = "active";
       this.cities = observableFirebaseArray(
            new Firebase(this.firebaseUrl).child('cities').limitToLast(5));
   } 
-  searchButton(){
-     new Firebase(this.firebaseUrl).child('trips')
-            .orderByChild("location")
-            .startAt(this.textMessage)
-            .endAt(this.textMessage)
-            .once('value', snap => {
-          snap.forEach(data => {
-              this.value = data.val()
-              this.value.$$fbKey = data.key();
-              this.querySearch.push(this.value);
-              if(this.querySearch.length === 0){
-                  this.message = "I'm sorry ,we found 0 items.";
-              }
-          });
-    });
-  }
   searchQeury($event){
-    var e = $event.target.value;
-    this.querySearch = [];
     if($event.which === 13) {
-        new Firebase(this.firebaseUrl).child('trips')
-            .orderByChild("location")
-            .startAt(e)
-            .endAt(e)
-            .once('value', snap => {
-          snap.forEach(data => {
-              this.value = data.val()
-              this.value.$$fbKey = data.key();
-              this.querySearch.push(this.value);
-              if(this.querySearch.length === 0){
-                  this.message = "I'm sorry ,we found 0 items.";
-              }
-          });
-        });
+        this.searchButton();
     }
   }
   activeClass(e){
@@ -81,6 +51,48 @@ export class Search {
   goTrip(e){
     this.nav.push(Trip,{data:e});
   }
+ 
+  searchButton(){ 
+      // TODO: do also for users 
+      if(this.textMessage){
+          this.querySearch = [];    
+          var first = this.textMessage.toLowerCase();
+          var ab = new Firebase(this.firebaseUrl).child('trips')
+                .orderByChild("location")
+                .startAt(first)
+                .endAt(first);
+
+          var ref = new Firebase(this.firebaseUrl).child('trips');
+          this.num = ref.once('value', snap => {
+                if(snap.val()){
+                    snap.forEach(data => {
+                         if(data.val().text.indexOf(first) > -1){
+                                this.value = data.val();
+                                this.value.$$fbKey = data.key();
+                                this.querySearch.push(this.value);
+                         }
+                    });
+                    ab.once('value', snapshot =>{
+                                if(snapshot.val()){
+                                    snapshot.forEach(snapshotData =>{
+                                        for(var key in this.querySearch){
+                                            if(this.querySearch[key].datetime != snapshotData.val().datetime){
+                                                console.log('yes');
+                                                this.value = snapshotData.val();
+                                                this.value.$$fbKey = snapshotData.key();
+                                                this.querySearch.push(this.value);
+                                            }
+                                            break; 
+                                        }
+                                    });
+                             }
+                    });
+                }else{
+                    this.message = "I'm sorry ,we found 0 items.";
+                }
+            });
+      }
+   }
 }
 
 

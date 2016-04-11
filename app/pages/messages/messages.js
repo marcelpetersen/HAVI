@@ -9,9 +9,10 @@ import { observableFirebaseArray } from 'angular2-firebase';
 import { Firebase_const } from '../../const';
 import { Pipe} from 'angular2/core';
 
+
 @Page({
   templateUrl: 'build/pages/messages/messages.html',
-  //pipes: [customPipe] Fixed with beta 7 of angular
+  //pipes: [customPipe]
 })
 
 export class Messages {

@@ -1,4 +1,4 @@
-// App:         Secure Albums with pictures taking with camera or from Photo album
+// App:         Albums with pictures taking with camera or from Photo album
 //              -> Secure by code or authentication   
 //              -> Small messaging example 
 // Author:      Pieter-Jan Sas
@@ -22,7 +22,6 @@ import { Headers } from 'angular2/http';
       
   }
 })
-
 
 export class MyApp {
   static get parameters() {

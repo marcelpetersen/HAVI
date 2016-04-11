@@ -1,10 +1,28 @@
 <ion-content class="favourite">
+    <div class="picture">
+        <h1>TRIPS & USERS I LIKED</h1>
+    </div>
+    <ul id="specify">
+        <li [class]="favoTrips" (click)="changeActive()"> <i class="fa fa-globe"></i></li>
+        <li [class]="favoUser" (click)="changeActive()"><ion-icon name="contact"></ion-icon></li>
+    </ul>
     <ion-scroll id="all-items" scrollX="true">
-    <ul>
+    
+    <ul [hidden]="!favoTrips">
+       <li id="message" [hidden]="showNullFavo">No favourites trips...</li>
         <li *ngFor="#trip of allFavourites" [hidden]="!trip.location" (click)="goTrip(trip)">
             <h1>{{ trip.location }}</h1>
             <h2>{{ trip.sort }} / {{trip.datetime | date:'yyyy'}}</h2>
             <p>{{ (trip.text ? trip.text : "") | slice:0:75}}...</p>
+            <span class="arrow"><ion-icon class="i" name="arrow-forward"></ion-icon></span>
+        </li>
+    </ul>
+    <ul [hidden]="favoTrips">
+        <li id="message" [hidden]="showNull">No favourites users...</li>
+        <li *ngFor="#usr of allUsers" [hidden]="!usr.name" (click)="goProfile(usr.name)">
+            <h1>{{ usr.name }}</h1>
+            <h2>{{ usr.num }} Trips</h2>
+            <p>Click to see the trips</p>
             <span class="arrow"><ion-icon class="i" name="arrow-forward"></ion-icon></span>
         </li>
     </ul>

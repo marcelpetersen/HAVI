@@ -1,28 +1,56 @@
-<ion-content class="trip" has-header="false">
-    <span id="back-home" (click)="goBackHome()">
-            <i class="fa fa-chevron-left"></i>
-    </span>
-    <div [hidden]="">
-        <ion-icon [hidden]="heart" id="top-heart" ios="ios-heart-outline" md="md-heart-outline" (click)="favouriteTrip()"></ion-icon>
-        <ion-icon [hidden]="!heart" id="top-heart" ios="ios-heart" md="md-heart-outline" (click)="favouriteTrip()"></ion-icon>
+<ion-content class="trip" has-header="false" hide-tabs>
+    <ion-icon id="person" name="contact" (click)="goPerson()"></ion-icon>
+    <div [hidden]="heart === true" (click)="heart =! heart">
+        <ion-icon id="top-heart" ios="ios-heart-outline" md="md-heart-outline" (click)="favouriteTrip()"></ion-icon>
+    </div>
+    <div [hidden]="heart != true" (click)="heart =! heart">
+        <ion-icon id="top-heart" ios="ios-heart" md="md-heart-outline" (click)="favouriteTrip()"></ion-icon>
      </div>
     <h1>{{ data.location }}</h1>
     <h2>{{ data.datetime | date:'yyyy'}}</h2>
     <ion-scroll id="trips-timeline" scrollX="true">
         <div id="timeline">
-            <div *ngFor="#trip of pictures | async;#i = index;" (click)="goPart(trip)">
-                <div class="parts">
-                    <img [src]="trip.src || '//:0'" class="image" >
+            <div *ngFor="#trip of pictures;#i = index; ">
+                <div class="parts" (click)="goPart(trip)">
+                    <img [hidden]="!trip.src" [src]="trip.src || '//:0'" class="image" >
+                    <img [hidden]="trip.src" [src]="standardPicture" class="image" >
                 </div>
                 <div class="parts">
-                    <h1>Day {{ i + 1 }} <ion-icon class="heart" ios="ios-heart-outline" md="md-heart-outline"></ion-icon></h1>
-                    <h2><i class="fa fa-map-marker"></i> {{ trip.location }}</h2>
-                    <p>{{( trip.text ? trip.text : "") | slice:0:75}}...</p>
+                    <h1>Day {{ i + 1 }}<span class="add" (click)="tryAdd(trip)">
+                            <ion-icon ios="ios-add" md="md-add"></ion-icon>
+                         </span>
+                    </h1>
+                    <h2 (click)="goPart(trip)"><i class="fa fa-map-marker"></i> {{ trip.location }}</h2>
+                    <p (click)="goPart(trip)">{{( trip.text ? trip.text : "") | slice:0:100}}...</p>
                 </div>
             </div>
         </div>
-        <span id="more">
-            <ion-icon name="add"></ion-icon>
-        </span>
     </ion-scroll>
+    <ion-list id="kind-trip">
+        <ion-item>
+            <ion-label>What kind of travel is this?</ion-label>
+            <ion-select [disabled]="buttonDisabled" [(ngModel)]="tripkind" multiple="false" cancelText="Cancel" okText="Ok">
+            <ion-option value="beachttrip">Beachtrip</ion-option>
+            <ion-option value="citytrip">Citytrip</ion-option>
+            <ion-option value="roadtrip">Roadtrip</ion-option>
+            <ion-option value="backpacking">Backpacking</ion-option>
+            <ion-option value="businesstrip">Businesstrip</ion-option>
+            </ion-select>
+        </ion-item>
+    </ion-list>
+    <div id="back" (click)="goBackHome()">
+        <i class="fa fa-chevron-left"></i>
+    </div>
+    <div id="add" (click)="addThree()" [hidden]="user != data.name">
+        <i class="fa fa-plus"></i>
+    </div>
+    <div id="piece" [hidden]="showPiece">
+        <input type="text" [ngClass]="{focus: focusLocate}" [(ngModel)]="tripName" placeholder="Give te trip a name?">
+        <button (click)="addPart()">Make new trip</button>
+        <h2 [hidden]="!all">or pick a trip?</h2>
+        <ul [hidden]="!all">
+            <li *ngFor="#piece of all" (click)="addPart(piece)">{{ piece.location }}</li>
+        </ul>
+        <button id="cancel" (click)="cancelIt()">Cancel</button>
+    </div>
 </ion-content>

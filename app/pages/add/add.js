@@ -2,52 +2,47 @@
 // Author:      Pieter-Jan Sas
 // Last update: 20/02/16
 
-import { Page } from 'ionic-angular';
+import { Page, NavController, NavParams } from 'ionic-angular';
 import { Observable } from 'rxjs/Observable';
 import { observableFirebaseArray } from 'angular2-firebase';
-import { Firebase_const } from '../../const';
-//import { EXIF } from 'exif-js';
-import { Http,Headers,HTTP_PROVIDERS } from 'angular2/http';
+import { Firebase_const, StandardPicture } from '../../const';
+import { EXIF } from 'exif-js';
+import { Http,Headers,RequestOptions,HTTP_PROVIDERS } from 'angular2/http';
+import { Trip } from '../trip/trip';
+import { Geolocation } from 'ionic-native';
 
 
-/*
-RequestOptions in http
-
-&
-this.makePostRequest(); in constructor
-//https://forum.ionicframework.com/t/ionic-2-http-post-methot-error/47251
-*/
-
-
-
-// import {FILE_UPLOAD_DIRECTIVES, FileUploader} from 'ng2-file-upload/ng2-file-upload';
 @Page({
   templateUrl: 'build/pages/add/add.html',
-  providers: [HTTP_PROVIDERS]
-  //directives: [FILE_UPLOAD_DIRECTIVES]
-})
+  providers: [HTTP_PROVIDERS]})
 
-export class Add {
-  //static get uploader() {return new FileUploader({url: ""})};
-  
+export class Add {  
   static get parameters() {
-    return [[Http]];
+    return [[NavController],[Http],[NavParams]];
   }
   
-  constructor(http) {
+  constructor(nav,http,params) {
+      this.nav = nav;
       this.http = http;
       this.albumTitle = "Give the new album a name";
-      this.pictureVisible = true;
+      this.visiblePicture = true;
+      this.visibleNote = true;
+      this.visibleMap = true;
+      this.standardPicture = StandardPicture.URL;
       this.firebaseUrl = Firebase_const.API_URL;
       this.name = localStorage.getItem('user');
-         
       this.images = observableFirebaseArray(new Firebase(this.firebaseUrl).child('trips').orderByChild('name').startAt(this.name).endAt(this.name).limitToLast(3));
       this.canUpdate = false;
       this.newalbum = true;
+      this.data = params.get('data');
+      if(this.data){
+          this.pickTrip(this.data);
+      }
+      this.tabBarElement = document.querySelector('tabbar');
   }
   uploadPicture(evt){
-     console.log(this.pictureVisible);
-        this.pictureVisible = false;
+       this.tabBarElement.style.display = 'none';
+        this.visiblePicture = false;
         var f = evt.target.files[0];
         var reader = new FileReader();
         reader.onload = ((theFile) => {
@@ -97,70 +92,79 @@ export class Add {
         reader.readAsDataURL(f);
 }
 getPicture(){
-    /*
+  if(this.locate){
+      console.log('hier');
+      this.visiblePicture = true;
+        this.tabBarElement.style.display = 'flex';
+  var data = JSON.stringify({"image":this.previewImage});
   var headers = new Headers();
    headers.append('Content-Type', 'application/json');
-  this.http.post('http://stuart-nieuwpoort.be/upload.php', {"image":this.peviewImage},{ headers: headers })
+  this.http.post('/upload.php', data ,{ headers: headers })
     .subscribe(
-      data => console.log(data),
-      err => console.log(err),
-      () => console.log('Authentication Complete')
-    );
-    */
-    
-    if(this.locate){
-        this.firebaseUrl = Firebase_const.API_URL;
-        this.name = localStorage.getItem('user');
-        if(!this.chosen){
-            var ref = new Firebase(this.firebaseUrl).child('trips');
-            // Push item to firebase URL (ref)
-            var newId = ref.push({
-                    name: this.name,
-                    location: this.locate,
-                    src: "https://snap-photos.s3.amazonaws.com/img-thumbs/960w/OHUZL4GT6P.jpg", //this.previewImage
-                    datetime: Firebase.ServerValue.TIMESTAMP,
-                    sort: "Roadtrip",
-                    text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin nec scelerisque nulla. Etiam semper aliquet fermentum. Curabitur aliquam gravida nisl vitae tempus. Maecenas a varius mi, at convallis risus. Nulla gravida dolor ac dui iaculis, eu laoreet felis pellentesque. Vestibulum tempus tortor eget leo vulputate egestas. Phasellus aliquam, metus in congue faucibus, lorem ipsum pharetra libero, eu commodo orci sem a dolor. Etiam convallis sit amet ante nec malesuada. Proin at diam id ligula congue sagittis quis sed urna. Pellentesque non massa ac turpis vestibulum condimentum. Curabitur convallis felis metus, vel viverra est scelerisque eget. Vivamus vitae nisi nulla. Phasellus a imperdiet metus."
-            }); 
-            this.chosen = newId;
-            if(this.chosen){
-               var ref = new Firebase(this.firebaseUrl).child('trips')
-                   .child(this.chosen.path.o[1])
-                   .child('pictures');
+      data => {
+           this.firebaseUrl = Firebase_const.API_URL;
+            this.name = localStorage.getItem('user');
+            if(!this.chosen){
+                var ref = new Firebase(this.firebaseUrl).child('trips');
+                // Push item to firebase URL (ref)
+                var newId = ref.push({
+                        name: this.name.toLowerCase(),
+                        location: this.locate.toLowerCase(),
+                        src: "http://stuart-nieuwpoort.be/uploads/" + data._body + ".jpeg", //this.previewImage
+                        datetime: Firebase.ServerValue.TIMESTAMP,
+                        sort: "roadtrip",
+                        text: this.smallText.toLowerCase()
+                }); 
+                this.chosen = newId;
+                if(this.chosen){
+                var ref = new Firebase(this.firebaseUrl).child('trips')
+                    .child(this.chosen.path.o[1])
+                    .child('pictures');
+                                            
+                    // Push item to firebase URL (ref)
+                    ref.push({
+                            name: this.name.toLowerCase(),
+                            location: this.locate.toLowerCase(),
+                            src: "http://stuart-nieuwpoort.be/uploads/"  + data._body + ".jpeg", //this.previewImage
+                            datetime: Firebase.ServerValue.TIMESTAMP,
+                            text: this.smallText.toLowerCase()
+                    }); 
+                }
+            }else{
+                var ref = new Firebase(this.firebaseUrl).child('trips')
+                    .child(this.chosen)
+                    .child('pictures');
                                         
                 // Push item to firebase URL (ref)
                 ref.push({
-                        name: this.name,
-                        location: this.locate,
-                        src: "https://snap-photos.s3.amazonaws.com/img-thumbs/960w/OHUZL4GT6P.jpg",//this.previewImage
-                        datetime: Firebase.ServerValue.TIMESTAMP,
-                        text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin nec scelerisque nulla. Etiam semper aliquet fermentum. Curabitur aliquam gravida nisl vitae tempus. Maecenas a varius mi, at convallis risus. Nulla gravida dolor ac dui iaculis, eu laoreet felis pellentesque. Vestibulum tempus tortor eget leo vulputate egestas. Phasellus aliquam, metus in congue faucibus, lorem ipsum pharetra libero, eu commodo orci sem a dolor. Etiam convallis sit amet ante nec malesuada. Proin at diam id ligula congue sagittis quis sed urna. Pellentesque non massa ac turpis vestibulum condimentum. Curabitur convallis felis metus, vel viverra est scelerisque eget. Vivamus vitae nisi nulla. Phasellus a imperdiet metus."
+                        name: this.name.toLowerCase(),
+                        location: this.locate.toLowerCase(),
+                        src: "http://stuart-nieuwpoort.be/uploads/"  + data._body + ".jpeg", 
+                        datetime: Firebase.ServerValue.TIMESTAMP
                 }); 
             }
-        }else{
-            var ref = new Firebase(this.firebaseUrl).child('trips')
-                .child(this.chosen)
-                .child('pictures');
-                                    
-            // Push item to firebase URL (ref)
-            ref.push({
-                    name: this.name,
-                    location: this.locate,
-                    src: this.previewImage,
-                    datetime: Firebase.ServerValue.TIMESTAMP
-            }); 
-        }
-
-        this.pictureVisible = true;
-        this.images = observableFirebaseArray(new Firebase(this.firebaseUrl).child('trips').orderByChild('name').startAt(this.name).endAt(this.name).limitToLast(3));
+            this.images = observableFirebaseArray(new Firebase(this.firebaseUrl).child('trips').orderByChild('name').startAt(this.name).endAt(this.name).limitToLast(3));
+        },
+        err => console.log(err)
+        );
     }else{
-        //console.log('niet gepost');
-        this.focusLocate =! this.focusLocate;
+       this.focusLocate =! this.focusLocate;
     }
   }
-    cancelPicture(){
-        this.previewImage = "";
-        this.pictureVisible = true;
+    cancel(){
+        if(this.visiblePicture === false){
+            this.previewImage = "";
+            this.smallText = "";
+            this.visiblePicture = true;
+            
+        }else if(this.visibleNote === false){
+            this.longText = "";
+            this.visibleNote = true;
+        }else{
+            this.mapLocation = "";
+            this.smallText = "";
+            this.visibleMap = true;
+        }
         document.getElementById('preview-image').innerHTML = "";
     }
     pickTrip(e){
@@ -210,6 +214,146 @@ getPicture(){
         this.chosen = "";
         this.albumTitle = "Give the new album a name";
         this.locate = "";
+    }
+    addNote(){
+        this.visibleNote = false;
+    }
+    getNote(longText, noteLocation){
+        if(noteLocation != ""){
+         this.firebaseUrl = Firebase_const.API_URL;
+            this.name = localStorage.getItem('user');
+            if(!this.chosen){
+                console.log('hier');
+                    var ref = new Firebase(this.firebaseUrl).child('trips');
+                    // Push item to firebase URL (ref)
+                        var newId = ref.push({
+                            name: this.name.toLowerCase(),
+                            location: noteLocation.toLowerCase(),
+                            datetime: Firebase.ServerValue.TIMESTAMP,
+                            sort: "roadtrip",
+                            text: this.longText.toLowerCase()
+                    }); 
+                    this.chosen = newId;
+                    if(this.chosen){
+                    var ref = new Firebase(this.firebaseUrl).child('trips')
+                        .child(this.chosen.path.o[1])
+                        .child('pictures');
+                        // Push item to firebase URL (ref)
+                        ref.push({
+                                name: this.name.toLowerCase(),
+                                location: noteLocation.toLowerCase(),
+                                datetime: Firebase.ServerValue.TIMESTAMP,
+                                sort: "roadtrip",
+                                text: this.longText.toLowerCase()
+                        }); 
+                    }
+                }else{
+                    var ref = new Firebase(this.firebaseUrl).child('trips')
+                        .child(this.chosen)
+                        .child('pictures');
+                                            
+                    // Push item to firebase URL (ref)"
+                    ref.push({
+                            name: this.name.toLowerCase(),
+                            location: noteLocation.toLowerCase(),
+                            datetime: Firebase.ServerValue.TIMESTAMP,
+                            text: this.longText.toLowerCase()
+                    }); 
+                }
+                this.visibleNote = true;
+                this.noteLocation = "";
+                this.longText = "";
+                this.location = "";
+        }else{
+                this.focusLocate =! this.focusLocate;
+        }
+    }  
+    addLocation(){
+    this.visibleMap = false;
+     let mapEle = document.getElementById('map');
+
+      let map = new google.maps.Map(mapEle, {
+        center: {lat: 55.676098, lng: 12.568337},
+        zoom: 8
+      });
+      
+        Geolocation.getCurrentPosition().then((position) => {
+               let map = new google.maps.Map(mapEle, {
+                    center: {lat: position.coords.latitude, lng: position.coords.longitude},
+                    zoom: 14
+                });
+                let marker = new google.maps.Marker({
+                position: {lat: position.coords.latitude, lng: position.coords.longitude},
+                map: map,
+                title: "Your location"
+                });
+          var geocoder = new google.maps.Geocoder;
+                    var latlng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+                        geocoder.geocode({'location': latlng}, (results, status)=> {
+                            console.log(results);
+                            if (status === google.maps.GeocoderStatus.OK) {
+                            if (results[1]) {
+                                this.mapLocation = results[0].formatted_address;
+                            } else {
+                                window.alert('No results found');
+                            }
+                            } else {
+                            window.alert('Geocoder failed due to: ' + status);
+                            }
+                        });
+        },
+        (error) => {
+            console.log(error);
+        })
+    }
+    getLocation(mapLocation){
+        if(mapLocation != ""){
+         this.firebaseUrl = Firebase_const.API_URL;
+            this.name = localStorage.getItem('user');
+            if(!this.chosen){
+                    var ref = new Firebase(this.firebaseUrl).child('trips');
+                    // Push item to firebase URL (ref)
+                        var newId = ref.push({
+                            name: this.name.toLowerCase(),
+                            location: mapLocation.toLowerCase(),
+                            datetime: Firebase.ServerValue.TIMESTAMP,
+                            sort: "roadtrip",
+                            text: this.smallText.toLowerCase()
+                    }); 
+                    this.chosen = newId;
+                    if(this.chosen){
+                    var ref = new Firebase(this.firebaseUrl).child('trips')
+                        .child(this.chosen.path.o[1])
+                        .child('pictures');
+                        // Push item to firebase URL (ref)
+                        ref.push({
+                                name: this.name.toLowerCase(),
+                                location: mapLocation.toLowerCase(),
+                                datetime: Firebase.ServerValue.TIMESTAMP,
+                                sort: "roadtrip",
+                                text: this.smallText.toLowerCase()
+                        }); 
+                    }
+                }else{
+                    var ref = new Firebase(this.firebaseUrl).child('trips')
+                        .child(this.chosen)
+                        .child('pictures');
+                                            
+                    // Push item to firebase URL (ref)"
+                    ref.push({
+                            name: this.name.toLowerCase(),
+                            location: mapLocation.toLowerCase(),
+                            datetime: Firebase.ServerValue.TIMESTAMP,
+                            text: this.smallText.toLowerCase()
+                    }); 
+                }
+                this.visibleMap = true;
+                this.mapLocation = "";
+                this.smallText = "";
+                this.location = "";
+        }else{
+                this.focusLocate =! this.focusLocate;
+        }
     }
 }
 

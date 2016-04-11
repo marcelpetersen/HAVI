@@ -1,22 +1,36 @@
 <ion-content class="profile" has-header="false">
     <div id="profile-box">
-        <span id="settings" (click)="goSettings()">
-            <i class="fa fa-ellipsis-h"></i>
+        <span id="settings" [hidden]="notMyProfile" (click)="goSettings()">
+            <ion-icon name="more"></ion-icon>
         </span>
-        <img [src]="profileImg || '//:0'" alt="">
+        <span class="heart" [hidden]="(notMyProfile != true || heart != true)" (click)="heartUser()">
+            <ion-icon name="heart"></ion-icon>
+        </span>
+        <span class="heart" [hidden]="(notMyProfile != true || heart === true)" (click)="heartUser()">
+            <ion-icon name="heart-outline"></ion-icon>
+        </span>
+        <img [hidden]="!profileImg" [src]="profileImg || '//:0'" alt="">
+        <h2 [hidden]="!notMyProfile" id="person-name">{{name}}</h2>
+        <h2 [hidden]="notMyProfile" id="person-name">YOUR PROFILE</h2>
+        <p [hidden]="profileImg" alt="">
         <ul>
             <li>{{numberOfTrips}} Trips</li>
             <li>0 Followers</li>
             <li>0 Following</li>
         </ul>
     </div>
+    <ul id="specify">
+        <li [class]="favoTrips" (click)="changeActive()"> <i class="fa fa-globe"></i></li>
+        <li [class]="favoUser" (click)="changeActive()"><ion-icon name="contact"></ion-icon>
+</li>
+    </ul>
     <span id="message" [hidden]="!message">{{ message }}</span>
     <ion-scroll id="all-items" scrollX="true">
     <ul>
-        <li *ngFor="#trip of all | async" [hidden]="!trip.location" (click)="goTrip(trip)">
+        <li *ngFor="#trip of all" [hidden]="!trip.location" (click)="goTrip(trip)">
             <h1>{{ trip.location }}</h1>
-            <h2>{{ trip.sort }} / {{trip.datetime | date:'yyyy'}}</h2>
-            <p>{{(trip.text ? trip.text : "") | slice:0:75}}...</p>
+            <h2>{{ trip.sort }} / {{ trip.datetime | date:'yyyy' }}</h2>
+            <p>{{ (trip.text ? trip.text : "") | slice:0:75 }}...</p>
             <span class="arrow"><ion-icon class="i" name="arrow-forward"></ion-icon></span>
         </li>
     </ul>

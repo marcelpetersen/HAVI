@@ -71,6 +71,15 @@ ul{
 ion-navbar-section{
     display: block;
 }
+.bar-button-default{
+    color:#fff;
+    font-size:15px;
+    margin-right:7px;
+    margin-top:7px;
+}
+.bar-button-default:hover:not(.disabled-hover){
+    color: $red !important;
+}
 
 ::-webkit-input-placeholder { /* WebKit, Blink, Edge */
     color:    #FFF;
@@ -90,15 +99,22 @@ color:    #FFF;
 color:    #FFF;
 } 
 // NAVBAR
+ion-title{
+    margin-top:3px;
+}
 .toolbar-background{
     background-color: $yellow;
 }
 .back-button{
     display: none !important;
 }
+// COMMON
 #all-items{
     float: left;
     width: 100%;
+    ul{
+        overflow-x: scroll !important;
+    }
     li{
         border-bottom: 1px solid $yellow;
         padding:0px 0px 0px 20px;  
@@ -140,5 +156,33 @@ color:    #FFF;
     }
     scroll-content{
         overflow:auto !important;
+    }
+}
+#specify{
+    width:100%;
+    float:left;
+    background-color: $yellow;
+    padding:0;
+    margin:0;
+    li{
+        margin-top:0;
+        width:50%;
+        float:left;
+        background-color: transparent;
+        color:#fff;
+        border-right:1px solid #fff;
+        border-radius:0px;
+        text-align: center;
+        padding-top:5px;
+        padding-bottom:5px;
+        font-size:16px;
+        cursor:pointer;
+        min-height: 30px;
+        &:last-child{
+            border-right:0px;
+        }
+    }
+    .active{
+        background-color: $darkyellow;
     }
 }

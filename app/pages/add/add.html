@@ -1,20 +1,19 @@
-<ion-content class="add-item">
+<ion-content class="add-item" has-header="false"> 
     <input type="text" [(ngModel)]="albumTitle" [ngClass]="{inputwidth: canUpdate}" id="title" (click)="changeTitle()">
     <button (click)="updateTitle()"  [ngClass]="{inputwidth: canUpdate, hidden: !canUpdate}" id="update-title" >Update</button>
     <h1>or pick an existing album</h1>
     <ul id="choose-trip">
         <li template="ngFor #img of images | async" (click)="pickTrip(img)" >
-            <div class="image" [ngStyle]="{'background-image': 'url(' + img.src + ')'}" ></div>
-                <!--<img [src]="img.src || '//:0'" class="image" (click)="doThis($event,img)"> --> 
-            <span>{{img.location}} <br /> {{img.datetime | date:'yyyy'}}</span>
+             <div class="image"  [ngStyle]="img.src ? {'background-image': 'url(' + img.src + ')'} : {'background-image': 'url(' + standardPicture + ')'}" (click)="goToTrip(img)"></div>
+            <span>{{img.location | slice:0:25}} <br /> {{img.datetime | date:'yyyy'}}</span>
         </li>
         <li id="bottom1" (click)="loadMore()" [ngClass]="{hidden: moreLoaded}">More trips</li>
         <li id="bottom2" (click)="loadLess()" [ngClass]="{hidden: !moreLoaded}">Less trips</li>
     </ul>
     <h1>What do you want to add?</h1>
     <ul id="choose-type">
-        <li><i class="icon fa fa-map-marker"></i></li>
-        <li><i class="icon fa fa-sticky-note-o"></i></li>
+        <li (click)="addLocation()"><i class="icon fa fa-map-marker"></i></li>
+        <li (click)="addNote()"><i class="icon fa fa-sticky-note-o"></i></li>
         <li id="pic">
              <label class="myLabel">
                     <input [disabled]="error" style="width:100%" class="upload" id="house" type="file" accept="image/*" capture doc="house" name="files[]" multiple (change)="uploadPicture($event)" >                     
@@ -23,15 +22,37 @@
         </li>
     </ul>
     <ul id="trip-album" [hidden]="noPictures">
-        <li template="ngFor #newimg of newImages | async"> 
-            <img [src]="newimg.src || '//:0'">
+        <li template="ngFor #newimg of newImages | async;#i = index;"> 
+            <img [hidden]="!newimg.src" [src]="newimg.src || '//:0'">
+            <img [hidden]="newimg.src" [src]="standardPicture">
+            <span>Day {{i + 1}}</span>
         </li>
     </ul>
     <button id="button-new" (click)="newAlbum()" [hidden]="newalbum">New album</button>
-    <div class="confirm" [hidden]="pictureVisible">
-        <input type="text" [ngClass]="{focus: focusLocate}" [(ngModel)]="locate" placeholder="Vul locatie hier in..">
-        <button (click)="cancelPicture()" class="cancel-button"> <i class="fa fa-times"></i> </button>
+    <div class="confirm-screen" [hidden]="visiblePicture">
+        <input type="text" [ngClass]="{focus: focusLocate}" [(ngModel)]="locate" placeholder="What is your location?">
+        <button (click)="cancel()" class="cancel-button"> <i class="fa fa-times"></i> </button>
         <img [src]="previewImage || '//:0'" id="preview-image">
-        <button (click)="getPicture(previewImage)" class="confirm-button">Confirm</button>
+        <textarea  [(ngModel)]="smallText" id="preview-text" placeholder="Describe here your picture"></textarea>
+        <div class="button-middle">
+            <button (click)="getPicture(previewImage)" class="confirm-button"><i class="icon fa fa-camera"></i></button>
+        </div>
+    </div>
+    <div id="note" [hidden]="visibleNote">
+        <input type="text" [ngClass]="{focus: focusLocate}" [(ngModel)]="noteLocation" placeholder="What is your location?">
+         <button (click)="cancel()" class="cancel-button"> <i class="fa fa-times"></i> </button>
+        <textarea  [(ngModel)]="longText" id="preview-text" placeholder="Describe here what you did today"></textarea>
+        <div class="button-middle">
+             <button (click)="getNote(longText,noteLocation)" class="confirm-button"><i class="icon fa fa-sticky-note-o"></i></button>
+        </div>
+    </div>
+    <div id="maps" [hidden]="visibleMap">
+          <input type="text" [ngClass]="{focus: focusLocate}" [(ngModel)]="mapLocation" placeholder="What is your location?">
+          <button (click)="cancel()" class="cancel-button"><i class="fa fa-times"></i> </button>
+          <div id="map"></div>
+           <textarea  [(ngModel)]="smallText" id="preview-text" placeholder="Describe here your location"></textarea>
+           <div class="button-middle">
+             <button (click)="getLocation(mapLocation,smallText)" class="confirm-button"><i class="icon fa fa-map-marker"></i></button>
+           </div>
     </div>
 </ion-content>

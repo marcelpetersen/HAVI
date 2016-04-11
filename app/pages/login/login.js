@@ -1,16 +1,13 @@
 // Page:        Facebook log in using Firebase Authentication & Other authentication
 // Author:      Pieter-Jan Sas
 // Last update: 20/02/16
-// TODO: Icons vervangen in html door ionic 2
 
 import { Page, Platform, NavController } from 'ionic-angular';
-
+ 
 // Own Pages
 import { TabsPage } from '../tabs/tabs';
 import { Firebase_const } from '../../const';
-
-// Directives in app/directives/..
-//import { Data } from '../../directives/data';
+import { Facebook } from 'ionic-native';
 
 @Page({
   selector:'Login',
@@ -74,6 +71,7 @@ export class Login {
     }
     doneTypingLogin($event){
         if($event.which === 13) {
+            this.error = "One second please";          
             if(this.email && this.password){
                 // Check if user is correct    
                 this.firebaseUrl.authWithPassword({
@@ -85,17 +83,22 @@ export class Login {
                     this.error = "User doesn't exist";
                 } else {
                     //console.log("Authenticated successfully with payload:", authData);
-                    
-                    localStorage.setItem('user',authData.uid);
-                    this.nav.push(TabsPage);
+                    var ref = this.firebaseUrl.child('users').orderByChild('email').startAt(this.email).endAt(this.email);
+                    ref.on('value',(snap) => {
+                        if(snap.exists() === true){
+                              localStorage.setItem('user', Object.keys(snap.val()));
+                               this.nav.push(TabsPage); 
+                        }else{
+                            localStorage.setItem('user',authData.uid);
+                            this.nav.push(TabsPage);
+                        };
+                    });
                 }
                 });
-                // https://egghead.io/lessons/angular-2-passing-data-to-components-with-input
             }else{
                 this.error = "No password/email";
-                console.log('No Credentials');
             }   
-            this.error = "One second please";          
+           
         }
     }
     loginMail(){
@@ -105,25 +108,41 @@ export class Login {
                     email    : this.email,
                     password : this.password
                 }, (error, authData) => {
-                if (error) {
-                    //console.log("Login Failed!", error);
-                    this.error = "User doesn't exist";
-                } else {
-                    //console.log("Authenticated successfully with payload:", authData);
-                    localStorage.setItem('user',authData.uid);
-                    this.nav.push(TabsPage);
-                }
+                    if (error) {
+                        //console.log("Authenticated successfully with payload:", authData);
+                        var ref = this.firebaseUrl.child('users').orderByChild('email').startAt(this.email).endAt(this.email);
+                        ref.on('value',(snap) => {
+                            if(snap.exists() === true){
+                                this.error = "Login with facebook";
+                            }else{
+                                this.error = "User doesn't exist";
+                            };
+                        });
+                    } else {
+                        var ref = this.firebaseUrl.child('users').orderByChild('email').startAt(this.email).endAt(this.email);
+                        ref.on('value',(snap) => {
+                            if(snap.exists() === true){
+                                localStorage.setItem('user', Object.keys(snap.val()));
+                                this.nav.push(TabsPage); 
+                            }else{
+                                localStorage.setItem('user',authData.uid);
+                                this.nav.push(TabsPage);
+                            };
+                        });
+                    }
                 });
-                // https://egghead.io/lessons/angular-2-passing-data-to-components-with-input
             }else{
                 this.error = "No password/email";
                 console.log('No Credentials');
-            } 
+            }   
+            this.error = "One second please";   
     }
     loginFacebook(){
-         this.angular = "One second please";        
+         this.angular = "One second please"; 
+
+               
         // Firebase Authentication Popup       
-            this.firebaseUrl.authWithOAuthPopup("facebook",(error, authData)=> {
+            this.firebaseUrl.authWithOAuthToken("facebook","749773c5de551b6cc07a5a5a17b866f6",(error, authData)=> {
                 if (error) {
                     if (error.code === "TRANSPORT_UNAVAILABLE") {
                     // fall-back to browser redirects, and pick up the session
@@ -132,21 +151,23 @@ export class Login {
                         // Silence is gold
                     });
                     }else{
+                        console.log('hier');
                         console.log(error);
                     }
                 }else{
-                    var ref = this.firebaseUrl.child('users').child(authData.facebook.id);
+                    var ref = this.firebaseUrl.child('users').orderByChild('email').startAt(authData.facebook.email).endAt(authData.facebook.email);
                     ref.on('value',(snap) => {
-                        if(snap.exists() === false){
-                            var ref  = this.firebaseUrl.child('users').child(authData.facebook.id)
-                                .set({ email: authData.facebook.email, name: authData.facebook.displayName});
-                        }
-                        // Set up Cookie for authentication multipage
-                        // TODO: If first time, store the userid
-                        // TODO: check if user is not already login with authentication
-                        localStorage.setItem('user', authData.facebook.id);
-                        localStorage.setItem('picture', authData.facebook.profileImageURL);
-                        this.nav.push(TabsPage); 
+                        if(snap.exists() === true){    
+                            localStorage.setItem('user', Object.keys(snap.val()));
+                            localStorage.setItem('picture', authData.facebook.profileImageURL);
+                            this.nav.push(TabsPage); 
+                        }else{
+                            var ref = this.firebaseUrl.child('users').child(authData.facebook.id)
+                                    .set({ email: authData.facebook.email, name: authData.facebook.displayName});
+                            localStorage.setItem('user', authData.facebook.id);
+                            localStorage.setItem('picture', authData.facebook.profileImageURL);
+                            this.nav.push(TabsPage); 
+                        };
                     });
                 }
         },{

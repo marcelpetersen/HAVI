@@ -15,64 +15,45 @@ export class Maps {
     }
     constructor(nav,params){
         this.data = params.get('data');
+        this.location = params.get('location');
         this.nav = nav;
-
-           var mapOptions = {
-            center: {lat: 55.676098, lng: 12.568337},
-            zoom: 8
-        }
-        
-        /*
-        this.googleMap = new google.maps.Map(document.getElementById('map'),mapOptions);
-        geocoder.geocode({'address': this.data}, (results, status) =>  {
-            if (status === google.maps.GeocoderStatus.OK) {
-            this.googleMap.setCenter(results[0].geometry.location);
-                    
-                    
-                                
-                var marker = new google.maps.Marker({
-                    map: this.googleMap,
-                    position: results[0].geometry.location
-                });
-                
-            } else {
-        alert('Geocode was not successful for the following reason: ' + status);
-        }
-        });
-        */
-
+        this.tabBarElement = document.querySelector('tabbar');
     }
     goBack(){
         this.nav.pop();
     }
     onPageLoaded() {
       let mapEle = document.getElementById('map');
-
       let map = new google.maps.Map(mapEle, {
-        center: {lat: 55.676098, lng: 12.568337},
-        zoom: 8
+        center: this.data,
+        zoom: 8,
+        panControl: true,
+        zoomControl: true,
+        zoomControlOptions: {
+            style: google.maps.ZoomControlStyle.SMALL
+        },
+        mapTypeControl: true,
+        scaleControl: true,
+        streetViewControl: true,
+        mapTypeId: google.maps.MapTypeId.ROADMAP,
+        scrollwheel: true,
+        draggable:true
       });
-/*
-      mapData.forEach(markerData => {
-        let infoWindow = new google.maps.InfoWindow({
-          content: `<h5>${markerData.name}</h5>`
-        });
-
-        let marker = new google.maps.Marker({
-          position: markerData,
-          map: map,
-          title: markerData.name
-        });
-
-        marker.addListener('click', () => {
-          infoWindow.open(map, marker);
-        });
-      });
-*/
-      google.maps.event.addListenerOnce(map, 'idle', () => {
-        mapEle.classList.add('show-map');
-      });
-
-  }
+    let marker = new google.maps.Marker({
+        position: this.data,
+        map: map,
+        title: this.location
+    });
+        
+      // google.maps.event.addListenerOnce(map, 'idle', () => {
+      //  mapEle.classList.add('show-map');
+      // });
+    }
+     onPageWillEnter(){
+        this.tabBarElement.style.display = 'none';
+    }
+    onPageWillLeave(){
+        this.tabBarElement.style.display = 'flex';
+    }
 }
 
