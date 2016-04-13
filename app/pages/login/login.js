@@ -67,7 +67,6 @@ export class Login {
        }else{
            this.error = "Password is not correct";
        }
-
     }
     doneTypingLogin($event){
         if($event.which === 13) {
@@ -108,8 +107,8 @@ export class Login {
                     email    : this.email,
                     password : this.password
                 }, (error, authData) => {
+                    console.log(authData);
                     if (error) {
-                        //console.log("Authenticated successfully with payload:", authData);
                         var ref = this.firebaseUrl.child('users').orderByChild('email').startAt(this.email).endAt(this.email);
                         ref.on('value',(snap) => {
                             if(snap.exists() === true){
@@ -118,22 +117,21 @@ export class Login {
                                 this.error = "User doesn't exist";
                             };
                         });
-                    } else {
-                        var ref = this.firebaseUrl.child('users').orderByChild('email').startAt(this.email).endAt(this.email);
+                    }else {
+                    var ref = this.firebaseUrl.child('users').orderByChild('email').startAt(this.email).endAt(this.email);
                         ref.on('value',(snap) => {
                             if(snap.exists() === true){
                                 localStorage.setItem('user', Object.keys(snap.val()));
-                                this.nav.push(TabsPage); 
                             }else{
                                 localStorage.setItem('user',authData.uid);
-                                this.nav.push(TabsPage);
                             };
+                             this.nav.push(TabsPage);
                         });
+                       
                     }
                 });
             }else{
                 this.error = "No password/email";
-                console.log('No Credentials');
             }   
             this.error = "One second please";   
     }
@@ -175,5 +173,4 @@ export class Login {
         });
 
     }
-   
 }

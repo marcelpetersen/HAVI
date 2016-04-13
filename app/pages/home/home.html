@@ -1,3 +1,13 @@
+<ion-navbar *navbar>
+  <ion-title>
+        <img src="build/images/logo.png" height="30px" width="30px" alt="" />
+    </ion-title>
+    <ion-buttons end>
+        <button (click)="goOwn()">
+        <ion-icon name="contact"></ion-icon>
+        </button>
+    </ion-buttons>
+</ion-navbar>
 <ion-content class="home" has-header="true">
     <!--<ion-slides pager>
 
@@ -14,9 +24,12 @@
     </ion-slide>
 
     </ion-slides>-->
-    <ion-refresher (start)="doStart($event)"
-                 (refresh)="doRefresh($event)"
-                 (pulling)="doPulling($event)">
+    <ion-refresher (start)="doStarting()"
+                    (refresh)="doRefresh($event,refresher)">               
+        <ion-refresher-content 
+        pullingIcon="ios-arrow-round-down"
+        refreshingSpinner="circles">
+        </ion-refresher-content>                    
     </ion-refresher>
     <ul class="list" [class]="lessClass">
         <h2 [hidden]="!error" class="error">{{error}}</h2>
@@ -24,11 +37,6 @@
             <div class="image"  [ngStyle]="img.src ? {'background-image': 'url(' + img.src + ')'} : {'background-image': 'url(' + standardPicture + ')'}" (click)="goToTrip(img)"></div>
             <span>{{img.location}}</span>
         </li>
-        <div class="more" (click)="goOwn()">
-            <span class="own">
-                 <ion-icon name="more"></ion-icon>
-            </span>
-        </div>
     </ul>
     <ul class="list2" [class]="extraClass">
         <li template="ngFor #img of array;#amount = index" [hidden]="extraClass != 'list2 extra'? (amount > 5): (amount > 8)"> <!--template="ngFor #img of randomImages"-->

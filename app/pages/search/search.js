@@ -22,6 +22,7 @@ export class Search {
       this.show = true;
       this.name = localStorage.getItem('user');
       this.secondClass = "active";
+      this.firstClass = "middle";
       this.cities = observableFirebaseArray(
            new Firebase(this.firebaseUrl).child('cities').limitToLast(5));
   } 

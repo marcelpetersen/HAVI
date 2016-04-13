@@ -24,9 +24,6 @@ export class Settings {
         //http.get('http://pjsas:Saskespj3@stuart-nieuwpoort.be/api/api.json')
         //    .observer({next: (value) => this.people = value});
     }
-    goBackHome(){
-        this.nav.pop();
-    }
     goMaps(){
         this.nav.push(Maps,{data:this.data.address});
     }
@@ -86,5 +83,7 @@ export class Settings {
             });
         }
     }
-    
+    goBack(){
+        this.nav.pop();
+    }
 }

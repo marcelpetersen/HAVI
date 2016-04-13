@@ -17,6 +17,9 @@ export class Maps {
         this.data = params.get('data');
         this.location = params.get('location');
         this.nav = nav;
+        
+        console.log(this.location);
+        
         this.tabBarElement = document.querySelector('tabbar');
     }
     goBack(){

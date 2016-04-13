@@ -45,9 +45,9 @@ ATM
   
 DOCS
 -----------------
-* PLANNING - <https://docs.google.com/spreadsheets/d/1QbQy8pIQkkDRpV8dA-VQTyizaxTmM7dvI6XIO1YFwU8/edit#gid=0>
-* DOSSIER - <https://docs.google.com/document/d/1vAZEr9auYz1df5wUlaD_pRjet8qhuMuxhwinefSgDCg>  
-
+* PLANNING - <https://docs.google.com/spreadsheets/d/1QbQy8pIQkkDRpV8dA-VQTyizaxTmM7dvI6XIO1YFwU8/edit?usp=sharing>
+* DOSSIER - <https://docs.google.com/document/d/1vAZEr9auYz1df5wUlaD_pRjet8qhuMuxhwinefSgDCg/edit?usp=sharing>  
+* LOGBOEK - <https://docs.google.com/spreadsheets/d/1Yq-cFl9qiQDBIYPq1gEwdhudfZednlNCTyhRyt1Ces8/edit?usp=sharing>
 
  
 Credits

@@ -1,3 +1,7 @@
+.top-heart{
+    color:$white;
+    font-size:30px;
+}
 .trip{
     background-color: $white;
     #person{
@@ -5,14 +9,6 @@
         top:60px;
         left:30px;
         color:$yellow;
-        font-size:25px;
-        z-index: 20;
-    }
-    #top-heart{
-        color:$yellow;
-        position: absolute;
-        top:58px;
-        right:15px;
         font-size:25px;
         z-index: 20;
     }
@@ -60,24 +56,24 @@
         }
     }
     h1{
-        text-align: center;
         color: #f9c36f;
-        font-size: 20px;
         position: relative;
-        left: 0;
-        right: 0;
         width: 100%;
-        top: 0px;
+        float:left;
         margin-bottom: 12px;
-        margin-top: 5px;
+        margin-top: 15px;
         overflow-x: hidden;
-        max-height: 50px;
-        min-height: 50px;
         padding-left: 10px;
         padding-right: 10px;
+        text-align: center;
+        text-transform: uppercase;
+        font-weight: 100;
+        font-size: 20px;
+        letter-spacing: 3px;
     }
     h2{
         position: relative;
+        float:left;
         color:$brown;
         font-size:20px;
         width:100%;

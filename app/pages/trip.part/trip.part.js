@@ -19,15 +19,16 @@ export class Part {
         this.nav = nav;
         this.standardPicture = StandardPicture.URL;
         this.tabBarElement = document.querySelector('tabbar');
+        console.log(this.data);
     }
     goBackHome(){
         this.nav.pop();
     }
     goMaps(){
         if(this.coords){
-            this.nav.push(Maps,{data:this.coords,location:this.data.address});
+            this.nav.push(Maps,{data:this.coords,location:this.data.location});
         }else{
-            this.nav.push(Maps,{data:this.data.address});
+            this.nav.push(Maps,{location:this.data.location});
         }
     }
     onPageWillEnter(){

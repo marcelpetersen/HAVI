@@ -1,11 +1,22 @@
-<ion-content class="trip" has-header="false" hide-tabs>
-    <ion-icon id="person" name="contact" (click)="goPerson()"></ion-icon>
-    <div [hidden]="heart === true" (click)="heart =! heart">
-        <ion-icon id="top-heart" ios="ios-heart-outline" md="md-heart-outline" (click)="favouriteTrip()"></ion-icon>
-    </div>
-    <div [hidden]="heart != true" (click)="heart =! heart">
-        <ion-icon id="top-heart" ios="ios-heart" md="md-heart-outline" (click)="favouriteTrip()"></ion-icon>
-     </div>
+<ion-navbar *navbar>
+  <ion-buttons start>
+      <button (click)="goPerson()">
+         <ion-icon id="person" name="contact" ></ion-icon>
+      </button>
+  </ion-buttons>
+  <ion-title>
+        <img src="build/images/logo.png" height="30px" width="30px" alt="" />
+  </ion-title>
+  <ion-buttons end>
+    <button [hidden]="heart === true" (click)="heart =! heart">
+        <ion-icon class="top-heart" ios="ios-heart-outline" md="md-heart-outline" (click)="favouriteTrip()"></ion-icon>
+    </button>
+    <button [hidden]="heart != true" (click)="heart =! heart">
+        <ion-icon class="top-heart" ios="ios-heart" md="md-heart-outline" (click)="favouriteTrip()"></ion-icon>
+    </button>
+  </ion-buttons>
+</ion-navbar>
+<ion-content class="trip" hide-tabs>
     <h1>{{ data.location }}</h1>
     <h2>{{ data.datetime | date:'yyyy'}}</h2>
     <ion-scroll id="trips-timeline" scrollX="true">

@@ -1,4 +1,6 @@
-{
+{  
+  "name": "HAVI",
+  "description": "HAVI is your newest travel diary that is always in reach. You'll remember every detail of your most epic travel through the country. With pictures, memo notes and detailed locations on a map you will create the best diary to retell your stories. Explore here how its works.",
   "dependencies": {
     "angular2": "2.0.0-beta.13",
     "es6-promise": "3.0.2",
@@ -32,11 +34,15 @@
     "exif-js": "2.1.1",
     "cordova": "6.1.1"
   },
-  "name": "HAVI",
-  "description": "HAVI is your newest travel diary that is always in reach. You'll remember every detail of your most epic travel through the country. With pictures, memo notes and detailed locations on a map you will create the best diary to retell your stories. Explore here how its works.",
   "cordovaPlugins": [
     "cordova-plugin-file-transfer",
-    "cordova-plugin-inappbrowser"
+    "cordova-plugin-inappbrowser",
+    {
+    "variables": {
+        "SENDER_ID": "XXXXXXX"
+      },
+      "locator": "phonegap-plugin-push"
+    }
   ],
   "cordovaPlatforms": [
     "ios"

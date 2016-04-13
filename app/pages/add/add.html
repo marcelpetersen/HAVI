@@ -1,3 +1,8 @@
+<ion-navbar *navbar>
+  <ion-title>
+        <img src="build/images/logo.png" height="30px" width="30px" alt="" />
+    </ion-title>
+</ion-navbar>
 <ion-content class="add-item" has-header="false"> 
     <input type="text" [(ngModel)]="albumTitle" [ngClass]="{inputwidth: canUpdate}" id="title" (click)="changeTitle()">
     <button (click)="updateTitle()"  [ngClass]="{inputwidth: canUpdate, hidden: !canUpdate}" id="update-title" >Update</button>
@@ -15,8 +20,8 @@
         <li (click)="addLocation()"><i class="icon fa fa-map-marker"></i></li>
         <li (click)="addNote()"><i class="icon fa fa-sticky-note-o"></i></li>
         <li id="pic">
-             <label class="myLabel">
-                    <input [disabled]="error" style="width:100%" class="upload" id="house" type="file" accept="image/*" capture doc="house" name="files[]" multiple (change)="uploadPicture($event)" >                     
+             <label class="myLabel" ><!--(click)="takePicture()"-->
+                    <input [disabled]="error" style="width:100%" class="upload" id="house" type="file" accept="image/*" capture doc="house" name="files[]" multiple (change)="uploadPicture($event)" >                    
                     <span><i class="icon fa fa-camera"></i></span>
              </label>
         </li>

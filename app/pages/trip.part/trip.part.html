@@ -1,3 +1,13 @@
+<ion-navbar *navbar>
+  <ion-buttons start >
+      <button (click)="goBack()">
+          <ion-icon name="arrow-back"></ion-icon>
+      </button>
+  </ion-buttons>
+  <ion-title>
+        <img src="build/images/logo.png" height="30px" width="30px" alt="" />
+    </ion-title>
+</ion-navbar>
 <ion-content class="part" has-header="false">
     <div id="trip-buttons">
         <span class="contact" ><ion-icon name="contact"></ion-icon> {{ data.name }}</span>

@@ -35,18 +35,34 @@ export class Home {
         this.images = [];
         this.lessClass = "list";
         this.extraClass = "list2";
-        
-        this.doPulling();
+
+        //this.doPulling();
+        this.loadItems();
             
    }
-   doPulling(refresher){
+  doStarting(refresher){
        this.loadItems();
-   }
+  } 
+  doPulling(refresher){
+      
+  } 
+  doRefresh(refresher) {
+    console.log('Refreshing!', refresher);
+    setTimeout(() => {
+      refresher.complete();
+      console.log("Complete");
+    }, 1000);
+    //this.refresh().then((success) => refresher.complete(), (error)=> refresher.complete());
+  }
    loadItems(){
+       this.images = [];
         // Load all images when page enter
         var ref = new Firebase(this.firebaseUrl).child('trips').orderByChild('name').startAt(this.user).endAt(this.user).limitToLast(3);
         ref.once("value", snap => {
            if(snap.numChildren() === 1 || snap.numChildren() === 2){
+               this.lessClass = "list";
+               this.extraClass = "list2";
+               this.error = "";
                // Do something extra
                snap.forEach(val => {
                     this.value = val.val();
@@ -55,6 +71,9 @@ export class Home {
                });
                this.otherPictures(6);
            }else if(snap.numChildren() === 3){
+               this.lessClass = "list";
+               this.extraClass = "list2";
+                this.error = "";
                snap.forEach(val => {
                     this.value = val.val();
                     this.value.$$fbKey = val.key();
@@ -68,6 +87,7 @@ export class Home {
                this.otherPictures(9);
            }
         });
+        this.full = true;
    }
    otherPictures(e){
         // Load other images from other users         
@@ -94,37 +114,7 @@ export class Home {
    } 
     
   takePicture() {
-    this.platform.ready().then(() => {
-      let options = {
-        quality: 50,
-        destinationType: Camera.DestinationType.DATA_URL,
-        sourceType: Camera.PictureSourceType.CAMERA,
-        allowEdit: true,
-        encodingType: Camera.EncodingType.JPEG,
-        targetWidth: 100,
-        targetHeight: 100,
-        popoverOptions: CameraPopoverOptions,
-        saveToPhotoAlbum: false,
-        correctOrientation:true
-      };
-      // https://github.com/apache/cordova-plugin-camera#module_camera.getPicture
-      navigator.camera.getPicture(
-        (data) => {
-           this.img = data;
-           let imagedata = "data:image/jpeg;base64," + data;
-            this.firebaseUrl = Firebase_const.API_URL;
-            var ref = new Firebase(this.firebaseUrl).child('trips');
-            this.user = Cookie.getCookie('user');
-            // Push item to firebase URL (ref)
-            ref.child(this.user).push({
-                src: imagedata,
-                datetime: Firebase.ServerValue.TIMESTAMP
-            });
-        }, (error) => {
-          alert(error);
-        }, options
-      );
-    });
+
   }
     
     goToTrip($event){
@@ -135,7 +125,6 @@ export class Home {
        
     }
     goOwn(){
-        this.now = false;
         this.nav.push(Profile);
     }
     onPageLoaded(){

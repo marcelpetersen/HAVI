@@ -1,3 +1,9 @@
+.ion-ios-arrow-back{
+    color:$white;
+    font-size:25px;
+    padding-left:10px;
+    padding-top:5px;
+}
 .profile{
     #person-name{
         color:$white;
@@ -19,6 +25,7 @@
         font-size:15px;
         border:1px solid $white;
     }
+
     .ion-ios-heart,.ion-ios-heart-outline{
         position: absolute;
         top:5px;

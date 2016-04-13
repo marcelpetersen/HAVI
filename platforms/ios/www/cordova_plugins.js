@@ -261,6 +261,14 @@ module.exports = [
         "clobbers": [
             "facebookConnectPlugin"
         ]
+    },
+    {
+        "file": "plugins/phonegap-plugin-push/www/push.js",
+        "id": "phonegap-plugin-push.PushNotification",
+        "pluginId": "phonegap-plugin-push",
+        "clobbers": [
+            "PushNotification"
+        ]
     }
 ];
 module.exports.metadata = 
@@ -273,7 +281,8 @@ module.exports.metadata =
     "cordova-plugin-geolocation": "2.1.0",
     "cordova-plugin-inappbrowser": "1.3.0",
     "cordova-plugin-spinner-dialog": "1.3.1",
-    "cordova-plugin-facebook4": "1.7.0"
+    "cordova-plugin-facebook4": "1.7.0",
+    "phonegap-plugin-push": "1.6.2"
 }
 // BOTTOM OF METADATA
 });

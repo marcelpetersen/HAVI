@@ -1,8 +1,13 @@
+<ion-navbar *navbar>
+  <ion-title>
+        <img src="build/images/logo.png" height="30px" width="30px" alt="" />
+    </ion-title>
+</ion-navbar>
 <ion-content class="page3">
-    <span class="error" [hidden]="!error">{{error}}</span>
     <div class="picture">
         <h1>Ask a local</h1>
     </div>
+    <span class="error" [hidden]="!error">{{error}}</span>
     <span (click)="back()" [hidden]="show">Back</span>
     <div class="message-input" [hidden]="show">
     <input [disabled]="error" (keyup)="doneTyping($event)" [(ngModel)]="textMessage" placeholder="Enter a message...">

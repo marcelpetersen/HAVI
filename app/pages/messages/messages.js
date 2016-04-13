@@ -3,11 +3,11 @@
 // Last update: 20/02/16
 
 import { Page } from 'ionic-angular';
-import { Cookie } from 'ng2-cookies/ng2-cookies';
 import { Observable } from 'rxjs/Observable';
 import { observableFirebaseArray } from 'angular2-firebase';
 import { Firebase_const } from '../../const';
 import { Pipe} from 'angular2/core';
+import { Push } from 'ionic-native';
 
 
 @Page({
@@ -16,12 +16,27 @@ import { Pipe} from 'angular2/core';
 })
 
 export class Messages {
-  constructor() {
+        constructor() {
+            
+            
+        var push = Push.init({
+        android: {
+            senderID: "12345679"
+        },
+        ios: {
+            alert: "true",
+            badge: true,
+            sound: 'false'
+        },
+        windows: {}
+        });
+      
        this.firebaseUrl = Firebase_const.API_URL;
        this.show = true;
        this.name = localStorage.getItem('user');
        this.cities = observableFirebaseArray(
            new Firebase(this.firebaseUrl).child('cities').limitToLast(5));
+           this.error = "Notifications and Local messaging coming later";
   }
   doneTyping($event) {
         if($event.which === 13) {

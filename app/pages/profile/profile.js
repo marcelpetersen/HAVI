@@ -166,6 +166,11 @@ export class Profile {
        });
        
     }
+    goBack(){
+        console.log('hier');
+        this.nav.pop();
+    }
+    
 }
 /*
 

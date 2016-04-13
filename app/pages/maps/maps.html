@@ -1,8 +1,16 @@
+<ion-navbar *navbar>
+  <ion-buttons start >
+      <button (click)="goBack()">
+          <ion-icon name="arrow-back"></ion-icon>
+      </button>
+  </ion-buttons>
+  <ion-title>
+        <img src="build/images/logo.png" height="30px" width="30px" alt="" />
+    </ion-title>
+</ion-navbar>
 <ion-content class="maps" has-header="false">
+    <div id="location"> {{ location | slice:0:30}}</div>
     <div id="map">
 
-    </div>
-    <div id="back" (click)="goBack()">
-        <i class="fa fa-chevron-left"></i>
     </div>
 </ion-content>
