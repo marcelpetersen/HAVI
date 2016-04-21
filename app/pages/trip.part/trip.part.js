@@ -5,9 +5,11 @@
 import { Page, NavParams, NavController } from 'ionic-angular';
 import { Maps } from '../maps/maps';
 import { StandardPicture } from '../../const';
+import { Here } from '../../pipes/pipe';
 
 @Page({
-  templateUrl: 'build/pages/trip.part/trip.part.html'
+  templateUrl: 'build/pages/trip.part/trip.part.html',
+  pipes: [Here]
 })
 
 export class Part {
@@ -19,28 +21,33 @@ export class Part {
         this.nav = nav;
         this.standardPicture = StandardPicture.URL;
         this.tabBarElement = document.querySelector('tabbar');
-        console.log(this.data);
+        this.searchName();
     }
     goBackHome(){
         this.nav.pop();
     }
     goMaps(){
-        if(this.coords){
-            this.nav.push(Maps,{data:this.coords,location:this.data.location});
+        console.log(this.data);
+        if(!this.data.coords || !this.data.coords.lat || !this.data.coords.lon){
+            //this.nav.push(Maps,{location:this.data.location});
+            console.log('Do something');
+        }else if(this.coords){
+             this.nav.push(Maps,{data:this.coords,location:this.data.location});
         }else{
-            this.nav.push(Maps,{location:this.data.location});
+            this.nav.push(Maps,{data:this.data.coords,location:this.data.location});
         }
     }
     onPageWillEnter(){
-        this.searchLocation();
-        this.tabBarElement.style.display = 'none';
+        if(!this.data.coords || !this.data.coords.lat || !this.data.coords.lon){
+             this.searchLocation();
+        }
+        //this.tabBarElement.style.display = 'none';
     }
     onPageWillLeave(){
-        this.tabBarElement.style.display = 'flex';
+        //this.tabBarElement.style.display = 'flex';
     }
     
     searchLocation(){
-        
         var geocoder = new google.maps.Geocoder();
         geocoder.geocode({'address': this.data.location}, (results, status)=> {
             if (status === google.maps.GeocoderStatus.OK) {
@@ -50,4 +57,8 @@ export class Part {
             }
         });
     }
+    searchName(){
+
+    }
 }
+

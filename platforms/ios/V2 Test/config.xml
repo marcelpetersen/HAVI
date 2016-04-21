@@ -63,6 +63,10 @@
     <feature name="PushNotification">
         <param name="ios-package" value="PushPlugin" />
     </feature>
+    <feature name="SocialSharing">
+        <param name="ios-package" value="SocialSharing" />
+        <param name="onload" value="true" />
+    </feature>
     <preference name="AllowInlineMediaPlayback" value="false" />
     <preference name="EnableViewportScale" value="false" />
     <preference name="KeyboardDisplayRequiresUserAction" value="true" />

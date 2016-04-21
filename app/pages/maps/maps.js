@@ -18,45 +18,53 @@ export class Maps {
         this.location = params.get('location');
         this.nav = nav;
         
-        console.log(this.location);
-        
+        if(this.data.lat && this.data.lon){
+            this.data = {
+                lat : Number(this.data.lat),
+                lng : Number(this.data.lon)
+            }
+        }
         this.tabBarElement = document.querySelector('tabbar');
+       
     }
     goBack(){
         this.nav.pop();
     }
     onPageLoaded() {
-      let mapEle = document.getElementById('map');
-      let map = new google.maps.Map(mapEle, {
-        center: this.data,
-        zoom: 8,
-        panControl: true,
-        zoomControl: true,
-        zoomControlOptions: {
-            style: google.maps.ZoomControlStyle.SMALL
-        },
-        mapTypeControl: true,
-        scaleControl: true,
-        streetViewControl: true,
-        mapTypeId: google.maps.MapTypeId.ROADMAP,
-        scrollwheel: true,
-        draggable:true
-      });
-    let marker = new google.maps.Marker({
-        position: this.data,
-        map: map,
-        title: this.location
-    });
-        
+        document.getElementById('map').innerHTML = "";
       // google.maps.event.addListenerOnce(map, 'idle', () => {
       //  mapEle.classList.add('show-map');
       // });
+        let mapEle = document.getElementById('map');
+        let map = new google.maps.Map(mapEle, {
+            center: this.data,
+            zoom: 14,
+            panControl: true,
+            zoomControl: true,
+            zoomControlOptions: {
+                style: google.maps.ZoomControlStyle.SMALL
+            },
+            mapTypeControl: true,
+            scaleControl: true,
+            streetViewControl: true,
+            mapTypeId: google.maps.MapTypeId.ROADMAP,
+            scrollwheel: true,
+            draggable:true
+        });
+        // do something only the first time the map is loaded
+        let marker = new google.maps.Marker({
+            position: this.data,
+            map: map,
+            title: this.location
+        });
     }
      onPageWillEnter(){
-        this.tabBarElement.style.display = 'none';
+         
+
+      this.tabBarElement.style.display = 'none';
     }
     onPageWillLeave(){
-        this.tabBarElement.style.display = 'flex';
+      this.tabBarElement.style.display = 'flex';
     }
 }
 

@@ -22,29 +22,40 @@
 <ion-content class="profile" has-header="false">
     <div id="profile-box">
         <img [hidden]="!profileImg" [src]="profileImg || '//:0'" alt="">
-        <h2 [hidden]="!notMyProfile" id="person-name">{{name}}</h2>
-        <h2 [hidden]="notMyProfile" id="person-name">YOUR PROFILE</h2>
-        <p [hidden]="profileImg" alt="">
+        <h2 id="person-name" template="ngFor #name of (name | Here) | async;#i = index"><span [hidden]="i > 0">{{name}}</span></h2>
         <ul>
             <li>{{numberOfTrips}} Trips</li>
-            <li>0 Followers</li>
-            <li>0 Following</li>
+            <li>{{following}} Followers</li>
+            <li>{{followers}} Following</li>
         </ul>
     </div>
     <ul id="specify">
         <li [class]="favoTrips" (click)="changeActive()"> <i class="fa fa-globe"></i></li>
         <li [class]="favoUser" (click)="changeActive()"><ion-icon name="contact"></ion-icon>
-</li>
+        </li>
     </ul>
     <span id="message" [hidden]="!message">{{ message }}</span>
     <ion-scroll id="all-items" scrollX="true">
-    <ul>
-        <li *ngFor="#trip of all" [hidden]="!trip.location" (click)="goTrip(trip)">
-            <h1>{{ trip.location }}</h1>
-            <h2>{{ trip.sort }} / {{ trip.datetime | date:'yyyy' }}</h2>
-            <p>{{ (trip.text ? trip.text : "") | slice:0:75 }}...</p>
-            <span class="arrow"><ion-icon class="i" name="arrow-forward"></ion-icon></span>
-        </li>
-    </ul>
+        <ion-list  *ngFor="#trip of all" [hidden]="!trip.location" (click)="goTrip(trip)"> 
+            <ion-item-sliding>
+                <ion-item>
+                    <h1>{{ trip.location }}</h1>
+                    <h2>{{ trip.sort }} / {{ trip.datetime | date:'yyyy' }}</h2>
+                    <p>{{ (trip.text ? trip.text : "") | slice:0:30 }}...</p>
+                    <span class="arrow"><ion-icon class="i" name="arrow-forward"></ion-icon></span>
+                </ion-item>
+                <ion-item-options>
+                    <button secundary (click)="share()">
+                        <ion-icon name="more"></ion-icon>
+                        Share
+                    </button>
+                    <button danger (click)="delete(trip)">
+                        <ion-icon name="close"></ion-icon>
+                        Cancel
+                    </button>
+                </ion-item-options>
+            </ion-item-sliding>
+        </ion-list>
     </ion-scroll>
+
 </ion-content>

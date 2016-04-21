@@ -1,5 +1,3 @@
-
-
 // Page:        Photo wall connecting with Firebase & RXJS
 // Author:      Pieter-Jan Sas
 // Last update: 28/01/16
@@ -93,6 +91,7 @@ export class Home {
         // Load other images from other users         
         var ref = new Firebase(this.firebaseUrl).child('trips');
         ref.once("value", (snapshot) => {
+            
             this.array = [];
             var i = 1;
             var rand = Math.floor(Math.random() * snapshot.numChildren());

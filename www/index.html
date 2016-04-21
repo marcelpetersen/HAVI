@@ -26,7 +26,23 @@
     
   <!-- this Ionic's root component and where the app will load -->
   <ion-app></ion-app>
-  
+    <script>
+    window.fbAsyncInit = function() {
+      FB.init({
+        appId      : '1735591183389964',
+        xfbml      : true,
+        version    : 'v2.5'
+      });
+    };
+
+    (function(d, s, id){
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) {return;}
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/en_US/sdk.js";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+  </script>
   <script src="cordova.js"></script>
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDDELFl3WBuuCiUbyOkymLOs57OVdeyumo" async defer></script>
   <!--<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js"></script>-->

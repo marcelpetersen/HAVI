@@ -36,6 +36,10 @@ export class Add {
       this.images = observableFirebaseArray(new Firebase(this.firebaseUrl).child('trips').orderByChild('name').startAt(this.name).endAt(this.name).limitToLast(3));
       this.canUpdate = false;
       this.newalbum = true;
+      this.coords = {
+          lat:"",
+          lon:""
+      }
       this.data = params.get('data');
       if(this.data){
           this.pickTrip(this.data);
@@ -43,6 +47,7 @@ export class Add {
       this.tabBarElement = document.querySelector('tabbar');
   }
   uploadPicture(evt){
+
        this.tabBarElement.style.display = 'none';
         this.visiblePicture = false;
         var f = evt.target.files[0];
@@ -50,23 +55,21 @@ export class Add {
         reader.onload = ((theFile) => {
                 return (e) => {
                     this.previewImage = e.target.result;
+                    
                     // FIND EXIF
-                    this.Exif();
+                    this.Exif(evt.target.files[0]);
             };
         })(f);
         reader.readAsDataURL(f);
     }
-    Exif(){
-            let img = document.getElementById('preview-image');
-                EXIF.getData(img, ()=> {
-                console.log(EXIF.pretty(img));
-                var lon = EXIF.getTag(img,"GPSLongitude");
-                var lat = EXIF.getTag(img,"GPSLatitude");
-                //console.log(lat);
-                //console.log(lon);
+    Exif(e){
+             //let img = document.getElementById('preview-image');
+            EXIF.getData(e, ()=> {
+                var lon = EXIF.getTag(e,"GPSLongitude");
+                var lat = EXIF.getTag(e,"GPSLatitude");
                 if(!lon || !lat) {
                         console.log('geen locatie');
-                        alert('Vul locatie in');
+                        //alert('Vul locatie in');
                 }
                 //utility funct based on https://en.wikipedia.org/wiki/Geographic_coordinate_conversion
                 var convertDegToDec = (arr) => {
@@ -76,16 +79,27 @@ export class Add {
                 lon = convertDegToDec(lon);
                 lat = convertDegToDec(lat);
                 //handle W/S
-                if(EXIF.getTag(this,"GPSLongitudeRef") === "W") lon = -1 * lon;
-                if(EXIF.getTag(this,"GPSLatitudeRef") === "S") lat = -1 * lat;
+                if(EXIF.getTag(e,"GPSLongitudeRef") === "W") lon = -1 * lon;
+                if(EXIF.getTag(e,"GPSLatitudeRef") === "S") lat = -1 * lat;
+                
+                this.coords = {
+                    lat: lat,
+                    lon:lon
+                };
                 
             var geocoder = new google.maps.Geocoder();
             let latlng = new google.maps.LatLng(lat, lon);
-                geocoder.geocode({'location': latlng}, (results, status) => {
+            geocoder.geocode({'location': latlng}, (results, status) => {
+                
                     if (status === google.maps.GeocoderStatus.OK) {
-                    if (results[1]) {
-                            // hier komt adress
-                            this.locate = results[0].formatted_address;
+                    if (results[0]) {
+                        console.log(results);
+                            if(results[5]){
+                                this.locate = results[5].formatted_address;
+                                
+                            }else{
+                                this.locate = results[0].formatted_address;
+                            }
                     } else {
                         window.alert('No results found');
                     }
@@ -94,66 +108,70 @@ export class Add {
                     }
                 });
             });
+            
     }
     getPicture(){
-    if(this.locate){
-        console.log('hier');
-        this.visiblePicture = true;
-        this.tabBarElement.style.display = 'flex';
-    var data = JSON.stringify({"image":this.previewImage});
-    var headers = new Headers();
-    headers.append('Content-Type', 'application/json');
-    this.http.post('/upload.php', data ,{ headers: headers })
-    .subscribe(
-        data => {
-            this.firebaseUrl = Firebase_const.API_URL;
-            this.name = localStorage.getItem('user');
-            if(!this.chosen){
-                var ref = new Firebase(this.firebaseUrl).child('trips');
-                // Push item to firebase URL (ref)
-                var newId = ref.push({
-                        name: this.name.toLowerCase(),
-                        location: this.locate.toLowerCase(),
-                        src: "http://stuart-nieuwpoort.be/uploads/" + data._body + ".jpeg", //this.previewImage
-                        datetime: Firebase.ServerValue.TIMESTAMP,
-                        sort: "roadtrip",
-                        text: this.smallText.toLowerCase()
-                }); 
-                this.chosen = newId;
-                if(this.chosen){
-                var ref = new Firebase(this.firebaseUrl).child('trips')
-                    .child(this.chosen.path.o[1])
-                    .child('pictures');
-                                            
-                    // Push item to firebase URL (ref)
-                    ref.push({
-                            name: this.name.toLowerCase(),
-                            location: this.locate.toLowerCase(),
-                            src: "http://stuart-nieuwpoort.be/uploads/"  + data._body + ".jpeg", //this.previewImage
-                            datetime: Firebase.ServerValue.TIMESTAMP,
-                            text: this.smallText.toLowerCase()
-                    }); 
-                }
-            }else{
-                var ref = new Firebase(this.firebaseUrl).child('trips')
-                    .child(this.chosen)
-                    .child('pictures');
-                                        
-                // Push item to firebase URL (ref)
-                ref.push({
-                        name: this.name.toLowerCase(),
-                        location: this.locate.toLowerCase(),
-                        src: "http://stuart-nieuwpoort.be/uploads/"  + data._body + ".jpeg", 
-                        datetime: Firebase.ServerValue.TIMESTAMP
-                }); 
-            }
-            this.images = observableFirebaseArray(new Firebase(this.firebaseUrl).child('trips').orderByChild('name').startAt(this.name).endAt(this.name).limitToLast(3));
-        },
-        err => console.log(err)
-        );
-    }else{
-        this.focusLocate =! this.focusLocate;
-    }
+        if(this.locate){
+            this.visiblePicture = true;
+            this.tabBarElement.style.display = 'flex';
+            var data = JSON.stringify({"image":this.previewImage});
+            var headers = new Headers();
+            headers.append('Content-Type', 'application/json');
+            this.http.post('/upload.php', data ,{ headers: headers })
+            .subscribe(
+                data => {
+                    this.firebaseUrl = Firebase_const.API_URL;
+                    this.name = localStorage.getItem('user');
+                    if(!this.chosen){
+                        var ref = new Firebase(this.firebaseUrl).child('trips');
+                        // Push item to firebase URL (ref)
+                        var newId = ref.push({
+                                name: this.name.toLowerCase(),
+                                location: this.locate.toLowerCase(),
+                                src: "http://stuart-nieuwpoort.be/uploads/" + data._body + ".jpeg", //this.previewImage
+                                datetime: Firebase.ServerValue.TIMESTAMP,
+                                sort: "roadtrip",
+                                text: this.smallText.toLowerCase(),
+                                coords: this.coords
+                        }); 
+                        this.chosen = newId;
+                        if(this.chosen){
+                        var ref = new Firebase(this.firebaseUrl).child('trips')
+                            .child(this.chosen.path.o[1])
+                            .child('pictures');
+                                                    
+                            // Push item to firebase URL (ref)
+                            ref.push({
+                                    name: this.name.toLowerCase(),
+                                    location: this.locate.toLowerCase(),
+                                    src: "http://stuart-nieuwpoort.be/uploads/"  + data._body + ".jpeg", //this.previewImage
+                                    datetime: Firebase.ServerValue.TIMESTAMP,
+                                    text: this.smallText.toLowerCase(),
+                                    coords: this.coords
+                            }); 
+                        }
+                    }else{
+                        var ref = new Firebase(this.firebaseUrl).child('trips')
+                            .child(this.chosen)
+                            .child('pictures');
+                                                
+                        // Push item to firebase URL (ref)
+                        ref.push({
+                                name: this.name.toLowerCase(),
+                                location: this.locate.toLowerCase(),
+                                src: "http://stuart-nieuwpoort.be/uploads/"  + data._body + ".jpeg",
+                                text: this.smallText.toLowerCase(),
+                                datetime: Firebase.ServerValue.TIMESTAMP,
+                                coords: this.coords
+                        }); 
+                    }
+                    this.images = observableFirebaseArray(new Firebase(this.firebaseUrl).child('trips').orderByChild('name').startAt(this.name).endAt(this.name).limitToLast(3));
+                },
+                err => console.log(err)
+                );
+        }else{
+            this.focusLocate =! this.focusLocate;
+        }
     }
     cancel(){
         if(this.visiblePicture === false){
@@ -247,7 +265,6 @@ export class Add {
                                 name: this.name.toLowerCase(),
                                 location: noteLocation.toLowerCase(),
                                 datetime: Firebase.ServerValue.TIMESTAMP,
-                                sort: "roadtrip",
                                 text: this.longText.toLowerCase()
                         }); 
                     }
@@ -282,6 +299,7 @@ export class Add {
         });
         
         Geolocation.getCurrentPosition().then((position) => {
+            this.coords = position.coords;
                 let map = new google.maps.Map(mapEle, {
                     center: {lat: position.coords.latitude, lng: position.coords.longitude},
                     zoom: 14
@@ -297,7 +315,13 @@ export class Add {
                             console.log(results);
                             if (status === google.maps.GeocoderStatus.OK) {
                             if (results[1]) {
-                                this.mapLocation = results[0].formatted_address;
+                                if(results[6]){
+                                    this.mapLocation = results[6].formatted_address;
+                                }else if(results[5]){
+                                    this.mapLocation = results[5].formatted_address;
+                                }else{
+                                    this.mapLocation = results[0].formatted_address;
+                                }
                             } else {
                                 window.alert('No results found');
                             }
@@ -312,6 +336,10 @@ export class Add {
     }
     getLocation(mapLocation){
         if(mapLocation != ""){
+            this.coords = {
+                lat: this.coords.latitude,
+                lon: this.coords.longitude
+            }
             this.firebaseUrl = Firebase_const.API_URL;
             this.name = localStorage.getItem('user');
             if(!this.chosen){
@@ -322,7 +350,8 @@ export class Add {
                             location: mapLocation.toLowerCase(),
                             datetime: Firebase.ServerValue.TIMESTAMP,
                             sort: "roadtrip",
-                            text: this.smallText.toLowerCase()
+                            text: this.smallText.toLowerCase(),
+                            coords: this.coords
                     }); 
                     this.chosen = newId;
                     if(this.chosen){
@@ -334,8 +363,8 @@ export class Add {
                                 name: this.name.toLowerCase(),
                                 location: mapLocation.toLowerCase(),
                                 datetime: Firebase.ServerValue.TIMESTAMP,
-                                sort: "roadtrip",
-                                text: this.smallText.toLowerCase()
+                                text: this.smallText.toLowerCase(),
+                                coords: this.coords
                         }); 
                     }
                 }else{
@@ -348,7 +377,8 @@ export class Add {
                             name: this.name.toLowerCase(),
                             location: mapLocation.toLowerCase(),
                             datetime: Firebase.ServerValue.TIMESTAMP,
-                            text: this.smallText.toLowerCase()
+                            text: this.smallText.toLowerCase(),
+                            coords: this.coords
                     }); 
                 }
                 this.visibleMap = true;

@@ -77,22 +77,31 @@ export class Login {
                     email    : this.email,
                     password : this.password
                 }, (error, authData) => {
-                if (error) {
-                    //console.log("Login Failed!", error);
-                    this.error = "User doesn't exist";
-                } else {
-                    //console.log("Authenticated successfully with payload:", authData);
+                    console.log(authData);
+                    if (error) {
+                        var ref = this.firebaseUrl.child('users').orderByChild('email').startAt(this.email).endAt(this.email);
+                        ref.on('value',(snap) => {
+                            if(snap.exists() === true){
+                                this.error = "Login with facebook";
+                            }else{
+                                this.error = "User doesn't exist";
+                            };
+                        });
+                    }else {
                     var ref = this.firebaseUrl.child('users').orderByChild('email').startAt(this.email).endAt(this.email);
-                    ref.on('value',(snap) => {
-                        if(snap.exists() === true){
-                              localStorage.setItem('user', Object.keys(snap.val()));
-                               this.nav.push(TabsPage); 
-                        }else{
-                            localStorage.setItem('user',authData.uid);
+                        ref.on('value',(snap) => {
+                            if(snap.exists() === true){
+                                var key = Object.keys(snap.val())[0];
+                                localStorage.setItem('user', key);
+                                localStorage.setItem('name', snap.val()[key].name);
+                            }else{
+                                localStorage.setItem('user',authData.uid);
+                            };
+                            
                             this.nav.push(TabsPage);
-                        };
-                    });
-                }
+                        });
+                       
+                    }
                 });
             }else{
                 this.error = "No password/email";
@@ -122,10 +131,11 @@ export class Login {
                         ref.on('value',(snap) => {
                             if(snap.exists() === true){
                                 localStorage.setItem('user', Object.keys(snap.val()));
+                                localStorage.setItem('name', snap.val().name);
                             }else{
                                 localStorage.setItem('user',authData.uid);
                             };
-                             this.nav.push(TabsPage);
+                            this.nav.push(TabsPage);
                         });
                        
                     }
@@ -136,11 +146,9 @@ export class Login {
             this.error = "One second please";   
     }
     loginFacebook(){
-         this.angular = "One second please"; 
-
-               
+         this.angular = "One second please";                
         // Firebase Authentication Popup       
-            this.firebaseUrl.authWithOAuthToken("facebook","749773c5de551b6cc07a5a5a17b866f6",(error, authData)=> {
+            this.firebaseUrl.authWithOAuthPopup("facebook",(error, authData)=> {
                 if (error) {
                     if (error.code === "TRANSPORT_UNAVAILABLE") {
                     // fall-back to browser redirects, and pick up the session
@@ -164,6 +172,7 @@ export class Login {
                                     .set({ email: authData.facebook.email, name: authData.facebook.displayName});
                             localStorage.setItem('user', authData.facebook.id);
                             localStorage.setItem('picture', authData.facebook.profileImageURL);
+                            localStorage.setItem('name', authData.facebook.displayName);
                             this.nav.push(TabsPage); 
                         };
                     });

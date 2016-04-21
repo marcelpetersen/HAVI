@@ -117,7 +117,9 @@
                     text-align: center;
                 }
                 .image{
-                    max-width:100px;
+                    max-width: 100px;
+                    width: 100%;
+                    max-height: 80px;
                 }
                 h1{
                     position: relative;
@@ -145,8 +147,12 @@
                     float:left;
                     width:100%;
                     top:0;
+                    text-transform: uppercase;
                     &:after{
                         display: none;
+                    }
+                    span{
+                        
                     }
                 }
                 p{
@@ -156,6 +162,9 @@
                     position: relative;
                     float:left;
                     margin-top:0;
+                    &::first-letter{
+                        text-transform: uppercase;
+                    }
                 }
                 &:nth-child(2){
                     position: relative;
@@ -249,37 +258,24 @@
             line-height: 25px;
             height: 25px;
             margin:0;
-        }
-        ul{
-            position: relative;
-            padding:0;
-            margin:0;
-            li{
-                width:100%;
-                background-color: white;
-                border:1px solid $grey;
-                height: 30px;
-                line-height: 30px;
-                padding-left:10px;
-                text-transform: uppercase;
-                color:$brown;
+            &:after{
+                content:'';
             }
-        }
-        button{
-            width:100%;
-            border-radius: 0px;
-            background-color: $lightblue;
-            padding:0;
-            margin:0;
-            margin-bottom:20px;
         }
         input{
             width:100%;
+            position: absolute;
+            bottom:44px;
+            z-index: 2;
             border:1px solid $grey;
-            min-height: 30px;
+            min-height: 40px;
             font-size:15px;
             color:$brown;
             text-align: center;
+            display:block;
+            &:focus{
+                 border:1px solid $brown;
+            }
         }
         ::-webkit-input-placeholder { /* WebKit, Blink, Edge */
             color:   $grey;
@@ -299,12 +295,23 @@
         color:   $grey;
         } 
     }
+
+    #make{
+        width:80%;
+        position: absolute;
+        bottom:0;
+        left:0;
+        margin:0;
+        border-radius: 0px;
+        background-color: $lightblue;
+    }
     #cancel{
         bottom:0;
+        right:0%;
         position: absolute;
-        width:100%;
+        width:20%;
         border-radius: 0;
-        background-color: $red !important;
+        background-color: $red;
         margin:0;
     }
     .select-disabled{
@@ -312,5 +319,46 @@
     }
     .select-disabled .select-icon{
         display: none;
+    }
+    #choose-trip{
+        width:100%;
+        float:left;
+        color:$white;
+        margin:0;
+        li{
+            width:25%;
+            float:left;
+            background-color:$yellow;
+            text-align: center;
+            //line-height: 100px;
+            vertical-align: bottom;
+            min-height: 100px;
+            position: relative;
+            .image{
+               background-size: cover; 
+               background-repeat: no-repeat;
+               background-position: center center;
+               min-height:100px;
+               width:100%;
+               position: relative;
+            }
+            &:after{
+                position: absolute;
+                top:0;
+                right:0;
+                left:0;
+                bottom:0;
+                content:'';
+                background-color: rgba(0,0,0,0.3);
+            }
+            span{
+                position:absolute;
+                bottom:10px;
+                left:0;
+                right:0;
+                opacity: 0.7;
+                z-index: 1;
+            }
+        }  
     }
 }

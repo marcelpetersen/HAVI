@@ -8,6 +8,9 @@
     fill:$white;
 }
 .home{
+    scroll-content{
+        z-index: 2;
+    }
  .screen{
      position: absolute;
      top:0;
@@ -266,7 +269,15 @@ h2.error{
         color:#fff;
     }
     
-    
+    .extra{
+        height:76%;
+        &:after{
+           padding: 4px 7px 2px 5px;
+        }
+        li{
+            height:33.33%;
+        }
+    }
     // EXCEPTION
     .less{
         height:24%;

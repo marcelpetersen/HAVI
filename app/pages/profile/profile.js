@@ -2,18 +2,19 @@
 // Author:      Pieter-Jan Sas
 // Last update: 28/01/16
 
-import { Page, NavController, NavParams } from 'ionic-angular';
+import { Page, NavController, NavParams, Alert } from 'ionic-angular';
 import { Observable } from 'rxjs/Observable';
 import { observableFirebaseArray } from 'angular2-firebase';
 import { Firebase_const } from '../../const';
-//import { Pipe} from 'angular2/core';
 import { Settings } from '../settings/settings';
 import { Trip } from '../trip/trip';
 import { Part } from '../trip.part/trip.part';
-
+import { Here } from '../../pipes/pipe';
+import {SocialSharing} from 'ionic-native';
 
 @Page({
-  templateUrl: 'build/pages/profile/profile.html'
+  templateUrl: 'build/pages/profile/profile.html',
+  pipes: [Here]
 })
 
 export class Profile {
@@ -25,30 +26,31 @@ export class Profile {
         this.firebaseUrl = Firebase_const.API_URL;
         this.data = params.get('data');
         this.user = localStorage.getItem('user');
+        
         this.favoTrips = "active";
         
         if(this.data && this.data != this.user){
             this.name = this.data;
             this.notMyProfile = true; 
             //TODO: Change this picture to profile picture user
-            this.profileImg = "http://stuart-nieuwpoort.be/uploads/5707639af0da4.jpeg"; 
+            this.profileImg = "http://stuart-nieuwpoort.be/uploads/f88c93d6f24c95941c878002467d670d.jpeg"; 
             //localStorage.getItem('picture'); 
             this.tripFavourite();
         }else{
             this.name = localStorage.getItem('user');
             this.notMyProfile = false;
-            this.profileImg = "http://stuart-nieuwpoort.be/uploads/5707639af0da4.jpeg"; 
-            //this.profileImg = JSON.parse(localStorage.getItem('firebase:session::havi')).password.profileImageURL; 
+            this.profileImg = localStorage.getItem('picture');
+            if(!this.profileImg){
+                this.profileImg = "http://stuart-nieuwpoort.be/uploads/f88c93d6f24c95941c878002467d670d.jpeg";
+            }
         }
 
         this.numberOfTrips();
-        
     }
     goSettings(){
         this.nav.push(Settings);
     }
     goTrip(e){
-        //console.log(e);
         this.nav.push(Trip,{data:e});
     }
     heartUser(){
@@ -145,8 +147,8 @@ export class Profile {
     tripFavourite(){
             // Favourite trip
             var ref = new Firebase(this.firebaseUrl)
-                            .child('users').child(this.user).child('favourites_users');
-            ref.once("value",snapshot => {
+                            .child('users').child(this.user);
+            ref.child('favourites_users').once("value",snapshot => {
                 // Check if favourite
                 snapshot.forEach(childSnapshot => {
                         if(childSnapshot.val() === this.name){
@@ -164,20 +166,51 @@ export class Profile {
                this.message = "At the moment you don't have a trip";
            }
        });
-       
+       var newRef = new Firebase(this.firebaseUrl).child('users').child(this.user);
+       newRef.child('favourites').once("value",snapshot => {
+            this.following = snapshot.numChildren(); 
+            if(!this.following){
+                this.following = 0;
+            }
+        });
+        newRef.child('got_favourites').once("value",snapshot => {
+            this.followers = snapshot.numChildren(); 
+            if(!this.followers){
+                this.followers = 0;
+            }
+        });
     }
     goBack(){
-        console.log('hier');
         this.nav.pop();
     }
-    
+    share(){
+            FB.ui({
+            method: 'share',
+            href: 'https://havi.firebaseapp.com/',
+            }, function(response){});
+        //SocialSharing.share("message","subject","http://localhost:8100/","http://localhost:8100/");
+    }
+    delete(e){
+        let confirm = Alert.create({
+            title: 'Confirm delete...',
+            message: 'Are you sure you want to delete this trip?',
+            buttons: [
+                {
+                text: 'Cancel',
+                role: 'destructive',
+                handler: () => {
+                    //console.log('Disagree clicked');
+                }
+                },
+                {
+                text: 'Delete',
+                handler: () => {
+                    var ref = new Firebase(this.firebaseUrl).child('users').child(this.user).child('created_users').child(e.$$fbKey);
+                    ref.remove();
+                }
+                }
+            ]
+            });
+            this.nav.present(confirm);
+    }
 }
-/*
-
-// Doesn't work because of the async 
-@Pipe({name: 'count'})
-export class count {
- transform(value){
-     return value;
- }
-}*/

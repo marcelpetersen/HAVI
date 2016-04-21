@@ -61,6 +61,10 @@
 		65DCC39A98C34554B9639DA7 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2B4FCF8D30C4908B1E70242 /* AddressBook.framework */; };
 		4D8FCF38C41545B4A5467C26 /* libsqlite3.tbd in Resources */ = {isa = PBXBuildFile; fileRef = B0E938D7D392484ABFB82D90 /* libsqlite3.tbd */; };
 		6CAA62FEC224429A9696CCF7 /* libz.tbd in Resources */ = {isa = PBXBuildFile; fileRef = 5EA466E9272D481DB8CA5F5E /* libz.tbd */; };
+		601C548F8748410AAC4B107C /* NSString+URLEncoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 339BB67691A14293915CEF50 /* NSString+URLEncoding.m */; };
+		8DED8DCBC59B475995A78FEB /* SocialSharing.m in Sources */ = {isa = PBXBuildFile; fileRef = AA68791C6C874477ACD1164B /* SocialSharing.m */; };
+		4C0ACB489989421EA20D6E83 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FCFA20A8AB844963856B90CE /* Social.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		73F7F7FDD39C4BCE9693AE1B /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EAC47DCAB54F4024842C23BE /* MessageUI.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -173,6 +177,12 @@
 		D2B4FCF8D30C4908B1E70242 /* AddressBook.framework */ = {isa = PBXFileReference; name = "AddressBook.framework"; path = "System/Library/Frameworks/AddressBook.framework"; sourceTree = SDKROOT; fileEncoding = undefined; lastKnownFileType = wrapper.framework; explicitFileType = undefined; includeInIndex = 0; };
 		B0E938D7D392484ABFB82D90 /* libsqlite3.tbd */ = {isa = PBXFileReference; name = "libsqlite3.tbd"; path = "libsqlite3.tbd"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		5EA466E9272D481DB8CA5F5E /* libz.tbd */ = {isa = PBXFileReference; name = "libz.tbd"; path = "libz.tbd"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		339BB67691A14293915CEF50 /* NSString+URLEncoding.m */ = {isa = PBXFileReference; name = "NSString+URLEncoding.m"; path = "cordova-plugin-x-socialsharing/NSString+URLEncoding.m"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; explicitFileType = undefined; includeInIndex = 0; };
+		AA68791C6C874477ACD1164B /* SocialSharing.m */ = {isa = PBXFileReference; name = "SocialSharing.m"; path = "cordova-plugin-x-socialsharing/SocialSharing.m"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; explicitFileType = undefined; includeInIndex = 0; };
+		6F3D40BC63964CA29B69806F /* NSString+URLEncoding.h */ = {isa = PBXFileReference; name = "NSString+URLEncoding.h"; path = "cordova-plugin-x-socialsharing/NSString+URLEncoding.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
+		FFC879EF5F5D439D99DDCF06 /* SocialSharing.h */ = {isa = PBXFileReference; name = "SocialSharing.h"; path = "cordova-plugin-x-socialsharing/SocialSharing.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
+		FCFA20A8AB844963856B90CE /* Social.framework */ = {isa = PBXFileReference; name = "Social.framework"; path = "System/Library/Frameworks/Social.framework"; sourceTree = SDKROOT; fileEncoding = undefined; lastKnownFileType = wrapper.framework; explicitFileType = undefined; includeInIndex = 0; };
+		EAC47DCAB54F4024842C23BE /* MessageUI.framework */ = {isa = PBXFileReference; name = "MessageUI.framework"; path = "System/Library/Frameworks/MessageUI.framework"; sourceTree = SDKROOT; fileEncoding = undefined; lastKnownFileType = wrapper.framework; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -215,6 +225,8 @@
 				65DCC39A98C34554B9639DA7 /* AddressBook.framework in Frameworks */,
 				4D8FCF38C41545B4A5467C26 /* libsqlite3.tbd in Resources */,
 				6CAA62FEC224429A9696CCF7 /* libz.tbd in Resources */,
+				4C0ACB489989421EA20D6E83 /* Social.framework in Frameworks */,
+				73F7F7FDD39C4BCE9693AE1B /* MessageUI.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -318,6 +330,8 @@
 				D2B4FCF8D30C4908B1E70242 /* AddressBook.framework */,
 				B0E938D7D392484ABFB82D90 /* libsqlite3.tbd */,
 				5EA466E9272D481DB8CA5F5E /* libz.tbd */,
+				FCFA20A8AB844963856B90CE /* Social.framework */,
+				EAC47DCAB54F4024842C23BE /* MessageUI.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -382,6 +396,10 @@
 				4FA979DA0D2D480683C4BC49 /* GCMReceiverDelegate.h */,
 				D22946D957F44D4FA6B4AF27 /* GCMService.h */,
 				6F6A51E2EC5341119B5FD9B2 /* GoogleCloudMessaging.h */,
+				339BB67691A14293915CEF50 /* NSString+URLEncoding.m */,
+				AA68791C6C874477ACD1164B /* SocialSharing.m */,
+				6F3D40BC63964CA29B69806F /* NSString+URLEncoding.h */,
+				FFC879EF5F5D439D99DDCF06 /* SocialSharing.h */,
 			);
 			name = Plugins;
 			path = "V2 Test/Plugins";
@@ -508,6 +526,8 @@
 				6CF1FAD42B554DF6B1C33630 /* FacebookConnectPlugin.m in Sources */,
 				3677396E63C04B309DD96B68 /* AppDelegate+notification.m in Sources */,
 				8340C4B3EC23431AB0B18E55 /* PushPlugin.m in Sources */,
+				601C548F8748410AAC4B107C /* NSString+URLEncoding.m in Sources */,
+				8DED8DCBC59B475995A78FEB /* SocialSharing.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

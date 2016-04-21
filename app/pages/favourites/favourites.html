@@ -12,7 +12,6 @@
         <li [class]="favoUser" (click)="changeActive()"><ion-icon name="contact"></ion-icon></li>
     </ul>
     <ion-scroll id="all-items" scrollX="true">
-    
     <ul [hidden]="!favoTrips">
        <li id="message" [hidden]="showNullFavo">No favourites trips...</li>
         <li *ngFor="#trip of allFavourites" [hidden]="!trip.location" (click)="goTrip(trip)">
@@ -25,7 +24,7 @@
     <ul [hidden]="favoTrips">
         <li id="message" [hidden]="showNull">No favourites users...</li>
         <li *ngFor="#usr of allUsers" [hidden]="!usr.name" (click)="goProfile(usr.name)">
-            <h1>{{ usr.name }}</h1>
+            <h1 id="person-name" template="ngFor #name of (usr.name | Here) | async;#i = index" [hidden]="i > 0">{{name}}</h1>
             <h2>{{ usr.num }} Trips</h2>
             <p>Click to see the trips</p>
             <span class="arrow"><ion-icon class="i" name="arrow-forward"></ion-icon></span>

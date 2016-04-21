@@ -1,16 +1,11 @@
 <ion-navbar *navbar>
-  <ion-buttons start >
-      <button (click)="goBack()">
-          <ion-icon name="arrow-back"></ion-icon>
-      </button>
-  </ion-buttons>
   <ion-title>
         <img src="build/images/logo.png" height="30px" width="30px" alt="" />
     </ion-title>
 </ion-navbar>
 <ion-content class="part" has-header="false">
     <div id="trip-buttons">
-        <span class="contact" ><ion-icon name="contact"></ion-icon> {{ data.name }}</span>
+        <span class="contact" template="ngFor #name of (data.name | Here) | async;#i = index" [hidden]="(i>0)"><ion-icon name="contact"></ion-icon><p>{{ name }}</p></span>
         
         <ion-icon class="heart" ios="ios-heart-outline" md="md-heart-outline"></ion-icon>
         <div id="trip-head" [hidden]="!data.src">

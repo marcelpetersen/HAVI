@@ -29,6 +29,8 @@ export class Settings {
     }
     logOut(){
         localStorage.removeItem('user');
+        localStorage.removeItem('name');
+        localStorage.removeItem('picture');
         location.reload();
     }
     onPageWillEnter(){

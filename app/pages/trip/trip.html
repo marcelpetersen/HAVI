@@ -8,11 +8,14 @@
         <img src="build/images/logo.png" height="30px" width="30px" alt="" />
   </ion-title>
   <ion-buttons end>
-    <button [hidden]="heart === true" (click)="heart =! heart">
-        <ion-icon class="top-heart" ios="ios-heart-outline" md="md-heart-outline" (click)="favouriteTrip()"></ion-icon>
+    <button [hidden]="data.name === user ? 'true' : heart === true" (click)="heart =! heart">
+        <ion-icon class="top-heart" ios="ios-heart-outline" md="md-heart-outline"></ion-icon>
     </button>
-    <button [hidden]="heart != true" (click)="heart =! heart">
-        <ion-icon class="top-heart" ios="ios-heart" md="md-heart-outline" (click)="favouriteTrip()"></ion-icon>
+    <button [hidden]="data.name === user ? 'true' : heart != true" (click)="heart =! heart">
+        <ion-icon class="top-heart" ios="ios-heart" md="md-heart-outline"></ion-icon>
+    </button>
+    <button [hidden]="data.name != user"  (click)="editTrip()">
+        <ion-icon ios="ios-more" md="md-more"></ion-icon>
     </button>
   </ion-buttons>
 </ion-navbar>
@@ -31,7 +34,7 @@
                             <ion-icon ios="ios-add" md="md-add"></ion-icon>
                          </span>
                     </h1>
-                    <h2 (click)="goPart(trip)"><i class="fa fa-map-marker"></i> {{ trip.location }}</h2>
+                    <h2 (click)="goPart(trip)"><i class="fa fa-map-marker"></i> <span>{{ trip.location }}</span></h2>
                     <p (click)="goPart(trip)">{{( trip.text ? trip.text : "") | slice:0:100}}...</p>
                 </div>
             </div>
@@ -40,7 +43,7 @@
     <ion-list id="kind-trip">
         <ion-item>
             <ion-label>What kind of travel is this?</ion-label>
-            <ion-select [disabled]="buttonDisabled" [(ngModel)]="tripkind" multiple="false" cancelText="Cancel" okText="Ok">
+            <ion-select [disabled]="buttonDisabled" [(ngModel)]="tripkind" (select)="changeSelected()" multiple="false" cancelText="Cancel" okText="Ok">
             <ion-option value="beachttrip">Beachtrip</ion-option>
             <ion-option value="citytrip">Citytrip</ion-option>
             <ion-option value="roadtrip">Roadtrip</ion-option>
@@ -52,16 +55,20 @@
     <div id="back" (click)="goBackHome()">
         <i class="fa fa-chevron-left"></i>
     </div>
-    <div id="add" (click)="addThree()" [hidden]="user != data.name">
+    <div id="add" (click)="addThree()" [hidden]="user != data.name || data.self_made === true">
         <i class="fa fa-plus"></i>
     </div>
     <div id="piece" [hidden]="showPiece">
-        <input type="text" [ngClass]="{focus: focusLocate}" [(ngModel)]="tripName" placeholder="Give te trip a name?">
-        <button (click)="addPart()">Make new trip</button>
-        <h2 [hidden]="!all">or pick a trip?</h2>
-        <ul [hidden]="!all">
-            <li *ngFor="#piece of all" (click)="addPart(piece)">{{ piece.location }}</li>
+        <h2 [hidden]="!all">Pick a trip?</h2>
+        <ul [hidden]="!all" id="choose-trip">
+            <li *ngFor="#piece of all" (click)="addPart(piece)">
+                <div class="image"  [ngStyle]="piece.src ? {'background-image': 'url(' + piece.src + ')'} : {'background-image': 'url(' + standardPicture + ')'}" (click)="goToTrip(img)"></div>
+                <span>{{piece.location | slice:0:25}} <br /> {{piece.datetime | date:'yyyy'}}</span>
+            </li>
         </ul>
-        <button id="cancel" (click)="cancelIt()">Cancel</button>
+        <input type="text" [ngClass]="{focus: focusLocate}" [(ngModel)]="tripName" placeholder="Give the new trip a title?">
+        <button id="make"(click)="addPart()">Make new trip</button>
+        <button id="cancel" (click)="cancelIt()"> <ion-icon name="close"></ion-icon>
+</button>
     </div>
 </ion-content>

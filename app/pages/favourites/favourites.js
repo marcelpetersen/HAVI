@@ -7,10 +7,11 @@ import { observableFirebaseArray } from 'angular2-firebase';
 import { Firebase_const } from '../../const';
 import { Trip } from '../trip/trip';
 import { Profile } from '../profile/profile';
-
+import { Here } from '../../pipes/pipe';
 
 @Page({
-  templateUrl: 'build/pages/favourites/favourites.html'
+  templateUrl: 'build/pages/favourites/favourites.html',
+  pipes: [Here]
 })
 
 export class Favourites {
@@ -51,17 +52,12 @@ export class Favourites {
                      .child('users').child(this.name).child('favourites_users');
             ref.once('value', data =>{
                 if(data.val()){
+                    this.showNull = true;
                     data.forEach(user => {
                         this.user = user.val();
                             var ref = new Firebase(this.firebaseUrl).child('trips').orderByChild("name").startAt(this.user).endAt(this.user);
                             ref.once('value',val => {
                                 this.num = val.numChildren();
-                                console.log(this.num);
-                                if(this.num === 0){
-                                    this.showNull = true;
-                                }else{
-                                    this.showNull = false;
-                                }
                                 this.allUsers.push({name:this.user, num: this.num});
                             });
                         });  
@@ -75,17 +71,13 @@ export class Favourites {
                      .child('users').child(this.name).child('favourites');
             ref.once('value',data =>{
                if(data.val()){
+                   this.showNullFavo = true;
                 data.forEach(favo => {
                     var ref = new Firebase(this.firebaseUrl)
-                        .child('trips').child(favo.val());
+                        .child('trips').child(favo.val().key);
                     ref.once('value', one => {
                         this.num = one.numChildren();
-                            if(this.num === 0){
-                                this.showNullFavo = false;
-                            }else{
-                                this.showNullFavo = true;
-                            }
-                            this.value = one.val()
+                            this.value = one.val();
                             if(this.value){
                                 this.value.$$fbKey = one.key();
                                 this.allFavourites.push(this.value);
@@ -93,7 +85,7 @@ export class Favourites {
                         });      
                     });
                 }else{
-                    this.showNull = false;
+                    this.showNullFavo = false;
                 }
             });
         }

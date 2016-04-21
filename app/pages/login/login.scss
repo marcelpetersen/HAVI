@@ -54,6 +54,7 @@ form{
         border:0;
         background-color: #333;
         margin:0;
+       
     }
 }
 #facebook{
@@ -104,6 +105,7 @@ form{
         border-radius: 0;
         -webkit-appearance: none;
         -webkit-border-radius:0px;
+         -webkit-writing-mode:inherit  !important;
     }
     input:-webkit-autofill{
         -webkit-box-shadow: 0 0 0px 1000px $white inset;
