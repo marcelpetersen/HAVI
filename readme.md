@@ -1,6 +1,9 @@
 HAVI
 ==================
-HAVI is your newest travel diary that is always in reach. You'll remember every detail of your most epic travel through the country. With pictures, memo notes and detailed locations on a map you will create the best diary to retell your stories. Explore here how its works.
+HAVI is your newest travel diary that is always in reach. You'll remember every detail of your most epic travel trip through the country. With pictures, memo notes and detailed locations on a map you will create the best diary to retell your stories. Explore here how its works.
+
+
+HAVI is your newest travel diary that is always in reach. The application let you post your travel trips and share it with family and friends all around the world. Relive every second of your trip and someone else's trip whenever you want through pictures, memo notes and detailed locations.
 
 
 Frameworks
@@ -27,7 +30,17 @@ Test website
 
 ERRORS
 ------------------
-
+ - ionic-config.json problem .. gulp server niet draai niet mee
+ - Versions: 
+    "angular2": "2.0.0-beta.15",
+    "es6-promise": "3.0.2",
+    "es6-shim": "^0.35.0",
+    "ionic-angular": "2.0.0-beta.5",
+    "ionic-native": "^1.1.0",
+    "ionicons": "3.0.0-alpha.3",
+    "reflect-metadata": "0.1.2",
+    "rxjs": "5.0.0-beta.2",
+    "zone.js": "0.6.12"
 
 
 ATM

@@ -40,6 +40,7 @@ export class Add {
           lat:"",
           lon:""
       }
+      this.private = localStorage.getItem('private');
       this.data = params.get('data');
       if(this.data){
           this.pickTrip(this.data);
@@ -47,7 +48,7 @@ export class Add {
       this.tabBarElement = document.querySelector('tabbar');
   }
   uploadPicture(evt){
-
+      console.log(evt);
        this.tabBarElement.style.display = 'none';
         this.visiblePicture = false;
         var f = evt.target.files[0];
@@ -55,7 +56,6 @@ export class Add {
         reader.onload = ((theFile) => {
                 return (e) => {
                     this.previewImage = e.target.result;
-                    
                     // FIND EXIF
                     this.Exif(evt.target.files[0]);
             };
@@ -132,7 +132,8 @@ export class Add {
                                 datetime: Firebase.ServerValue.TIMESTAMP,
                                 sort: "roadtrip",
                                 text: this.smallText.toLowerCase(),
-                                coords: this.coords
+                                coords: this.coords,
+                                private:this.private
                         }); 
                         this.chosen = newId;
                         if(this.chosen){
@@ -187,6 +188,7 @@ export class Add {
             this.smallText = "";
             this.visibleMap = true;
         }
+        this.tabBarElement.style.display = 'flex';
         document.getElementById('preview-image').innerHTML = "";
     }
     pickTrip(e){
@@ -238,6 +240,7 @@ export class Add {
         this.locate = "";
     }
     addNote(){
+        this.tabBarElement.style.display = 'none';
         this.visibleNote = false;
     }
     getNote(longText, noteLocation){
@@ -245,7 +248,6 @@ export class Add {
             this.firebaseUrl = Firebase_const.API_URL;
             this.name = localStorage.getItem('user');
             if(!this.chosen){
-                console.log('hier');
                     var ref = new Firebase(this.firebaseUrl).child('trips');
                     // Push item to firebase URL (ref)
                         var newId = ref.push({
@@ -253,7 +255,8 @@ export class Add {
                             location: noteLocation.toLowerCase(),
                             datetime: Firebase.ServerValue.TIMESTAMP,
                             sort: "roadtrip",
-                            text: this.longText.toLowerCase()
+                            text: this.longText.toLowerCase(),
+                            private:this.private
                     }); 
                     this.chosen = newId;
                     if(this.chosen){
@@ -288,8 +291,10 @@ export class Add {
         }else{
                 this.focusLocate =! this.focusLocate;
         }
+        this.tabBarElement.style.display = 'flex';
     }  
     addLocation(){
+        this.tabBarElement.style.display = 'none';
     this.visibleMap = false;
         let mapEle = document.getElementById('map');
 
@@ -351,7 +356,8 @@ export class Add {
                             datetime: Firebase.ServerValue.TIMESTAMP,
                             sort: "roadtrip",
                             text: this.smallText.toLowerCase(),
-                            coords: this.coords
+                            coords: this.coords,
+                            private:this.private
                     }); 
                     this.chosen = newId;
                     if(this.chosen){
@@ -388,6 +394,7 @@ export class Add {
         }else{
                 this.focusLocate =! this.focusLocate;
         }
+        this.tabBarElement.style.display = 'flex';
     }
     takePicture(){
         this.visiblePicture = false;

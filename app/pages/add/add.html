@@ -17,12 +17,12 @@
     </ul>
     <h1>What do you want to add?</h1>
     <ul id="choose-type">
-        <li (click)="addLocation()"><i class="icon fa fa-map-marker"></i></li>
-        <li (click)="addNote()"><i class="icon fa fa-sticky-note-o"></i></li>
+        <li (click)="addLocation()"><ion-icon name="map"></ion-icon></li>
+        <li (click)="addNote()"><ion-icon name="document"></ion-icon></li>
         <li id="pic">
              <label class="myLabel" ><!--(click)="takePicture()"-->
                     <input [disabled]="error" style="width:100%" class="upload" id="house" type="file" accept="image/*" capture doc="house" name="files[]" multiple (change)="uploadPicture($event)" >                    
-                    <span><i class="icon fa fa-camera"></i></span>
+                    <span><ion-icon name="camera"></ion-icon></span>
              </label>
         </li>
     </ul>
@@ -36,24 +36,24 @@
     <button id="button-new" (click)="newAlbum()" [hidden]="newalbum">New album</button>
     <div class="confirm-screen" [hidden]="visiblePicture">
         <input type="text" [ngClass]="{focus: focusLocate}" [(ngModel)]="locate" placeholder="What is your location?">
-        <button (click)="cancel()" class="cancel-button"> <i class="fa fa-times"></i> </button>
+        <button (click)="cancel()" class="cancel-button"> <ion-icon name="close"></ion-icon></button>
         <img [src]="previewImage || '//:0'" id="preview-image">
         <textarea  [(ngModel)]="smallText" id="preview-text" placeholder="Describe here your picture"></textarea>
         <div class="button-middle">
-            <button (click)="getPicture(previewImage)" class="confirm-button"><i class="icon fa fa-camera"></i></button>
+            <button (click)="getPicture(previewImage)" class="confirm-button"><ion-icon name="camera"></ion-icon></button>
         </div>
     </div>
     <div id="note" [hidden]="visibleNote">
         <input type="text" [ngClass]="{focus: focusLocate}" [(ngModel)]="noteLocation" placeholder="What is your location?">
-         <button (click)="cancel()" class="cancel-button"> <i class="fa fa-times"></i> </button>
+         <button (click)="cancel()" class="cancel-button"> <ion-icon name="close"></ion-icon></button>
         <textarea  [(ngModel)]="longText" id="preview-text" placeholder="Describe here what you did today"></textarea>
         <div class="button-middle">
-             <button (click)="getNote(longText,noteLocation)" class="confirm-button"><i class="icon fa fa-sticky-note-o"></i></button>
+             <button (click)="getNote(longText,noteLocation)" class="confirm-button"><ion-icon name="document"></ion-icon></button>
         </div>
     </div>
     <div id="maps" [hidden]="visibleMap">
           <input type="text" [ngClass]="{focus: focusLocate}" [(ngModel)]="mapLocation" placeholder="What is your location?">
-          <button (click)="cancel()" class="cancel-button"><i class="fa fa-times"></i> </button>
+          <button (click)="cancel()" class="cancel-button"><ion-icon name="close"></ion-icon></button>
           <div id="map"></div>
            <textarea  [(ngModel)]="smallText" id="preview-text" placeholder="Describe here your location"></textarea>
            <div class="button-middle">

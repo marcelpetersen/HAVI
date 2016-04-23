@@ -1,6 +1,14 @@
 {  
   "name": "HAVI",
   "description": "HAVI is your newest travel diary that is always in reach. You'll remember every detail of your most epic travel through the country. With pictures, memo notes and detailed locations on a map you will create the best diary to retell your stories. Explore here how its works.",
+  "version": "1.0.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pieterjansas/havi.git"
+  },
+  "scripts": {
+    "link": "npm install"
+  },
   "dependencies": {
     "angular2": "2.0.0-beta.13",
     "es6-promise": "3.0.2",

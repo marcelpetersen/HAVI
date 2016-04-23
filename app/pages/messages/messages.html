@@ -1,14 +1,23 @@
 <ion-navbar *navbar>
+    <ion-buttons start *ngIf="!show">
+      <button (click)="goBack()">
+          <ion-icon name="arrow-back"></ion-icon>
+      </button>
+  </ion-buttons>
   <ion-title>
         <img src="build/images/logo.png" height="30px" width="30px" alt="" />
     </ion-title>
+    <ion-buttons end *ngIf="show" >
+      <button id="add-messages" (click)="addCity()">
+          <ion-icon name="add"></ion-icon>
+      </button>
+  </ion-buttons>
 </ion-navbar>
 <ion-content class="page3">
     <div class="picture">
         <h1>Ask a local</h1>
     </div>
     <span class="error" [hidden]="!error">{{error}}</span>
-    <span (click)="back()" [hidden]="show">Back</span>
     <div class="message-input" [hidden]="show">
     <input [disabled]="error" (keyup)="doneTyping($event)" [(ngModel)]="textMessage" placeholder="Enter a message...">
     <button (click)="send(textMessage)">Send</button>
@@ -16,14 +25,20 @@
     <div *ngIf="!cities">
         Loading...
     </div>
-    <ul [hidden]="!show">
-        <li class="cities" template="ngFor #latest of cities | async" (click)="chooseCity(latest)">
-            <strong>{{latest.name}}</strong>
+    <ul [hidden]="!show" id="city-list">
+        <li class="cities" template="ngFor #c of cities" (click)="chooseCity(c)">
+            <strong>{{c}}</strong>
         </li>
     </ul>
-    <ul [hidden]="show">
-        <li template="ngFor #latest of messages | async">
-            <strong>{{latest.name}} <small>{{latest.datetime}}</small> </strong> {{latest.text}}
-        </li>
-    </ul>
+    <ion-scroll id="scrollmessages" scrollX="true">
+        <ul [hidden]="show">
+            <li template="ngFor #m of (messages | async) | orderByDatePipe">
+                <h2>{{m.datetime | date:'dd/MM'}}</h2>
+                <div class="box">
+                    <h1 [class]="m.name === name ? 'own':''">{{((m.name | obfiPipe) | async)| namePipe}} </h1>
+                    <p>{{m.text}}</p>
+                </div>
+            </li>
+        </ul>
+    </ion-scroll>
 </ion-content>

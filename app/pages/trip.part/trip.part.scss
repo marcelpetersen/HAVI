@@ -57,15 +57,20 @@
             z-index:20;
             margin-top:-20px;
             cursor:pointer;
-            .fa{
-            width:40px;
-            height:40px;
-            border-radius: 40px;
-            background-color: $yellow;
-            color:$white;
-            text-align: center;
-            padding-top:12px;
-            font-size:20px;
+            .fa,.ion-ios-arrow-back{
+                width:40px;
+                height:40px;
+                border-radius: 40px;
+                background-color: $yellow;
+                color:$white;
+                text-align: center;
+                padding-top:9px;
+                font-size:25px;
+            }
+            .ion-ios-arrow-back{
+                font-size:30px;
+                padding-top:5px;
+                padding-right:10px;
             }
         } 
         #back-home{

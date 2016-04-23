@@ -2,6 +2,17 @@
     color:$white;
     font-size:30px;
 }
+#trip-nav{
+    .button{
+        margin:0;
+        padding: 0;
+        height: auto;
+        border-radius: 0px;
+        font-size: 1.6rem;
+        color: #fff;
+        background-color: transparent;
+    }
+}
 .trip{
     background-color: $white;
     #person{
@@ -219,9 +230,9 @@
         border-radius:30px;
         z-index:20;
         text-align: center;
-        padding-top:8px;
+        padding-top:1px;
         font-size:23px;
-        padding-right:5px;
+        padding-right:12px;
         cursor:pointer;
     }  
      #add{

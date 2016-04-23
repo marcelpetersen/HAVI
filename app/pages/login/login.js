@@ -52,7 +52,11 @@ export class Login {
                 } else {
                     console.log("Successfully created user account with uid:", userData.uid);
                      this.firebaseUrl.child('users').child(userData.uid)
-                            .set({ email: this.register.email, name: this.register.surname});
+                            .set({ 
+                                email: this.register.email, 
+                                name: this.register.surname.toLowerCase(),
+                                private:false
+                            });
                      // Clear all
                      this.login =! this.login;
                      this.email = this.register.email;

@@ -1,15 +1,17 @@
 // Page:        Photo wall connecting with Firebase & RXJS
 // Author:      Pieter-Jan Sas
 // Last update: 28/01/16
+// TODO: when nog lat, long & coords
 
 import { Page, NavParams, NavController } from 'ionic-angular';
 import { Maps } from '../maps/maps';
 import { StandardPicture } from '../../const';
-import { Here } from '../../pipes/pipe';
+import { obfiPipe } from '../../pipes/obfiPipe';
+import { namePipe } from '../../pipes/namePipe';
 
 @Page({
   templateUrl: 'build/pages/trip.part/trip.part.html',
-  pipes: [Here]
+  pipes: [[obfiPipe],[namePipe]]
 })
 
 export class Part {
@@ -27,7 +29,6 @@ export class Part {
         this.nav.pop();
     }
     goMaps(){
-        console.log(this.data);
         if(!this.data.coords || !this.data.coords.lat || !this.data.coords.lon){
             //this.nav.push(Maps,{location:this.data.location});
             console.log('Do something');

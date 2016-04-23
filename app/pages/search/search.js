@@ -7,9 +7,15 @@ import { Observable } from 'rxjs/Observable';
 import { observableFirebaseArray } from 'angular2-firebase';
 import { Firebase_const } from '../../const';
 import { Trip } from '../trip/trip';
+import { Profile } from '../profile/profile';
+
+// Pipes
+import { obfiPipe } from '../../pipes/obfiPipe';
+import { namePipe } from '../../pipes/namePipe';
 
 @Page({
-  templateUrl: 'build/pages/search/search.html'
+  templateUrl: 'build/pages/search/search.html',
+   pipes: [[obfiPipe],[namePipe]]
 })
 
 export class Search {
@@ -19,44 +25,89 @@ export class Search {
   constructor(nav) {
       this.nav = nav;
       this.firebaseUrl = Firebase_const.API_URL;
-      this.show = true;
       this.name = localStorage.getItem('user');
-      this.secondClass = "active";
-      this.firstClass = "middle";
-      this.cities = observableFirebaseArray(
-           new Firebase(this.firebaseUrl).child('cities').limitToLast(5));
+
+      this.queryLocations = [];
+      this.queryUsers = [];
+      this.favoTrips = "active";
   } 
   searchQeury($event){
     if($event.which === 13) {
         this.searchButton();
     }
   }
-  activeClass(e){
-       this.firstClass = "";
-       this.secondClass = "";
-       this.tirthClass = "";
-       switch (e) {
-           case 1:
-                  this.firstClass = "active";
-           break;
-           case 2:
-                  this.secondClass = "active";
-                  this.firstClass += "middle";
-           break;
-           case 3:
-                  this.tirthClass = "active";
-                  this.secondClass = "middle";
-               break;
-       }
+  changeActive(e){
+      this.message = "";
+        if(e === "trips"){
+            this.favoUser = "";
+            this.favoTrips = "active";
+        }else if(e === "users"){
+            this.favoUser = "active";
+            this.favoTrips = "";
+        }
   }
   goTrip(e){
     this.nav.push(Trip,{data:e});
   }
- 
   searchButton(){ 
-      // TODO: do also for users 
+     this.message = "";
+     if(this.favoTrips){
+         this.searchLocations();
+     }else if(this.favoUser){
+         this.searchUsers();
+     }
+   }
+  searchUsers(){
       if(this.textMessage){
-          this.querySearch = [];    
+          this.queryUsers = [];    
+          this.queryLocations = [];    
+          var first = this.textMessage.toLowerCase();
+          var ab = new Firebase(this.firebaseUrl).child('users')
+                .orderByChild("name")
+                .startAt(first)
+                .endAt(first);
+          var ref = new Firebase(this.firebaseUrl).child('users');
+          ref.once('value', snap => {
+                if(snap.val()){
+                     
+                    snap.forEach(data => {
+                         if(data.val().name.indexOf(first) > -1){
+                                //this.queryUsers.push(this.value);
+                                var ref = new Firebase(this.firebaseUrl).child('trips').orderByChild("name").startAt().endAt(this.user);
+                                ref.once('value',val => {
+                                    this.num = val.numChildren();
+                                    this.queryUsers.push({name:data.key(), num: this.num});
+                                });  
+                         }
+                    });
+                    ab.once('value', snapshot =>{
+                            if(snapshot.val()){
+                                    snapshot.forEach(snapshotData =>{
+                                        for(var key in this.queryLocations){
+                                            if(this.queryUsers[key].datetime != snapshotData.val().datetime){
+                                                this.value = snapshotData.val();
+                                                this.value.$$fbKey = snapshotData.key();
+                                                this.queryUsers.push(this.value);
+                                            }
+                                            break; 
+                                        }
+                                    });
+                             }
+                             if(this.queryUsers.length === 0){
+                                  this.message = "No users found, keep searching please.";
+                             }
+                    });
+                }
+            });
+      }else{
+          this.message = "Please, enter a trip or a user name.";
+      }
+  } 
+
+  searchLocations(){
+      if(this.textMessage){
+          this.queryLocations = [];    
+          this.queryUsers = [];    
           var first = this.textMessage.toLowerCase();
           var ab = new Firebase(this.firebaseUrl).child('trips')
                 .orderByChild("location")
@@ -64,36 +115,43 @@ export class Search {
                 .endAt(first);
 
           var ref = new Firebase(this.firebaseUrl).child('trips');
-          this.num = ref.once('value', snap => {
+          ref.once('value', snap => {
                 if(snap.val()){
                     snap.forEach(data => {
                          if(data.val().text.indexOf(first) > -1){
                                 this.value = data.val();
                                 this.value.$$fbKey = data.key();
-                                this.querySearch.push(this.value);
+                                this.queryLocations.push(this.value);
                          }
                     });
                     ab.once('value', snapshot =>{
-                                if(snapshot.val()){
+                            if(snapshot.val()){
                                     snapshot.forEach(snapshotData =>{
-                                        for(var key in this.querySearch){
-                                            if(this.querySearch[key].datetime != snapshotData.val().datetime){
-                                                console.log('yes');
+                                        for(var key in this.queryLocations){
+                                            if(this.queryLocations[key].datetime != snapshotData.val().datetime){
                                                 this.value = snapshotData.val();
                                                 this.value.$$fbKey = snapshotData.key();
-                                                this.querySearch.push(this.value);
+                                                this.queryLocations.push(this.value);
                                             }
+                                            
                                             break; 
                                         }
                                     });
                              }
+                             if(this.queryLocations.length === 0){
+                                 this.message = "No trips found, keep searching please.";
+                             }
                     });
-                }else{
-                    this.message = "I'm sorry ,we found 0 items.";
                 }
             });
-      }
-   }
+      }else{
+        this.message = "Please, enter a trip or a user name.";
+     }
+     
+  } 
+  goProfile(e){
+    this.nav.push(Profile,{data:e})
+  } 
 }
 
 

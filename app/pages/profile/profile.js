@@ -9,12 +9,15 @@ import { Firebase_const } from '../../const';
 import { Settings } from '../settings/settings';
 import { Trip } from '../trip/trip';
 import { Part } from '../trip.part/trip.part';
-import { Here } from '../../pipes/pipe';
-import {SocialSharing} from 'ionic-native';
+// Pipes
+import { obfiPipe } from '../../pipes/obfiPipe';
+import { namePipe } from '../../pipes/namePipe';
+
+import { SocialSharing } from 'ionic-native';
 
 @Page({
   templateUrl: 'build/pages/profile/profile.html',
-  pipes: [Here]
+  pipes: [[obfiPipe],[namePipe]]
 })
 
 export class Profile {
@@ -26,7 +29,7 @@ export class Profile {
         this.firebaseUrl = Firebase_const.API_URL;
         this.data = params.get('data');
         this.user = localStorage.getItem('user');
-        
+
         this.favoTrips = "active";
         
         if(this.data && this.data != this.user){
@@ -56,15 +59,15 @@ export class Profile {
     heartUser(){
         this.heart =! this.heart;
     }
-    changeActive(){
-        if(this.favoUser === "active"){
+    changeActive(e){
+        if(e === "trips"){
             this.favoUser = "";
             this.favoTrips = "active";
             this.chooseCreated();
-        }else{
+        }else if(e === "users"){
             this.favoUser = "active";
             this.favoTrips = "";
-             this.chooseCreated();
+            this.chooseCreated();
         }
     }
     onPageDidEnter(){
@@ -82,6 +85,8 @@ export class Profile {
                         this.value.$$fbKey = s.key();
                         this.all.push(this.value);
                     });
+                }else{
+                    this.message = "Upload all the trips you made so far.";
                 }
             });
        }else{
@@ -97,6 +102,8 @@ export class Profile {
                         this.value.$$fbKey = s.key();
                         this.all.push(this.value);
                     });
+                }else{
+                    this.message = "Plan a trip with experiences from others.";
                 }
             });
         }else{
@@ -105,8 +112,6 @@ export class Profile {
         }
        }
     }
-    
-    
     onPageDidLeave(){
         if(this.heart === true){
             var ref = new Firebase(this.firebaseUrl)
@@ -162,9 +167,6 @@ export class Profile {
        var ref = new Firebase(this.firebaseUrl).child('trips').orderByChild('name').startAt(this.name).endAt(this.name);
        ref.on('value',data =>{
            this.numberOfTrips = data.numChildren();
-           if(this.numberOfTrips === 0){
-               this.message = "At the moment you don't have a trip";
-           }
        });
        var newRef = new Firebase(this.firebaseUrl).child('users').child(this.user);
        newRef.child('favourites').once("value",snapshot => {
@@ -205,9 +207,10 @@ export class Profile {
                 {
                 text: 'Delete',
                 handler: () => {
-                    var ref = new Firebase(this.firebaseUrl).child('users').child(this.user).child('created_users').child(e.$$fbKey);
+                    var ref = new Firebase(this.firebaseUrl).child('users').child(this.user).child('created_trips').child(e.$$fbKey);
                     ref.remove();
-                }
+                    this.nav.pop();
+                    }
                 }
             ]
             });

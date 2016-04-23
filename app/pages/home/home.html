@@ -33,13 +33,13 @@
     </ion-refresher>
     <ul class="list" [class]="lessClass">
         <h2 [hidden]="!error" class="error">{{error}}</h2>
-        <li template="ngFor #img of images;#c = index" [hidden]="c > 2">
+        <li template="ngFor #img of images;#c = index" *ngIf="(c > 2)">
             <div class="image"  [ngStyle]="img.src ? {'background-image': 'url(' + img.src + ')'} : {'background-image': 'url(' + standardPicture + ')'}" (click)="goToTrip(img)"></div>
             <span>{{img.location}}</span>
         </li>
     </ul>
     <ul class="list2" [class]="extraClass">
-        <li template="ngFor #img of array;#amount = index" [hidden]="extraClass != 'list2 extra'? (amount > 5): (amount > 8)"> <!--template="ngFor #img of randomImages"-->
+        <li template="ngFor #img of array;#amount = index" *ngIf="extraClass === 'list2 extra'? (amount > 5) : (amount > 8)"> <!--template="ngFor #img of randomImages"-->
             <div class="image" [ngStyle]="img.src ? {'background-image': 'url(' + img.src + ')'} : {'background-image': 'url(' + standardPicture + ')'}" (click)="goToTrip(img)"></div>
                 <!--<img [src]="img.src || '//:0'" class="image" (click)="doThis($event,img)"> --> 
                 <span>{{img.location}}</span>

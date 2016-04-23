@@ -1,3 +1,10 @@
+#add-messages{
+    .ion-ios-add{
+     font-weight: bold;
+     font-size:30px;   
+    }
+    
+}
 .page3 {
     background-color: #EEE;
     .picture{
@@ -22,6 +29,10 @@
         border:0;
         padding-left:5px;
         float:left;
+        &:focus{
+            opacity: 0.8;
+            border:1px solid $brown;
+        }
     }
     button{
         width:30%;
@@ -48,17 +59,53 @@
         padding:0;
         margin:0;
         li{
-            font-size:15px;
-            background-color: #E1E1E1;
-            border-radius:10px;
-            margin-top:10px;
-            padding:5px;
-            max-width: 97%;
-            strong{
-                color:#999;
-                width:100%;
-                float:left;
+            width:100%;
+            float:left;
+            min-height: 30px;
+            &:first-child{
+                margin-top:10px;
             }
+            h2{
+               font-size:10px;
+               margin:0;
+               padding-left:5px;
+               padding-right:10px;
+               max-width: 50%;
+               min-width: 10%;
+               float:left;
+               clear:left;  
+               line-height: 50px;
+               min-height: 50px;
+            }
+            .box{
+                max-width:80%;
+                min-width:100px;
+                background-color: $grey;
+                border-radius:5px;
+                padding:5px;
+                float:left;
+                margin-top:5px;
+                h1{
+                    font-size:12px;
+                    margin:0;
+                    padding:0; 
+                    max-width: 100%;
+                    float:left;
+                    text-transform: uppercase;
+                    color:$darkyellow;
+ 
+                }
+                .own{
+                    color:$lightblue !important;
+                }
+                p{
+                    width: 100%;
+                    float:left;
+                    margin:0;
+                    color:$brown;
+                }    
+            }
+
         }
         .cities{
             text-transform: uppercase;
@@ -69,9 +116,19 @@
             margin-top:0;
             text-align: center;
             line-height: 40px;
+            border-bottom:1px solid $yellow;
+            background-color: $white;
+            color:$darkyellow;
+            padding:5px 0px 5px 0px;
             &:hover{
-                background-color: $green;
-                strong{color:#fff;}
+                background-color: $yellow !important;
+                cursor:pointer;
+                h1{
+                    color:$white !important;
+                }
+            }
+            &:first-child{
+                margin:0;
             }
         }   
     }
@@ -84,8 +141,20 @@
         float:left;
         color:#fff;
         cursor:pointer;
+
     }
     .button span{
         background-color: transparent;
+    }
+    .message-input{
+        float:left;
+        width: 100%;
+    }
+    #scrollmessages{
+        width: 100%;
+        float: left;
+        z-index: 2;
+        height: 250px;
+        overflow: scroll;
     }
 }

@@ -5,9 +5,10 @@
 </ion-navbar>
 <ion-content class="part" has-header="false">
     <div id="trip-buttons">
-        <span class="contact" template="ngFor #name of (data.name | Here) | async;#i = index" [hidden]="(i>0)"><ion-icon name="contact"></ion-icon><p>{{ name }}</p></span>
-        
+        <span class="contact"><ion-icon name="contact"></ion-icon><p>{{((data.name | obfiPipe) | async)| namePipe}}</p></span>
+        <!--
         <ion-icon class="heart" ios="ios-heart-outline" md="md-heart-outline"></ion-icon>
+        -->
         <div id="trip-head" [hidden]="!data.src">
             <img [src]="data.src || '//:0'" alt="trip-picture">
         </div>
@@ -15,7 +16,7 @@
             <img [src]="standardPicture" alt="trip-picture">
         </div>
         <span id="back-home" class="yellow" (click)="goBackHome()">
-            <i class="fa fa-chevron-left"></i>
+            <ion-icon name="arrow-back"></ion-icon>
         </span>
         <span id="trip-location" class="yellow" (click)="goMaps()">
             <i class="fa fa-map-marker"></i>

@@ -7,11 +7,13 @@ import { observableFirebaseArray } from 'angular2-firebase';
 import { Firebase_const } from '../../const';
 import { Trip } from '../trip/trip';
 import { Profile } from '../profile/profile';
-import { Here } from '../../pipes/pipe';
+// Pipes
+import { obfiPipe } from '../../pipes/obfiPipe';
+import { namePipe } from '../../pipes/namePipe';
 
 @Page({
   templateUrl: 'build/pages/favourites/favourites.html',
-  pipes: [Here]
+  pipes: [[obfiPipe],[namePipe]]
 })
 
 export class Favourites {
@@ -26,23 +28,25 @@ export class Favourites {
         this.name = localStorage.getItem('user');
         this.first = 0;
         this.favoTrips = "active";
-        this.showNullFavo = false;
+        this.message = "";
     }
-    onPageDidEnter(){
+    onPageWillEnter(){
         this.differenceUserTrips();
     }
     goTrip(e){
         this.nav.push(Trip,{data:e});
     }
-    changeActive(){
-        if(this.favoUser === "active"){
+    changeActive(e){
+        if(e === "trips"){
+            this.message = "";
             this.favoUser = "";
             this.favoTrips = "active";
-            this.differenceUserTrips();
-        }else{
+           this.differenceUserTrips();
+        }else if(e === "users"){
+            this.message = "";
             this.favoUser = "active";
             this.favoTrips = "";
-             this.differenceUserTrips();
+            this.differenceUserTrips();
         }
     }
     differenceUserTrips(){
@@ -52,17 +56,21 @@ export class Favourites {
                      .child('users').child(this.name).child('favourites_users');
             ref.once('value', data =>{
                 if(data.val()){
-                    this.showNull = true;
                     data.forEach(user => {
                         this.user = user.val();
-                            var ref = new Firebase(this.firebaseUrl).child('trips').orderByChild("name").startAt(this.user).endAt(this.user);
-                            ref.once('value',val => {
-                                this.num = val.numChildren();
-                                this.allUsers.push({name:this.user, num: this.num});
-                            });
+                            if(this.user){
+                                var ref = new Firebase(this.firebaseUrl).child('trips').orderByChild("name").startAt(this.user).endAt(this.user);
+                                ref.once('value',val => {
+                                    this.num = val.numChildren();
+                                    this.allUsers.push({name:this.user, num: this.num});
+                                });   
+                            }else{
+                                this.message = "You don't have favourite users.";
+                            }
+                    
                         });  
                 }else{
-                    this.showNull = false;
+                    this.message = "You don't have favourite users.";
                 }
              });
         }else{
@@ -71,21 +79,27 @@ export class Favourites {
                      .child('users').child(this.name).child('favourites');
             ref.once('value',data =>{
                if(data.val()){
-                   this.showNullFavo = true;
                 data.forEach(favo => {
                     var ref = new Firebase(this.firebaseUrl)
                         .child('trips').child(favo.val().key);
                     ref.once('value', one => {
-                        this.num = one.numChildren();
-                            this.value = one.val();
-                            if(this.value){
-                                this.value.$$fbKey = one.key();
-                                this.allFavourites.push(this.value);
+                            if(one.val()){
+                                this.num = one.numChildren();
+                                this.value = one.val();
+                                if(this.value){
+                                    this.value.$$fbKey = one.key();
+                                        this.allFavourites.push(this.value);
+                                }else{
+                                    this.message = "You don't have favourite trips.";
+                                }
+                            }else{
+                                this.message = "You don't have favourite trips.";
                             }
-                        });      
-                    });
+                         });      
+                        });
+
                 }else{
-                    this.showNullFavo = false;
+                    this.message = "You don't have favourite trips.";
                 }
             });
         }

@@ -21,8 +21,7 @@ export class Settings {
         this.nav = nav;
         this.refresher = refresher;
         this.user = localStorage.getItem('user');
-        //http.get('http://pjsas:Saskespj3@stuart-nieuwpoort.be/api/api.json')
-        //    .observer({next: (value) => this.people = value});
+        
     }
     goMaps(){
         this.nav.push(Maps,{data:this.data.address});
@@ -34,6 +33,7 @@ export class Settings {
         location.reload();
     }
     onPageWillEnter(){
+        console.log(this.user);
             var ref = new Firebase(this.firebaseUrl).child('users').child(this.user);
             ref.child('private').once("value", snap => {
                 if(snap.exists() === true){
@@ -45,7 +45,6 @@ export class Settings {
                 }
             });
     }
-    
     onPageWillLeave(){
         if(this.private === true){
             var ref = new Firebase(this.firebaseUrl).child('users').child(this.user);
@@ -55,7 +54,6 @@ export class Settings {
                     ref.update({private:true});
                 }
             });
-            
             var ref = new Firebase(this.firebaseUrl).child('trips').orderByChild("name").startAt(this.user).endAt(this.user);
             ref.once('value', snap => {
                if(snap.val()){

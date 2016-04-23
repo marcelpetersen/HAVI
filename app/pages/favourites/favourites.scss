@@ -26,6 +26,15 @@
            position: absolute;
         }
     }
+    span#message{
+        width:100%;
+        color:$darkyellow;
+        text-align: center;
+        float:left;
+        border-bottom:1px solid $darkyellow;
+        padding-top:10px;
+        padding-bottom:10px;
+    }
     #all-items scroll-content{
         overflow: visible !important;
         ul{

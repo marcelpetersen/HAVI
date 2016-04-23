@@ -14,17 +14,25 @@
     </div>
     <button id="search-button" (click)="searchButton()">Send</button>
     <ul id="specify">
-        <li (click)="activeClass(1)" [class]="firstClass"><i class="fa fa-user"></i></li>
-        <li (click)="activeClass(2)" [class]="secondClass"><i class="fa fa-map-marker"></i></li>
-        <li (click)="activeClass(3)" [class]="tirthClass"><i class="fa fa-globe"></i></li>
+        <li [class]="favoTrips" (click)="changeActive('trips')"><ion-icon name="md-globe"></ion-icon></li>
+        <li [class]="favoUser" (click)="changeActive('users')"><ion-icon name="contact"></ion-icon>
+        </li>
     </ul>
     <span id="message" [hidden]="!message">{{ message }}</span>
     <ion-scroll id="all-items" scrollX="true">
-    <ul>
-        <li *ngFor="#trip of querySearch" [hidden]="!trip.location" (click)="goTrip(trip)">
+    <ul *ngIf="favoTrips">
+        <li *ngFor="#trip of queryLocations" [hidden]="!trip.location" (click)="goTrip(trip)">
             <h1>{{ trip.location }}</h1>
             <h2>{{ trip.sort }} / {{trip.datetime | date:'yyyy'}}</h2>
             <p>{{(trip.text ? trip.text : "") | slice:0:75}}...</p>
+            <span class="arrow"><ion-icon class="i" name="arrow-forward"></ion-icon></span>
+        </li>
+    </ul>
+    <ul *ngIf="!favoTrips">
+        <li *ngFor="#usr of queryUsers" [hidden]="!usr.name" (click)="goProfile(usr.name)">
+            <h1 id="person-name">{{((usr.name | obfiPipe) | async)| namePipe}}</h1>
+            <h2>{{ usr.num }} Trips</h2>
+            <p>Click to see the trips</p>
             <span class="arrow"><ion-icon class="i" name="arrow-forward"></ion-icon></span>
         </li>
     </ul>

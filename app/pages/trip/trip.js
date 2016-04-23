@@ -257,8 +257,10 @@ export class Trip {
                             {
                             text: 'Delete',
                             handler: () => {
-                                console.log('Delete clicked');
-                            }
+                                    var ref = new Firebase(this.firebaseUrl).child('users').child(this.user).child('created_trips').child(this.data.$$fbKey);
+                                    ref.remove();
+                                    this.nav.pop();
+                                }
                             }
                         ]
                         });

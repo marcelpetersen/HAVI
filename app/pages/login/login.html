@@ -1,9 +1,19 @@
+<!-----
+
+HIDDEN VERANDERD DOOR NGIF
+
+TODO: 
+- ICONS VERVANGEN
+- PASSWOORD VERGETEN WAT DAN?
+
+
+---->
 <ion-content padding class="login">
-    <p [hidden]="!error" class="error">{{error}}</p>
+    <p *ngIf="error" class="error">{{error}}</p>
     <div class="top">
         <img src="build/images/logo.png" alt="">
     </div>
-    <div class="login-form" [hidden]="login">
+    <div class="login-form" *ngIf="!login">
         <!-- Icons vervangen door Ionic 2 -->
         <label for="email">Email <i class="icon ion-email"></i></label>
         <input type="email" name="email" [(ngModel)]="email" placeholder="name@providor.com">
@@ -12,7 +22,7 @@
         <button class="login-button" (click)="loginMail()">Login</button>
         <button (click)="login =! login" class="choose-button">New to HAVA? Sign up.</button>
     </div>
-    <div class="login-form" [hidden]="!login">
+    <div class="login-form" *ngIf="login">
         <label for="surname">Name </label>
         <input type="text" name="surname" [(ngModel)]="register.surname">
         <label for="email">Email </label>

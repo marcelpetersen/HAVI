@@ -63,7 +63,7 @@
         min-height: 28px;
         li{
             margin-top:5px;
-            width:33.33%;
+            width:50%;
             max-height: 20px;
             float:left;
             background-color: transparent;
@@ -86,9 +86,6 @@
             .fa{
                 color:$white;
             }
-         }
-         .middle{
-            border-right: 0px;
          }
     }
     #all-items scroll-content{

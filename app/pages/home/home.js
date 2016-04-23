@@ -36,6 +36,12 @@ export class Home {
 
         //this.doPulling();
         this.loadItems();
+        
+        // Check if shares trips
+        var ref = new Firebase(this.firebaseUrl).child('users').child(this.user).child('private');
+        ref.once('value',snap =>{
+            localStorage.setItem('private',snap.val());
+        });
             
    }
   doStarting(refresher){
@@ -127,7 +133,7 @@ export class Home {
         this.nav.push(Profile);
     }
     onPageLoaded(){
-        // TODO: put images in localstorage
+        // TODO: put images in cache
         
     }
     imageSource(e){

@@ -21,8 +21,8 @@
 </ion-navbar>
 <ion-content class="profile" has-header="false">
     <div id="profile-box">
-        <img [hidden]="!profileImg" [src]="profileImg || '//:0'" alt="">
-        <h2 id="person-name" template="ngFor #name of (name | Here) | async;#i = index"><span [hidden]="i > 0">{{name}}</span></h2>
+        <img *ngIf="profileImg" [src]="profileImg || '//:0'" alt="">
+        <h2 id="person-name">{{((name | obfiPipe) | async)| namePipe}}</h2>
         <ul>
             <li>{{numberOfTrips}} Trips</li>
             <li>{{following}} Followers</li>
@@ -30,13 +30,13 @@
         </ul>
     </div>
     <ul id="specify">
-        <li [class]="favoTrips" (click)="changeActive()"> <i class="fa fa-globe"></i></li>
-        <li [class]="favoUser" (click)="changeActive()"><ion-icon name="contact"></ion-icon>
+        <li [class]="favoTrips" (click)="changeActive('trips')"><ion-icon name="md-globe"></ion-icon></li>
+        <li [class]="favoUser" (click)="changeActive('users')"><ion-icon name="contact"></ion-icon>
         </li>
     </ul>
-    <span id="message" [hidden]="!message">{{ message }}</span>
+    <span id="message" *ngIf="message">{{ message }}</span>
     <ion-scroll id="all-items" scrollX="true">
-        <ion-list  *ngFor="#trip of all" [hidden]="!trip.location" (click)="goTrip(trip)"> 
+        <ion-list *ngFor="#trip of all" [hidden]="!trip.location" (click)="goTrip(trip)"> 
             <ion-item-sliding>
                 <ion-item>
                     <h1>{{ trip.location }}</h1>
