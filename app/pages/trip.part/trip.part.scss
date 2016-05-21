@@ -1,5 +1,12 @@
 .part{
     position: relative;
+    .normal{
+        position: absolute;
+        top:0;
+        right:0;
+        left:0;
+        bottom:0;
+    }
     .contact{
         position: absolute;
         top:5px;
@@ -43,12 +50,9 @@
             float:left;
             overflow: hidden;
             img{
-                background-position: center bottom;
-                background-size: cover;
-                background-repeat: no-repeat;
                 width: 100%;
+                height: auto;
                 min-height: 30%;
-                max-height: 100%;
             }
         }
         .yellow{
@@ -101,6 +105,117 @@
         color:$brown;
         &::first-letter{
             text-transform: uppercase;
+        }
+    }
+    #edit-trip{
+        span#close{
+            position: absolute;
+            top:2px;
+            left:10px;
+            font-size:25px;
+            z-index: 2;
+            color:$yellow;
+        }
+        #trip-heads{
+            height:30%;
+            position: relative;
+            overflow:hidden;
+        }
+        h2{
+            width:100%;
+            float:left;
+            background-color: $lightblue;
+            height: 25px;
+            line-height: 25px;
+            text-align: center;
+            margin:0;
+            color:$white;
+            font-size:15px;
+        }
+        input{
+            width:100%;
+            color:$yellow;
+            min-height: 35px;
+            text-align: center;
+        }
+        textarea{
+            width:100% !important;
+            color:$yellow;
+            min-height: 208px;
+        }
+        .btn-group{
+            position: absolute;
+            bottom:0;
+            width:100%;
+            padding:0;
+            margin:0;
+            border-radius: 0;
+            .button{
+                background-color: transparent;
+            }
+            #edit{
+                width:80%;
+                float:left;
+                background-color: $green;
+                border-radius: 0;
+                margin:0;
+            }    
+            #cancel{
+                width:20%;
+                float:left;
+                background-color:$red;  
+                border-radius:0;
+                margin:0;
+            }
+        }
+        .inputPicture span{
+            width:50px;
+            position: absolute;
+            z-index: 2;
+            top:0;
+            right:0;
+            height:50px;
+            text-align: center;
+            line-height: 30px;
+            .ion-ios-camera{
+                width:30px;
+                height:30px;
+                color:$yellow;
+                font-size:30px;
+            }
+        }
+    }
+    .big-picture{
+        position: absolute;
+        top:0;
+        bottom:0;
+        left:0;
+        right:0;
+        background-color:rgba(0,0,0,1);
+        opacity: 1;
+        z-index: 20;
+        img{
+            position: absolute;
+            top:0;
+            width:100%;
+            height: auto;
+            bottom:0;
+            margin:auto;
+        }
+        .button-inner{
+            margin:0;
+            padding:0;
+        }
+        #cancel-picture{
+            background-color: transparent;
+            color:$white;
+            font-size:25px;
+            position: absolute;
+            right:0px;
+            top:0;
+            padding:0;
+            margin:0;
+            height:40px;
         }
     }
 }

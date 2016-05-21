@@ -1,33 +1,29 @@
 <ion-navbar *navbar>
   <ion-title>
-        <img src="build/images/logo.png" height="30px" width="30px" alt="" />
+        <img src="images/logo.png" height="30px" width="30px" alt="" />
     </ion-title>
 </ion-navbar>
 <ion-content class="add-item" has-header="false"> 
-    <input type="text" [(ngModel)]="albumTitle" [ngClass]="{inputwidth: canUpdate}" id="title" (click)="changeTitle()">
-    <button (click)="updateTitle()"  [ngClass]="{inputwidth: canUpdate, hidden: !canUpdate}" id="update-title" >Update</button>
-    <h1>or pick an existing album</h1>
+    <input type="text" [(ngModel)]="albumTitle" id="title" (click)="changeTitle()">
     <ul id="choose-trip">
-        <li template="ngFor #img of images | async" (click)="pickTrip(img)" >
+        <li *ngFor="let img of images | async" (click)="pickTrip(img)" >
              <div class="image"  [ngStyle]="img.src ? {'background-image': 'url(' + img.src + ')'} : {'background-image': 'url(' + standardPicture + ')'}" (click)="goToTrip(img)"></div>
             <span>{{img.location | slice:0:25}} <br /> {{img.datetime | date:'yyyy'}}</span>
         </li>
-        <li id="bottom1" (click)="loadMore()" [ngClass]="{hidden: moreLoaded}">More trips</li>
-        <li id="bottom2" (click)="loadLess()" [ngClass]="{hidden: !moreLoaded}">Less trips</li>
     </ul>
-    <h1>What do you want to add?</h1>
+    <h1>What do you want to add? {{ basicProgress }}</h1>
     <ul id="choose-type">
         <li (click)="addLocation()"><ion-icon name="map"></ion-icon></li>
         <li (click)="addNote()"><ion-icon name="document"></ion-icon></li>
         <li id="pic">
-             <label class="myLabel" ><!--(click)="takePicture()"-->
-                    <input [disabled]="error" style="width:100%" class="upload" id="house" type="file" accept="image/*" capture doc="house" name="files[]" multiple (change)="uploadPicture($event)" >                    
+             <label class="inputPicture"><!--(click)="takePicture()"  -->
+                    <input [disabled]="error" style="width:100%" class="upload" type="file" accept="image/*" capture name="files[]" (change)="uploadPicture($event)">       
                     <span><ion-icon name="camera"></ion-icon></span>
              </label>
         </li>
     </ul>
     <ul id="trip-album" [hidden]="noPictures">
-        <li template="ngFor #newimg of newImages | async;#i = index;"> 
+        <li *ngFor="let newimg of newImages | async;#i = index;"> 
             <img [hidden]="!newimg.src" [src]="newimg.src">
             <img [hidden]="newimg.src" [src]="standardPicture">
             <span>Day {{i + 1}}</span>

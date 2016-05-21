@@ -5,7 +5,7 @@
       </button>
   </ion-buttons>
   <ion-title>
-        <img src="build/images/logo.png" height="30px" width="30px" alt="" />
+        <img src="images/logo.png" height="30px" width="30px" alt="" />
     </ion-title>
     <ion-buttons end *ngIf="show" >
       <button id="add-messages" (click)="addCity()">
@@ -26,13 +26,13 @@
         Loading...
     </div>
     <ul [hidden]="!show" id="city-list">
-        <li class="cities" template="ngFor #c of cities" (click)="chooseCity(c)">
+        <li class="cities" *ngFor="let c of cities" (click)="chooseCity(c)">
             <strong>{{c}}</strong>
         </li>
     </ul>
     <ion-scroll id="scrollmessages" scrollX="true">
         <ul [hidden]="show">
-            <li template="ngFor #m of (messages | async) | orderByDatePipe">
+            <li *ngFor="let m of (messages | async) | orderByDatePipe">
                 <h2>{{m.datetime | date:'dd/MM'}}</h2>
                 <div class="box">
                     <h1 [class]="m.name === name ? 'own':''">{{((m.name | obfiPipe) | async)| namePipe}} </h1>

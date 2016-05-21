@@ -7,11 +7,7 @@
         "files": {}
     },
     "installed_plugins": {
-        "phonegap-plugin-push": {
-            "SENDER_ID": "XXXXXXX",
-            "PACKAGE_NAME": "io.ionic.starter"
-        },
-        "cordova-plugin-x-socialsharing": {
+        "cordova-plugin-whitelist": {
             "PACKAGE_NAME": "com.mycompany.havi"
         }
     },

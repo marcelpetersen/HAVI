@@ -1,6 +1,6 @@
 <ion-navbar *navbar>
   <ion-title>
-        <img src="build/images/logo.png" height="30px" width="30px" alt="" />
+        <img src="images/logo.png" height="30px" width="30px" alt="" />
     </ion-title>
 </ion-navbar>
 <ion-content class="favourite">
@@ -14,7 +14,7 @@
     <ion-scroll id="all-items" scrollX="true">
     <span id="message" *ngIf="message">{{message}}</span>
     <ul *ngIf="favoTrips">
-        <li *ngFor="#trip of allFavourites" [hidden]="!trip.location" (click)="goTrip(trip)">
+        <li *ngFor="let trip of allFavourites" [hidden]="!trip.location" (click)="goTrip(trip)">
             <h1>{{ trip.location }}</h1>
             <h2>{{ trip.sort }} / {{trip.datetime | date:'yyyy'}}</h2>
             <p>{{ (trip.text ? trip.text : "") | slice:0:75}}...</p>
@@ -22,7 +22,7 @@
         </li>
     </ul>
     <ul *ngIf="!favoTrips">
-        <li *ngFor="#usr of allUsers" [hidden]="!usr.name" (click)="goProfile(usr.name)">
+        <li *ngFor="let usr of allUsers" [hidden]="!usr.name" (click)="goProfile(usr.name)">
             <h1 id="person-name">{{((usr.name | obfiPipe) | async)| namePipe}}</h1>
             <h2>{{ usr.num }} Trips</h2>
             <p>Click to see the trips</p>

@@ -17,6 +17,7 @@ coverage/
 dist/
 node_modules/
 bower_components/
+plugins/
 tmp/
 temp/
 www/build/

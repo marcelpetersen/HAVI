@@ -1,53 +1,77 @@
 // Page:        Photo wall connecting with Firebase & RXJS
 // Author:      Pieter-Jan Sas
 // Last update: 28/01/16
+// TODO: trips zijn niet chronologisch geordend, eerste datum komt laatste. 
+// Pipe werkt wel maar de datum is een servervalue, en neemt telkens de huidige datum ipv de datum van dat het gepost is. 
 
 import { Page, NavController, NavParams, Alert } from 'ionic-angular';
 import { Observable } from 'rxjs/Observable';
 import { observableFirebaseArray } from 'angular2-firebase';
-import { Firebase_const } from '../../const';
+import { Http,Headers,RequestOptions,HTTP_PROVIDERS } from '@angular/http';
+
+//Pages & constant
+import { Firebase_const, ProfilePicture } from '../../const';
 import { Settings } from '../settings/settings';
 import { Trip } from '../trip/trip';
 import { Part } from '../trip.part/trip.part';
+
 // Pipes
 import { obfiPipe } from '../../pipes/obfiPipe';
 import { namePipe } from '../../pipes/namePipe';
+import { orderByDatePipe } from '../../pipes/orderByDatePipe';
 
+// Native
 import { SocialSharing } from 'ionic-native';
+
 
 @Page({
   templateUrl: 'build/pages/profile/profile.html',
-  pipes: [[obfiPipe],[namePipe]]
+  pipes: [[obfiPipe],[namePipe],[orderByDatePipe]]
 })
 
 export class Profile {
     static get parameters() {
-        return [[NavController], [NavParams]];
+        return [[NavController], [NavParams],[Http]];
     }
-    constructor(nav,params){
+    constructor(nav,params,http){
+        this.http = http;
         this.nav = nav;
         this.firebaseUrl = Firebase_const.API_URL;
-        this.data = params.get('data');
+        
+        this.name = params.get('data');
         this.user = localStorage.getItem('user');
 
         this.favoTrips = "active";
-        
-        if(this.data && this.data != this.user){
-            this.name = this.data;
+        // Check if user or is somebody else...
+        if(this.name && this.name != this.user){
+            // This isn't the user
             this.notMyProfile = true; 
-            //TODO: Change this picture to profile picture user
-            this.profileImg = "http://stuart-nieuwpoort.be/uploads/f88c93d6f24c95941c878002467d670d.jpeg"; 
-            //localStorage.getItem('picture'); 
             this.tripFavourite();
+            var ref = new Firebase(this.firebaseUrl).child('users').child(this.name).child('pictureUrl');
+            ref.once('value', snap =>{
+                if(snap.exists() === true){
+                    this.profileImg = snap.val();
+                     this.profilePic = "";
+                }else{
+                    this.profileImg = ProfilePicture.URL;
+                    this.profilePic = "";
+                }
+            });            
         }else{
+            // This is the user
             this.name = localStorage.getItem('user');
             this.notMyProfile = false;
-            this.profileImg = localStorage.getItem('picture');
-            if(!this.profileImg){
-                this.profileImg = "http://stuart-nieuwpoort.be/uploads/f88c93d6f24c95941c878002467d670d.jpeg";
-            }
+            var ref = new Firebase(this.firebaseUrl).child('users').child(this.name).child('pictureUrl');
+             ref.once('value',snap =>{
+                if(snap.exists() === true){
+                    this.profileImg = snap.val();
+                     this.profilePic = "";
+                }else{
+                    this.profileImg = ProfilePicture.URL;
+                    this.profilePic = "show";
+                }
+             });
         }
-
         this.numberOfTrips();
     }
     goSettings(){
@@ -75,6 +99,7 @@ export class Profile {
     }
     chooseCreated(){
        if(!this.favoUser){
+           // My trips I made
            this.message = "";
            this.all = [];
             var ref = new Firebase(this.firebaseUrl).child('trips').orderByChild('name').startAt(this.name).endAt(this.name);
@@ -90,6 +115,7 @@ export class Profile {
                 }
             });
        }else{
+           // My trips I planned & I'm the user
         if(this.notMyProfile != true){
            this.message = "";
            this.all = [];
@@ -107,12 +133,14 @@ export class Profile {
                 }
             });
         }else{
+            // My trips I planned but I'm not the user
             this.all = [];
             this.message = "This is private";
         }
        }
     }
     onPageDidLeave(){
+        // Check if the user used the heart
         if(this.heart === true){
             var ref = new Firebase(this.firebaseUrl)
                     .child('users').child(this.user).child('favourites_users');
@@ -187,33 +215,67 @@ export class Profile {
     }
     share(){
             FB.ui({
-            method: 'share',
-            href: 'https://havi.firebaseapp.com/',
-            }, function(response){});
-        //SocialSharing.share("message","subject","http://localhost:8100/","http://localhost:8100/");
+                method: 'share',
+                href: 'https://havi.firebaseapp.com/',
+            }, (response) =>{});
+            //SocialSharing.share("message","subject","http://localhost:8100/","http://localhost:8100/");
     }
     delete(e){
-        let confirm = Alert.create({
+        // Confirm delete & then do delete
+        var confirm = Alert.create({
             title: 'Confirm delete...',
             message: 'Are you sure you want to delete this trip?',
             buttons: [
                 {
-                text: 'Cancel',
-                role: 'destructive',
-                handler: () => {
-                    //console.log('Disagree clicked');
-                }
+                    text: 'Cancel',
+                    role: 'destructive',
+                    handler: () => {
+                             // Just cancel this
+                    }
                 },
-                {
-                text: 'Delete',
-                handler: () => {
-                    var ref = new Firebase(this.firebaseUrl).child('users').child(this.user).child('created_trips').child(e.$$fbKey);
-                    ref.remove();
-                    this.nav.pop();
+                    {
+                    text: 'Delete',
+                    handler: () => {
+                        var ref = new Firebase(this.firebaseUrl).child('users').child(this.user).child('created_trips').child(e.$$fbKey);
+                        ref.remove();
+                        this.nav.pop();
                     }
                 }
             ]
             });
             this.nav.present(confirm);
+    }
+    uploadProfile(evt){
+        // Give the loading dots
+        this.loading = Loading.create({
+            spinner: "dots",
+            content: "Uploading, please wait.."
+        });
+        this.nav.present(this.loading);
+        // Read to upload the file
+        var f = evt.target.files[0];
+        var reader = new FileReader();
+        reader.onload = ((theFile) => {
+                return (e) => {
+                    // Upload picture to nathalieleye.com, this is where user-pitures go...;
+                    var data = JSON.stringify({"image": e.target.result});
+                    var headers = new Headers();
+                    headers.append('Content-Type', 'application/json');
+                    this.http.post('/upload-users.php', data ,{ headers: headers }).subscribe(
+                        data => {
+                            if(data){
+                                this.newPicture =  "http://nathalieleye.com/users/" + data._body + ".jpeg";
+                                var ref = new Firebase(this.firebaseUrl).child('users').child(this.user);
+                                ref.update({pictureUrl:this.newPicture});
+                                this.profilePic = "";
+                                this.profileImg = this.newPicture;
+                                this.loading.dismiss();
+                            }
+                        },
+                        err => console.log(err)
+                        );
+                    };
+        })(f);
+        reader.readAsDataURL(f);
     }
 }

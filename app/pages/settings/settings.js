@@ -1,8 +1,10 @@
 // Page:        Photo wall connecting with Firebase & RXJS
 // Author:      Pieter-Jan Sas
 // Last update: 28/01/16
-
+// TODO: MAPS here?
 import { Page, NavParams, NavController } from 'ionic-angular';
+
+// Pages & Constants
 import { Firebase_const } from '../../const';
 import { Maps } from '../maps/maps';
 
@@ -33,20 +35,22 @@ export class Settings {
         location.reload();
     }
     onPageWillEnter(){
-        console.log(this.user);
-            var ref = new Firebase(this.firebaseUrl).child('users').child(this.user);
-            ref.child('private').once("value", snap => {
-                if(snap.exists() === true){
-                   if(snap.val() == true){
-                       this.private = true;
-                   }else{
-                       this.private = false;
-                   }
+        // Check if button private has to be checked
+        var ref = new Firebase(this.firebaseUrl).child('users').child(this.user);
+        ref.child('private').once("value", snap => {
+            if(snap.exists() === true){
+                if(snap.val() == true){
+                    this.private = true;
+                }else{
+                    this.private = false;
                 }
-            });
+            }
+        });
     }
     onPageWillLeave(){
+        // Check if button private has been used
         if(this.private === true){
+            // Push true to user & push to every picture
             var ref = new Firebase(this.firebaseUrl).child('users').child(this.user);
             ref.child('private').once("value", snap => {
                 if(snap.exists() === true){
@@ -64,6 +68,7 @@ export class Settings {
                } 
             });
         }else{
+             // Push false to user & push to every picture
             var ref = new Firebase(this.firebaseUrl).child('users').child(this.user);
             ref.child('private').once("value", snap => {
                 if(snap.exists() === true){

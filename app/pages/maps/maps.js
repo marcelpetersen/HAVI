@@ -1,9 +1,9 @@
 // Page:        Photo wall connecting with Firebase & RXJS
 // Author:      Pieter-Jan Sas
 // Last update: 28/01/16
-
+// BUG: 
 import { Page, NavParams, NavController } from 'ionic-angular';
-import { NgZone } from 'angular2/core';
+import { NgZone } from '@angular/core';
 
 @Page({
   templateUrl: 'build/pages/maps/maps.html'
@@ -17,7 +17,6 @@ export class Maps {
         this.data = params.get('data');
         this.location = params.get('location');
         this.nav = nav;
-        
         if(this.data.lat && this.data.lon){
             this.data = {
                 lat : Number(this.data.lat),
@@ -25,18 +24,15 @@ export class Maps {
             }
         }
         this.tabBarElement = document.querySelector('tabbar');
-       
     }
     goBack(){
         this.nav.pop();
     }
     onPageLoaded() {
+        // On page load show map!
         document.getElementById('map').innerHTML = "";
-      // google.maps.event.addListenerOnce(map, 'idle', () => {
-      //  mapEle.classList.add('show-map');
-      // });
-        let mapEle = document.getElementById('map');
-        let map = new google.maps.Map(mapEle, {
+        var mapEle = document.getElementById('map');
+        var map = new google.maps.Map(mapEle, {
             center: this.data,
             zoom: 14,
             panControl: true,
@@ -52,15 +48,14 @@ export class Maps {
             draggable:true
         });
         // do something only the first time the map is loaded
-        let marker = new google.maps.Marker({
+        var marker = new google.maps.Marker({
             position: this.data,
             map: map,
             title: this.location
         });
     }
-     onPageWillEnter(){
-         
-
+    onPageWillEnter(){
+      // Show map in full page!
       this.tabBarElement.style.display = 'none';
     }
     onPageWillLeave(){

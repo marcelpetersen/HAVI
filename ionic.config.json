@@ -1,0 +1,15 @@
+{
+  "name": "HAVI",
+  "app_id": "afbfd7d3",
+  "v2": true,
+  "proxies": [
+    {
+      "path": "/upload.php",
+      "proxyUrl": "http://stuart-nieuwpoort.be/upload.php"
+    },
+    {
+      "path": "/upload-users.php",
+      "proxyUrl": "http://nathalieleye.com/upload-users.php"
+    }
+  ]
+}

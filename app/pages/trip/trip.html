@@ -5,7 +5,7 @@
       </button>
   </ion-buttons>
   <ion-title>
-        <img src="build/images/logo.png" height="30px" width="30px" alt="" />
+        <img src="images/logo.png" height="30px" width="30px" alt="" />
   </ion-title>
   <ion-buttons end>
     <button *ngIf="(data.name != user && heart != true)" (click)="heart =! heart">
@@ -21,8 +21,8 @@
 </ion-navbar>
 <ion-content class="trip" hide-tabs>
     <!-- Changed [hidden] to ngIF -->
-    <h1>{{ data.location }}</h1>
-    <h2>{{ data.datetime | date:'yyyy'}}</h2>
+    <h1 (click)="changeLocation()">{{ data.location }}</h1>
+    <h2 (click)="changeDate()">{{ data.datetime | date:'yyyy'}}</h2>
     <ion-scroll id="trips-timeline" scrollX="true">
         <div id="timeline">
             <div *ngFor="#trip of pictures;#i = index; ">
@@ -36,7 +36,7 @@
                          </span>
                     </h1>
                     <h2 (click)="goPart(trip)"><i class="fa fa-map-marker"></i> <span>{{ trip.location }}</span></h2>
-                    <p (click)="goPart(trip)">{{( trip.text ? trip.text : "") | slice:0:100}}...</p>
+                    <p (click)="goPart(trip)">{{( trip.text ? trip.text : "") | slice:0:50}}...</p>
                 </div>
             </div>
         </div>
@@ -44,7 +44,7 @@
     <ion-list id="kind-trip">
         <ion-item>
             <ion-label>What kind of travel is this?</ion-label>
-            <ion-select [disabled]="buttonDisabled" [(ngModel)]="tripkind" (select)="changeSelected()" multiple="false" cancelText="Cancel" okText="Ok">
+            <ion-select [disabled]="buttonDisabled" [(ngModel)]="tripkind" multiple="false" cancelText="Cancel" okText="Ok">
             <ion-option value="beachttrip">Beachtrip</ion-option>
             <ion-option value="citytrip">Citytrip</ion-option>
             <ion-option value="roadtrip">Roadtrip</ion-option>
@@ -62,7 +62,7 @@
     <div id="piece" *ngIf="!showPiece">
         <h2 *ngIf="all">Pick a trip?</h2>
         <ul *ngIf="all" id="choose-trip">
-            <li *ngFor="#piece of all" (click)="addPart(piece)">
+            <li *ngFor="let piece of all" (click)="addPart(piece)">
                 <div class="image"  [ngStyle]="piece.src ? {'background-image': 'url(' + piece.src + ')'} : {'background-image': 'url(' + standardPicture + ')'}" (click)="goToTrip(img)"></div>
                 <span>{{piece.location | slice:0:25}} <br /> {{piece.datetime | date:'yyyy'}}</span>
             </li>
@@ -70,6 +70,16 @@
         <input type="text" [ngClass]="{focus: focusLocate}" [(ngModel)]="tripName" placeholder="Give the new trip a title?">
         <button id="make"(click)="addPart()">Make new trip</button>
         <button id="cancel" (click)="cancelIt()"> <ion-icon name="close"></ion-icon>
-</button>
+    </button>
+    </div>
+    <div id="grey-edit" *ngIf="showEditPart">
+        <ion-list id="which-edit">
+            <ion-item>
+                <ion-label>Which day do you want to edit?</ion-label>
+                <ion-select [(ngModel)]="whichEdit" (change)="editSelected()" multiple="false" (cancel)="onCancel()">
+                <ion-option *ngFor="let n of editTrips" value="{{n.location}}">{{n.location}}</ion-option>
+                </ion-select>
+            </ion-item>
+        </ion-list>
     </div>
 </ion-content>

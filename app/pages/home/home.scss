@@ -258,9 +258,294 @@ h2.error{
     .less{
         height:24%;
         h2.error{
-            height: 100%;
-            padding-top:12%;
-            padding-bottom:23%;
+            position: absolute;
+            top:0;
+            bottom:0;
+            text-align: center;
+            vertical-align: middle;
+            span{
+                position: absolute;
+                top:45%;
+                left:0;
+                right:0;
+            }
         }
     }
+}
+
+
+// SLIDES
+ion-slides{
+    position: absolute;
+    z-index: 3;
+}
+#slide1{
+    background-color:$white;
+    h4{
+        position: absolute;
+        top:0;
+        background: url('http://stuart-nieuwpoort.be/uploads/background.jpg') no-repeat;
+        background-size: 100% auto;
+        position: absolute;
+        top:0;
+        color:$white;
+        margin:0;
+        width:100%;
+        padding-top:20px;
+        padding-bottom:20px;
+        text-transform: uppercase;
+        font-size:10px;
+    }
+    
+    #slide-container{
+       
+        height: 100%;
+        img{
+            max-width:150px;
+        }
+        h3{
+            color: $yellow;
+        }
+        p{
+            color: #333;
+            padding:0px 40px;
+            font-size:14px;
+        }
+    }
+}
+#slide2{
+    background: url('http://stuart-nieuwpoort.be/uploads/background.jpg') no-repeat 100%;
+    background-size: auto 100%;  
+    
+    h4{
+        position: absolute;
+        top:0;
+        background-color:$white;
+        color:$yellow;
+        margin:0;
+        width:100%;
+        padding-top:20px;
+        padding-bottom:20px;
+        text-transform: uppercase;
+        font-size:10px;
+    }
+    ul{
+        position: absolute;
+        top:60px;
+        margin:0;
+        width:100%;
+        height: 100%;
+        li{
+            width:100%;
+            border-bottom:1px solid $white;
+            color:$white;
+            height:30%;
+            line-height: 150px;
+            font-weight: bold;
+            font-size:14px;
+            &:last-child{
+                border:0;
+            }
+        }
+    }
+}
+
+#slide3{
+    background: url('http://stuart-nieuwpoort.be/uploads/background.jpg') no-repeat 100%;
+    background-size: auto 100%;  
+    
+    h4{
+        position: absolute;
+        top:0;
+        background-color:$white;
+        color:$yellow;
+        margin:0;
+        width:100%;
+        padding-top:20px;
+        padding-bottom:20px;
+        text-transform: uppercase;
+        font-size:10px;
+    }
+    ul{
+        position: absolute;
+        top:50px;
+        margin:0;
+        width:100%;
+        height: 100%;
+        padding-left:20%;
+        li{
+            border-left:1px solid $white;
+            width:100%;
+            color:$white;
+            height:30%;
+            line-height: 150px;
+            font-weight: bold;
+            font-size:14px;
+            text-align: left;
+            padding-left:20px;
+            position: relative;
+            &::after{
+                position: absolute;
+                top:45%;
+                left:-3px;
+                height:5px;
+                width:5px;
+                border-radius:5px;
+                content:'';
+                z-index: 2;
+                background-color: $white;
+            }
+            h2{
+                font-size:14px;
+                font-weight: bold;
+                text-align: left;
+                margin:0;
+                padding-top:20px;
+                padding-bottom:10px;
+                padding-right:20px;
+            }
+            p{
+                line-height: 14px;
+                font-size:12px;
+                font-weight: 100;
+                padding:0px 10px 0px 0px;
+                margin:0;
+            }
+            img{
+                max-width: 100px;
+               
+            }
+            #photos{
+                max-width: 150px;
+            }
+        }
+    }
+}
+#slide4{
+    background-color: $white;
+    h1{
+        background-color: transparent;
+        width:100%;
+        float:left;
+    }
+     .picture{
+        background: url('../../images/back-search.jpg') center center no-repeat;
+        background-size: 100%;
+        height: 130px;
+        text-align: center;
+        position: relative;
+        h1{
+           padding-top:20px;
+           margin:0;
+           color:#fff;
+           font-size:20px;
+           padding-left:20px;
+           padding-right:20px;
+        }
+        .input-icon{
+                width: 80%;
+                display: inherit;
+                margin:0 auto;
+                height: 30px;
+                border:1px solid #FFF;
+                position: absolute;
+                bottom:10px;
+                left:0;
+                right:0;
+                margin-top:10px;
+            .icon{
+                position: absolute;
+                top:5px;
+                left:5px;
+                width:20px;
+                color:#fff;
+            }   
+            input{
+                position: absolute;
+                top:0;
+                left:20px;
+                width:93%;
+                padding-left:10px;
+                right:0;
+                bottom:0;
+                text-align: left;
+                background-color: transparent;
+                color:#fff;
+                min-height:29px;
+                height:20px;
+                border:none;
+            } 
+        }
+
+    }
+    span#message{
+        width:100%;
+        float:left;
+        background-color: $lightblue;
+        padding:10px 0px;
+        text-align: center;
+        color:$white;
+    }
+    #specify{
+        width:100%;
+        float:left;
+       
+        padding:0;
+        margin:0;
+        height: 30px;
+        li{
+            margin:0;
+            width:50%;
+            padding-top:5px;
+            padding-bottom:5px;
+             background-color: $yellow;
+            float:left;
+            color:#fff;
+            height:15px;
+            border-right:1px solid #fff;
+            border-radius:0px;
+            text-align: center;
+            font-size:16px;
+            cursor:pointer;
+            &:last-child{
+                border-right:0px;
+            }
+        }
+         .active{
+            background-color: $darkyellow;
+            border-radius:0px;
+            .fa{
+                color:$white;
+            }
+         }
+    }
+    #all-items{
+        margin-bottom:0;
+        h1{
+            background-color: transparent;
+            color:$yellow;
+            padding:0;
+            width: 100%;
+            text-align: left;
+            margin: 0px auto;
+            float: left;
+        }
+        li{
+            padding-top:10px;
+        }
+    }
+    #got{
+        text-align: center;
+        display: block;
+        position: relative;
+        width: 80%;
+        margin: 0px auto 30px auto;
+        border-radius: 0;
+        background-color: $yellow;
+        top:10px;
+    }
+}
+
+.swiper-pagination-bullet{
+    background-color: $white;
 }

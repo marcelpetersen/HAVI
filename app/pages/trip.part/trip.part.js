@@ -3,9 +3,12 @@
 // Last update: 28/01/16
 // TODO: when nog lat, long & coords
 
-import { Page, NavParams, NavController } from 'ionic-angular';
-import { Maps } from '../maps/maps';
-import { StandardPicture } from '../../const';
+import { Page,Platform, NavParams, NavController, Alert }   from 'ionic-angular';
+import { Http,Headers,RequestOptions,HTTP_PROVIDERS }       from '@angular/http';
+import { Firebase_const, StandardPicture }                  from '../../const';
+// Pages &Pipes
+import { Home }     from '../home/home';
+import { Maps }     from '../maps/maps';
 import { obfiPipe } from '../../pipes/obfiPipe';
 import { namePipe } from '../../pipes/namePipe';
 
@@ -16,29 +19,52 @@ import { namePipe } from '../../pipes/namePipe';
 
 export class Part {
     static get parameters() {
-        return [[NavController], [NavParams]];
+        return [[NavController], [NavParams],[Http],[Platform]];
     }
-    constructor(nav,params){
-        this.data = params.get('data');
+    constructor(nav,params,http,platform){
+        this.platform = platform;
+        this.http = http;
+        this.firebaseUrl = Firebase_const.API_URL;
+        this.edit = params.get('edit');
+        if(this.edit){
+            this.key = "";
+            this.location = params.get('location');
+            this.allData = params.get('data');
+            this.allPictures = params.get('data').pictures;
+            for(this.key in this.allPictures) {
+                if(this.allPictures[this.key].location === this.location){
+                    this.data = this.allPictures[this.key] ;
+                }
+            }
+        }else{
+            this.data = params.get('data');
+        }
+        this.newData = {
+            location: this.data.location,
+            text: this.data.text
+        }
+
         this.nav = nav;
         this.standardPicture = StandardPicture.URL;
         this.tabBarElement = document.querySelector('tabbar');
-        this.searchName();
     }
     goBackHome(){
         this.nav.pop();
     }
     goMaps(){
-        if(!this.data.coords || !this.data.coords.lat || !this.data.coords.lon){
-            //this.nav.push(Maps,{location:this.data.location});
-            console.log('Do something');
-        }else if(this.coords){
-             this.nav.push(Maps,{data:this.coords,location:this.data.location});
+        if(this.coords){
+            this.nav.push(Maps,{data:this.coords,location:this.data.location});
+        }else if(!this.data.coords || !this.data.coords.lat || !this.data.coords.lon){
+             //this.nav.push(Maps,{data:this.coords,location:this.data.location});
         }else{
             this.nav.push(Maps,{data:this.data.coords,location:this.data.location});
         }
     }
     onPageWillEnter(){
+        this.coords = {
+            lat: "",
+            lng: ""
+        }
         if(!this.data.coords || !this.data.coords.lat || !this.data.coords.lon){
              this.searchLocation();
         }
@@ -47,19 +73,124 @@ export class Part {
     onPageWillLeave(){
         //this.tabBarElement.style.display = 'flex';
     }
-    
     searchLocation(){
         var geocoder = new google.maps.Geocoder();
         geocoder.geocode({'address': this.data.location}, (results, status)=> {
             if (status === google.maps.GeocoderStatus.OK) {
-               this.coords = results[0].geometry.location;
+                if(results[6]){
+                    this.coords = results[6].geometry.location;
+                }else if(results[5]){
+                     this.coords = results[5].geometry.location;
+                }else{
+                     this.coords = results[0].geometry.location;
+                }
+               
+               //console.log(this.coords);
+               //var ref = new Firebase(this.firebaseUrl).child('trips').child()
             } else {
-                alert('Geocode was not successful for the following reason: ' + status);
+                //alert('Geocode was not successful for the following reason: ' + status);
             }
         });
     }
-    searchName(){
-
+    cancelPart(){
+        this.edit = "";
+    }
+    editPart(){     
+        this.data.location = this.newData.location;
+        this.data.text = this.newData.text;
+        var ref = new Firebase(this.firebaseUrl).child('trips').child(this.allData.$$fbKey).child('pictures');
+        ref.once("value", (snap) =>{
+            snap.forEach(snapData =>{
+               if(snapData.val().location === this.location){
+                    var ref = new Firebase(this.firebaseUrl).child('trips').child(this.allData.$$fbKey).child('pictures').child(snapData.key());
+                    ref.update({
+                        location: this.data.location,
+                        text: this.data.text,
+                        update_time: Firebase.ServerValue.TIMESTAMP
+                    });
+               } 
+            });
+        });
+        this.newData.location = "";
+        this.newData.text = "";
+        this.edit = "";
+    }
+    uploadPicture(evt){
+        var f = evt.target.files[0];
+        var reader = new FileReader();
+        reader.onload = ((theFile) => {
+                return (e) => {
+                    this.data.src = e.target.result;
+                    // Upload picture to server;
+                    var data = JSON.stringify({"image":this.data.src});
+                    var headers = new Headers();
+                    headers.append('Content-Type', 'application/json');
+                    this.http.post('/upload.php', data ,{ headers: headers })
+                    .subscribe(
+                        data => {
+                            this.data.src =  "http://stuart-nieuwpoort.be/uploads/" + data._body + ".jpeg"
+                            var ref = new Firebase(this.firebaseUrl).child('trips').child(this.allData.$$fbKey).child('pictures');
+                            ref.once("value", (snap) =>{
+                                snap.forEach(snapData =>{
+                                if(snapData.val().location === this.location){
+                                        var ref = new Firebase(this.firebaseUrl).child('trips').child(this.allData.$$fbKey).child('pictures').child(snapData.key());
+                                        ref.update({
+                                            src:this.data.src
+                                        });
+                                } 
+                                });
+                            });
+                        },
+                        err => console.log(err)
+                        );
+                    };
+        })(f);
+        reader.readAsDataURL(f);
+    }
+    deletePart(){
+        let confirm = Alert.create({
+                        title: 'Confirm delete...',
+                        message: 'Are you sure you want to delete this part of the trip?',
+                        buttons: [
+                            {
+                            text: 'Cancel',
+                            role: 'destructive',
+                            handler: () => {
+                                //this.showEditPart =! this.showEditPart;
+                                //this.nav.push()
+                            }
+                            },
+                            {
+                            text: 'Delete',
+                            handler: () => {
+                                    if(Object.keys(this.allData.pictures).length === 1){
+                                        var ref = new Firebase(this.firebaseUrl).child('trips').child(this.allData.$$fbKey);
+                                        ref.remove();
+                                        this.nav.push(Home);
+                                    }else{
+                                        var ref = new Firebase(this.firebaseUrl).child('trips').child(this.allData.$$fbKey).child('pictures');
+                                        ref.once("value", (snap) =>{
+                                            snap.forEach(snapData =>{
+                                            if(snapData.val().location === this.location){
+                                                var ref = new Firebase(this.firebaseUrl).child('trips').child(this.allData.$$fbKey).child('pictures').child(snapData.key());
+                                                ref.remove();
+                                            } 
+                                            });
+                                            
+                                        })
+                                         this.nav.pop();
+                                    }                     
+                                }
+                            }
+                        ]
+                        });
+            this.nav.present(confirm);
+    }
+    pictureWidth(){
+        
+    }
+    bigPicture(){
+        this.big =! this.big;
     }
 }
 

@@ -5,7 +5,7 @@
       </button>
   </ion-buttons>
   <ion-title>
-        <img src="build/images/logo.png" height="30px" width="30px" alt="" />
+        <img src="images/logo.png" height="30px" width="30px" alt="" />
     </ion-title>
     <ion-buttons end>
         <button [hidden]="notMyProfile" (click)="goSettings()">
@@ -21,7 +21,11 @@
 </ion-navbar>
 <ion-content class="profile" has-header="false">
     <div id="profile-box">
-        <img *ngIf="profileImg" [src]="profileImg || '//:0'" alt="">
+        <img *ngIf="!profilePic" [src]="profileImg || '//:0'" alt="Profielfoto">
+        <label *ngIf="profilePic" class="inputPicture" [ngStyle]="{'background-image': 'url(' + profileImg + ')'}">
+                <input style="width:100%" class="upload" type="file" accept="image/*" capture name="files[]" multiple (change)="uploadProfile($event)" >
+                <span><ion-icon name="camera"></ion-icon></span>
+        </label>
         <h2 id="person-name">{{((name | obfiPipe) | async)| namePipe}}</h2>
         <ul>
             <li>{{numberOfTrips}} Trips</li>
@@ -36,7 +40,7 @@
     </ul>
     <span id="message" *ngIf="message">{{ message }}</span>
     <ion-scroll id="all-items" scrollX="true">
-        <ion-list *ngFor="#trip of all" [hidden]="!trip.location" (click)="goTrip(trip)"> 
+        <ion-list *ngFor="let trip of all | orderByDatePipe" [hidden]="!trip.location" (click)="goTrip(trip)"> 
             <ion-item-sliding>
                 <ion-item>
                     <h1>{{ trip.location }}</h1>

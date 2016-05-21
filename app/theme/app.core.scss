@@ -71,6 +71,9 @@ ul{
 ion-navbar-section{
     display: block;
 }
+.button {
+    box-shadow: none;
+}
 .bar-button-default{
     color:#fff;
     font-size:15px;
@@ -185,4 +188,22 @@ ion-title{
     .active{
         background-color: $darkyellow;
     }
+}
+label.inputPicture input[type="file"] {
+    position: fixed;
+    top: -1000px;
+}
+.inputPicture {
+    color:#fff;
+        cursor: pointer;
+}
+.inputPicture:hover {
+    background: transparent;
+}
+.inputPicture:active {
+    background: transparent;
+}
+.inputPicture :invalid + span,
+    .inputPicture :valid + span {
+    color: transparent;
 }

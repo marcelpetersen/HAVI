@@ -4,7 +4,9 @@
 import { Page, NavController } from 'ionic-angular';
 import { Observable } from 'rxjs/Observable';
 import { observableFirebaseArray } from 'angular2-firebase';
+// Constants
 import { Firebase_const } from '../../const';
+// Pages
 import { Trip } from '../trip/trip';
 import { Profile } from '../profile/profile';
 // Pipes
@@ -24,9 +26,12 @@ export class Favourites {
         this.nav = nav;
         this.allFavourites = [];
         this.allUsers = [];
+        
         this.firebaseUrl = Firebase_const.API_URL;
         this.name = localStorage.getItem('user');
+        
         this.first = 0;
+        
         this.favoTrips = "active";
         this.message = "";
     }
@@ -50,7 +55,9 @@ export class Favourites {
         }
     }
     differenceUserTrips(){
+        // Search for favourite trips or user
         if(this.favoUser){
+            // Users
             this.allUsers = [];   
             var ref = new Firebase(this.firebaseUrl)
                      .child('users').child(this.name).child('favourites_users');
@@ -67,42 +74,42 @@ export class Favourites {
                             }else{
                                 this.message = "You don't have favourite users.";
                             }
-                    
                         });  
                 }else{
                     this.message = "You don't have favourite users.";
                 }
              });
         }else{
-         this.allFavourites = [];   
-         var ref = new Firebase(this.firebaseUrl)
-                     .child('users').child(this.name).child('favourites');
-            ref.once('value',data =>{
-               if(data.val()){
-                data.forEach(favo => {
-                    var ref = new Firebase(this.firebaseUrl)
-                        .child('trips').child(favo.val().key);
-                    ref.once('value', one => {
-                            if(one.val()){
-                                this.num = one.numChildren();
-                                this.value = one.val();
-                                if(this.value){
-                                    this.value.$$fbKey = one.key();
-                                        this.allFavourites.push(this.value);
+            // Favourites
+            this.allFavourites = [];   
+            var ref = new Firebase(this.firebaseUrl)
+                        .child('users').child(this.name).child('favourites');
+                ref.once('value',data =>{
+                if(data.val()){
+                    data.forEach(favo => {
+                        var ref = new Firebase(this.firebaseUrl)
+                            .child('trips').child(favo.val().key);
+                        ref.once('value', one => {
+                                if(one.val()){
+                                    this.num = one.numChildren();
+                                    this.value = one.val();
+                                    if(this.value){
+                                        this.value.$$fbKey = one.key();
+                                            this.allFavourites.push(this.value);
+                                    }else{
+                                        this.message = "You don't have favourite trips.";
+                                    }
                                 }else{
                                     this.message = "You don't have favourite trips.";
                                 }
-                            }else{
-                                this.message = "You don't have favourite trips.";
-                            }
-                         });      
-                        });
+                            });      
+                            });
 
-                }else{
-                    this.message = "You don't have favourite trips.";
-                }
-            });
-        }
+                    }else{
+                        this.message = "You don't have favourite trips.";
+                    }
+                });
+            }
     }
     goProfile(e){
         this.nav.push(Profile,{data:e})

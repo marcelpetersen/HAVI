@@ -10,20 +10,18 @@
             "APP_NAME": "HAVI"
         }
     },
-    "phonegap-plugin-push": {
+    "cordova-plugin-inappbrowser": {
         "source": {
             "type": "registry",
-            "id": "phonegap-plugin-push"
+            "id": "cordova-plugin-inappbrowser"
         },
         "is_top_level": true,
-        "variables": {
-            "SENDER_ID": "XXXXXXX"
-        }
+        "variables": {}
     },
-    "cordova-plugin-x-socialsharing": {
+    "cordova-plugin-whitelist": {
         "source": {
             "type": "registry",
-            "id": "cordova-plugin-x-socialsharing"
+            "id": "cordova-plugin-whitelist"
         },
         "is_top_level": true,
         "variables": {}

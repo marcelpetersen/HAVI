@@ -5,6 +5,8 @@
 import { Page, NavController } from 'ionic-angular';
 import { Observable } from 'rxjs/Observable';
 import { observableFirebaseArray } from 'angular2-firebase';
+
+//Pages & pages
 import { Firebase_const } from '../../const';
 import { Trip } from '../trip/trip';
 import { Profile } from '../profile/profile';
@@ -30,18 +32,25 @@ export class Search {
       this.queryLocations = [];
       this.queryUsers = [];
       this.favoTrips = "active";
+      this.showButtonSearch = "here";
   } 
   searchQeury($event){
+     this.showButtonSearch = "";
     if($event.which === 13) {
+        // 13 === return
+        this.showButtonSearch = "here";
         this.searchButton();
     }
   }
   changeActive(e){
+      this.showButtonSearch = "here";
       this.message = "";
         if(e === "trips"){
             this.favoUser = "";
             this.favoTrips = "active";
+            this.showButtonSearch = "";
         }else if(e === "users"){
+            this.showButtonSearch = "";
             this.favoUser = "active";
             this.favoTrips = "";
         }
@@ -50,6 +59,8 @@ export class Search {
     this.nav.push(Trip,{data:e});
   }
   searchButton(){ 
+      // Search button pressed + check which one is active, users or locations
+     this.showButtonSearch = "here";
      this.message = "";
      if(this.favoTrips){
          this.searchLocations();
@@ -58,6 +69,7 @@ export class Search {
      }
    }
   searchUsers(){
+      // Search for users
       if(this.textMessage){
           this.queryUsers = [];    
           this.queryLocations = [];    
@@ -105,6 +117,7 @@ export class Search {
   } 
 
   searchLocations(){
+      // Search for locations
       if(this.textMessage){
           this.queryLocations = [];    
           this.queryUsers = [];    

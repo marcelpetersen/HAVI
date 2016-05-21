@@ -10,6 +10,39 @@
         font-size:15px;
         margin-top:10px;
         text-transform: uppercase;
+
+    }
+    .inputPicture{
+        display:block;
+        width:100px;
+        height: 75px;
+        margin:0 auto;
+        background-size:100% !important;
+        background-repeat: no-repeat;
+        position: relative;
+        &::after{
+            position: absolute;
+            z-index: 1;
+            bottom:0;
+            right:0;
+            left:0;
+            top:0;
+            content:'';
+            background-color: rgba(0,0,0,0.3);
+        }
+        span{
+            color:$grey !important;
+            position: absolute;
+            z-index: 2;
+            top:0;
+            bottom:0;
+            right:0;
+            left:0;
+            margin:auto;
+            height: 35px;
+            font-size:30px;
+            opacity: 0.8;
+        }
     }
     #settings{
         position: absolute;

@@ -3,11 +3,11 @@
 // Last update: 20/02/16
 
 import { Page, Platform, NavController } from 'ionic-angular';
- 
-// Own Pages
-import { TabsPage } from '../tabs/tabs';
-import { Firebase_const } from '../../const';
 import { Facebook } from 'ionic-native';
+
+// Pages & constants
+import { Firebase_const } from '../../const';
+import { TabsPage } from '../tabs/tabs';
 
 @Page({
   selector:'Login',
@@ -50,8 +50,8 @@ export class Login {
                         console.log("Error creating user:", error);
                     }
                 } else {
-                    console.log("Successfully created user account with uid:", userData.uid);
-                     this.firebaseUrl.child('users').child(userData.uid)
+                    localStorage.setItem("first",true);
+                    this.firebaseUrl.child('users').child(userData.uid)
                             .set({ 
                                 email: this.register.email, 
                                 name: this.register.surname.toLowerCase(),
@@ -81,7 +81,6 @@ export class Login {
                     email    : this.email,
                     password : this.password
                 }, (error, authData) => {
-                    console.log(authData);
                     if (error) {
                         var ref = this.firebaseUrl.child('users').orderByChild('email').startAt(this.email).endAt(this.email);
                         ref.on('value',(snap) => {
@@ -120,7 +119,6 @@ export class Login {
                     email    : this.email,
                     password : this.password
                 }, (error, authData) => {
-                    console.log(authData);
                     if (error) {
                         var ref = this.firebaseUrl.child('users').orderByChild('email').startAt(this.email).endAt(this.email);
                         ref.on('value',(snap) => {
@@ -150,7 +148,6 @@ export class Login {
             this.error = "One second please";   
     }
     loginFacebook(){
-         this.angular = "One second please";                
         // Firebase Authentication Popup       
             this.firebaseUrl.authWithOAuthPopup("facebook",(error, authData)=> {
                 if (error) {
@@ -161,19 +158,27 @@ export class Login {
                         // Silence is gold
                     });
                     }else{
-                        console.log('hier');
                         console.log(error);
                     }
                 }else{
                     var ref = this.firebaseUrl.child('users').orderByChild('email').startAt(authData.facebook.email).endAt(authData.facebook.email);
-                    ref.on('value',(snap) => {
+                    ref.once('value',(snap) => {
                         if(snap.exists() === true){    
                             localStorage.setItem('user', Object.keys(snap.val()));
                             localStorage.setItem('picture', authData.facebook.profileImageURL);
+                            var valueOfKey = snap.val()[Object.keys(snap.val())[0]].pictureUrl;
+                            if(!valueOfKey){
+                                 var ref = this.firebaseUrl.child('users').child(Object.keys(snap.val()).toString());
+                                 ref.update({pictureUrl:authData.facebook.profileImageURL});
+                            }
                             this.nav.push(TabsPage); 
                         }else{
                             var ref = this.firebaseUrl.child('users').child(authData.facebook.id)
-                                    .set({ email: authData.facebook.email, name: authData.facebook.displayName});
+                                    .set({ 
+                                        email: authData.facebook.email, name: authData.facebook.displayName.toLowerCase(),
+                                        pictureUrl:authData.facebook.profileImageURL,
+                                        private:false
+                                    });
                             localStorage.setItem('user', authData.facebook.id);
                             localStorage.setItem('picture', authData.facebook.profileImageURL);
                             localStorage.setItem('name', authData.facebook.displayName);
@@ -184,6 +189,21 @@ export class Login {
         },{
              scope: "email,public_profile"
         });
-
+       /*
+        //Facebook.browserInit(1735591183389964);
+        try {
+            Facebook.login(["public_profile"],success => {
+                    console.log(success);
+                    this.error = success;
+                    this.nav.push(TabsPage);
+                },error => {
+                    this.error = error;
+                    console.log(error);
+                });
+        }
+        catch(err) {
+             this.error = err;
+        }
+         */
     }
 }

@@ -4,14 +4,14 @@ HIDDEN VERANDERD DOOR NGIF
 
 TODO: 
 - ICONS VERVANGEN
-- PASSWOORD VERGETEN WAT DAN?
+- PASSWOORD VERGETEN WAT DAN? -> Email versturen met NATIVE!
 
 
 ---->
 <ion-content padding class="login">
     <p *ngIf="error" class="error">{{error}}</p>
     <div class="top">
-        <img src="build/images/logo.png" alt="">
+        <img src="images/logo.png" alt="">
     </div>
     <div class="login-form" *ngIf="!login">
         <!-- Icons vervangen door Ionic 2 -->
@@ -20,7 +20,7 @@ TODO:
         <label for="password">Password <i class="icon ion-locked"></i></label>
         <input type="password" name="password" [(ngModel)]="password" (keyup)="doneTypingLogin($event)">
         <button class="login-button" (click)="loginMail()">Login</button>
-        <button (click)="login =! login" class="choose-button">New to HAVA? Sign up.</button>
+        <button (click)="login =! login" class="choose-button">New to HAVI? Sign up.</button>
     </div>
     <div class="login-form" *ngIf="login">
         <label for="surname">Name </label>

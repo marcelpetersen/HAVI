@@ -24,14 +24,6 @@
         float:left;
         width:40% !important;
     }
-    .inputwidth{
-        width:60% !important;
-        margin:0;
-        border-radius:0;
-        height: 40px;
-        text-align: left !important;
-        padding-left:5px;
-    }
     #choose-trip{
         width:100%;
         float:left;
@@ -135,33 +127,48 @@
         background-color: $green;
         margin:0;
     }
-      label.myLabel input[type="file"] {
-        position: fixed;
-        top: -1000px;
-    }
-    /***** Example custom styling *****/
-    .myLabel {
-        color:#fff;
-         cursor: pointer;
-    }
-    .myLabel:hover {
-        background: transparent;
-    }
-    .myLabel:active {
-        background: transparent;
-    }
-    .myLabel :invalid + span,
-     .myLabel :valid + span {
-        color: transparent;
-    }
-    .focus{
-        background-color: $red !important;
-    }
+
+
     .hidden{
         display: none;
     }
+
 }
 // ALl
+.loading-wrapper{
+    background-color: $lightblue;
+    border-radius: 5px;
+    ion-spinner{
+        width: 100px;
+        height: 50px;
+        svg{
+            animation-duration: 1000ms !important;
+            &:first-child{
+                left:15px !important;
+            }
+            &:last-child{
+                left:-15px !important;
+            }
+            
+        }
+    }
+    .spinner-dots{
+        position: absolute;
+        top:0px;
+        left:0;
+        right:0;
+        margin:auto;
+        circle{
+            fill: $white;
+        }
+    }
+    .loading-content{
+        width:100%;
+        float:left;
+        color:$white;
+        margin-top:20px;
+    }
+}
 .confirm-screen, #note, #maps{
     position: absolute;
     top:0;

@@ -1,6 +1,6 @@
 <ion-navbar *navbar>
   <ion-title>
-        <img src="build/images/logo.png" height="30px" width="30px" alt="" />
+        <img src="images/logo.png" height="30px" width="30px" alt="" />
     </ion-title>
 </ion-navbar>
 <ion-content class="search">
@@ -12,7 +12,7 @@
             <input type="text" [(ngModel)]="textMessage" (keyup)="searchQeury($event)" placeholder="Copenhagen, Denmark, Scandinavia, Europe, ...">
         </div>
     </div>
-    <button id="search-button" (click)="searchButton()">Send</button>
+    <button id="search-button" *ngIf="!showButtonSearch" (click)="searchButton()"><ion-icon name="search" ></ion-icon></button>
     <ul id="specify">
         <li [class]="favoTrips" (click)="changeActive('trips')"><ion-icon name="md-globe"></ion-icon></li>
         <li [class]="favoUser" (click)="changeActive('users')"><ion-icon name="contact"></ion-icon>
@@ -21,7 +21,7 @@
     <span id="message" [hidden]="!message">{{ message }}</span>
     <ion-scroll id="all-items" scrollX="true">
     <ul *ngIf="favoTrips">
-        <li *ngFor="#trip of queryLocations" [hidden]="!trip.location" (click)="goTrip(trip)">
+        <li *ngFor="let trip of queryLocations" [hidden]="!trip.location" (click)="goTrip(trip)">
             <h1>{{ trip.location }}</h1>
             <h2>{{ trip.sort }} / {{trip.datetime | date:'yyyy'}}</h2>
             <p>{{(trip.text ? trip.text : "") | slice:0:75}}...</p>
@@ -29,7 +29,7 @@
         </li>
     </ul>
     <ul *ngIf="!favoTrips">
-        <li *ngFor="#usr of queryUsers" [hidden]="!usr.name" (click)="goProfile(usr.name)">
+        <li *ngFor="let usr of queryUsers" [hidden]="!usr.name" (click)="goProfile(usr.name)">
             <h1 id="person-name">{{((usr.name | obfiPipe) | async)| namePipe}}</h1>
             <h2>{{ usr.num }} Trips</h2>
             <p>Click to see the trips</p>

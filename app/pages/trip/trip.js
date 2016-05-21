@@ -3,12 +3,14 @@
 // Last update: 28/01/16
 
 import { Platform, Page, NavParams, NavController, ActionSheet, Alert } from 'ionic-angular';
-import { Observable } from 'rxjs/Observable';
+import { Observable }              from 'rxjs/Observable';
 import { observableFirebaseArray } from 'angular2-firebase';
+
+// Pages & constants
 import { Firebase_const, StandardPicture } from '../../const';
-import { Part } from '../trip.part/trip.part';
-import { Add } from '../add/add';
-import { Profile } from '../profile/profile';
+import { Part }     from '../trip.part/trip.part';
+import { Add }      from '../add/add';
+import { Profile }  from '../profile/profile';
 
 
 @Page({
@@ -28,30 +30,27 @@ export class Trip {
         this.data = params.get('data');
         this.showPiece = true;
         this.selectedKind = false;
+        this.showEditPart = false;
 
-        //Dagen toevoegen
+        // Add days
         this.pictures = [];
         for (var index = 0; index < Object.keys(this.data.pictures).length; index++) {
             var key = Object.keys(this.data.pictures);
             key = key[index];
             this.pictures.push(this.data.pictures[key]);
         }
-        //Sorteren op datum
+        // Sort on date
         this.pictures.sort(function(a,b){
             return new Date(b.datetime) + new Date(a.datetime);
         });
                 
         this.checkStartFavourite();
-
-        
-                // Favourite trip
        
         if(this.user === this.data.name){
             this.buttonDisabled = false;
         }else{
             this.buttonDisabled = true;
         }
-        
         this.tabBarElement = document.querySelector('tabbar');
     }
     goPerson(){
@@ -68,8 +67,8 @@ export class Trip {
         this.tripName = "";
     }
     tryAdd(trip){
-        this.showPiece = false;
-        this.tripPart = trip;
+       this.showPiece = false;
+       this.tripPart = trip;
        this.all = [];
        var ref = new Firebase(this.firebaseUrl).child('users').child(this.user).child('created_trips');
        ref.once('value', data =>{
@@ -81,10 +80,12 @@ export class Trip {
        });
     }
     addPart(e){
+        // Add part to planned trip
         if(!this.tripPart.src){
             this.tripPart.src = "";
         }
         if(e){
+            // Add to already made (still planned) trip
             var ref = new Firebase(this.firebaseUrl).child('users').child(this.user).child('created_trips').orderByChild("datetime").startAt(e.datetime).endAt(e.datetime);
             e = this.tripPart;
             ref.once("value",(val) =>{
@@ -98,6 +99,7 @@ export class Trip {
                 });
             });            
         }else{
+            // Push to new trip
             if(this.tripName){
                 var ref = new Firebase(this.firebaseUrl)
                             .child('users').child(this.user).child('created_trips');
@@ -125,7 +127,11 @@ export class Trip {
         this.showPiece = true;
     }
     checkStartFavourite(){
-         var ref = new Firebase(this.firebaseUrl).child('users').child(this.user).child('favourites');
+        // Check for favourites
+        var ref = new Firebase(this.firebaseUrl)
+                        .child('users')
+                        .child(this.user)
+                        .child('favourites');
         ref.once("value",snapshot => {
             // Check if favourite
               snapshot.forEach(childSnapshot => {
@@ -145,8 +151,10 @@ export class Trip {
         this.checkKind();
     }
     onPageWillLeave(){
+        // Which kind of trip is this update here
         this.updateKind();
         this.tabBarElement.style.display = 'flex';
+        // If trip is favourite check here and push if needed
         if(this.heart === true){
             var ref = new Firebase(this.firebaseUrl)
                     .child('users').child(this.user).child('favourites');
@@ -197,7 +205,7 @@ export class Trip {
          }
     }
     checkKind(){
-        //this.selectedKind = true;
+        // Check kind of trip ex. Business, beach, city, ...
         var ref = new Firebase(this.firebaseUrl).child('trips').child(this.data.$$fbKey).child('sort');
         ref.on('value',snap =>{
             if(snap.exists() === true){
@@ -211,6 +219,7 @@ export class Trip {
         }); 
     }
     updateKind(){
+        // Update kind of trip
         if(this.data.sort != this.tripkind){
                 var ref = new Firebase(this.firebaseUrl).child('trips').child(this.data.$$fbKey);
                 ref.once('value',snap =>{
@@ -230,13 +239,24 @@ export class Trip {
         }
     }
     editTrip(){
+        // Edit a trip or maybe delete it
         let actionSheet = ActionSheet.create({
-            title: 'Modify your trip',
+            title: 'Modify trip',
             buttons: [{
                 text: 'Edit',
                 icon: !this.platform.is('ios') ? 'build' : null,
                 handler: () => {
-                console.log('Archive clicked');
+                  this.showEditPart =! this.showEditPart;
+                  this.editTrips = [];
+                  var len = Object.keys(this.data.pictures).length;
+                  for (var i = 0; i < len; i++) {
+                      var keys =  Object.keys(this.data.pictures);
+                      var key = keys[i];
+                      this.editTrips.push({
+                          location: this.data.pictures[key].location,
+                          key:key
+                      })
+                  }
                 }
             },{
                 text: 'Delete',
@@ -251,13 +271,24 @@ export class Trip {
                             text: 'Cancel',
                             role: 'destructive',
                             handler: () => {
-                                //console.log('Disagree clicked');
+                                //this.showEditPart =! this.showEditPart;
+                                //this.nav.push()
                             }
                             },
                             {
                             text: 'Delete',
                             handler: () => {
+                                    // Delete the whole trip
                                     var ref = new Firebase(this.firebaseUrl).child('users').child(this.user).child('created_trips').child(this.data.$$fbKey);
+                                    ref.once('value', snap =>{
+                                        if(snap.exists() === true){
+                                            var ref = new Firebase(this.firebaseUrl).child('users').child(this.user).child('created_trips').child(this.data.$$fbKey);
+                                            ref.remove();
+                                        }else{
+                                            var ref = new Firebase(this.firebaseUrl).child('trips').child(this.data.$$fbKey);
+                                            ref.remove();
+                                        }
+                                    })
                                     ref.remove();
                                     this.nav.pop();
                                 }
@@ -276,7 +307,62 @@ export class Trip {
         });
         this.nav.present(actionSheet);
     }
-    edit(){
-        console.log('edit'); 
+    editSelected(){
+        // Choose which part do you want to edit
+        this.nav.push(Part,{
+            edit:true,
+            data:this.data,
+            location:this.whichEdit
+        });
+        this.whichEdit = "";
+        this.showEditPart =! this.showEditPart;
+        this.editTrips = [];
+    }
+    onCancel(){
+        this.whichEdit = "";
+        this.showEditPart =! this.showEditPart;
+        this.editTrips = [];
+    }
+    changeLocation(){
+        // Change title/location of the whole trip
+        let prompt = Alert.create({
+            title: 'Title - location',
+            message: "Are you sure you want change the location?",
+            inputs: [
+                {
+                name: 'location',
+                placeholder: 'Location'
+                },
+            ],
+            buttons: [
+                {
+                text: 'Cancel',
+                handler: data => {
+                }
+                },
+                {
+                text: 'Save',
+                handler: data => {
+                    // Push title/location to URL
+                    this.data.location = data.location;
+                    var ref = new Firebase(this.firebaseUrl)
+                                    .child('trips').child(this.data.$$fbKey);
+                    ref.once('value', snap =>{
+                        if(snap.exists() === true){
+                            var ref = new Firebase(this.firebaseUrl).child('trips').child(this.data.$$fbKey);
+                            ref.update({location:data.location});
+                        }else{
+                            var ref = new Firebase(this.firebaseUrl).child('users').child(this.user).child('created_trips').child(this.data.$$fbKey);
+                            ref.update({location:data.location});
+                        }
+                    });
+                }
+                }
+            ]
+        });
+        this.nav.present(prompt);
+    }
+    changeDate(){
+        //TODO: Datum wijzigen, wat te doen met timestamp?
     }
 }

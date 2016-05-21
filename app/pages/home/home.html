@@ -1,6 +1,6 @@
 <ion-navbar *navbar>
   <ion-title>
-        <img src="build/images/logo.png" height="30px" width="30px" alt="" />
+        <img src="images/logo.png" height="30px" width="30px" alt="" />
     </ion-title>
     <ion-buttons end>
         <button (click)="goOwn()">
@@ -9,42 +9,96 @@
     </ion-buttons>
 </ion-navbar>
 <ion-content class="home" has-header="true">
-    <!--<ion-slides pager>
-
-    <ion-slide style="background-color: green">
-        <h2>Slide 1</h2>
-    </ion-slide>
-
-    <ion-slide style="background-color: blue">
-        <h2>Slide 2</h2>
-    </ion-slide>
-
-    <ion-slide style="background-color: red">
-        <h2>Slide 3</h2>
-    </ion-slide>
-
-    </ion-slides>-->
-    <ion-refresher (start)="doStarting()"
-                    (refresh)="doRefresh($event,refresher)">               
+    <ion-refresher (refresh)="doRefresh($event,refresher)">               
         <ion-refresher-content 
         pullingIcon="ios-arrow-round-down"
         refreshingSpinner="circles">
         </ion-refresher-content>                    
     </ion-refresher>
     <ul class="list" [class]="lessClass">
-        <h2 [hidden]="!error" class="error">{{error}}</h2>
-        <li template="ngFor #img of images;#c = index" *ngIf="(c > 2)">
+        <h2 [hidden]="!error" class="error" (click)="toAdd()"><span>{{error}}</span></h2>
+        <li *ngFor="let img of images;let c = index">
             <div class="image"  [ngStyle]="img.src ? {'background-image': 'url(' + img.src + ')'} : {'background-image': 'url(' + standardPicture + ')'}" (click)="goToTrip(img)"></div>
             <span>{{img.location}}</span>
         </li>
     </ul>
     <ul class="list2" [class]="extraClass">
-        <li template="ngFor #img of array;#amount = index" *ngIf="extraClass === 'list2 extra'? (amount > 5) : (amount > 8)"> <!--template="ngFor #img of randomImages"-->
+        <li *ngFor="let img of array;let amount = index" *ngIf="extraClass === 'list2 extra'? (amount > 5) : (amount > 8)">
             <div class="image" [ngStyle]="img.src ? {'background-image': 'url(' + img.src + ')'} : {'background-image': 'url(' + standardPicture + ')'}" (click)="goToTrip(img)"></div>
-                <!--<img [src]="img.src || '//:0'" class="image" (click)="doThis($event,img)"> --> 
-                <span>{{img.location}}</span>
+            <span>{{img.location}}</span>
         </li>
     </ul>
+    <ion-slides #mySlider *ngIf="!firstTime" >
+        <ion-slide id="slide1">
+            <h4>HI, Welcome {{userName}}</h4>
+            <div id="slide-container">
+                <img src="../images/logo.png" alt="">
+                <h3>EXPLORE</h3>
+                <p>HAVI is your newest travel diary that is always in reach. The application let you post your travel trips and share it with family and friends all around the world. Relive every second of your trip and someone else's trip whenever you want through pictures, memo notes and detailed locations.</p>
+            </div>
+        </ion-slide>
+
+        <ion-slide id="slide2">
+            <h4>WHAT CAN I DO WITH HAVI...</h4>
+            <ul>
+                <li>I PLAN A TRIP</li>
+                <li>I MAKE A TRIP</li>
+                <li>I FOLLOW A TRIP</li>
+            </ul>
+        </ion-slide>
+        <ion-slide id="slide3">
+            <h4>WHAT CAN I ADD TO A TRIP...</h4>
+            <ul>
+                <li>
+                    <h2>PHOTOS</h2>
+                    <img id="photos" src="../images/back-search.jpg" alt="">
+                </li>
+                <li>
+                    <h2>NOTES</h2>
+                    <p>This time I went to Marbella, it's located the south of Spain. We had a lovely time at the beach. During the day we spend most of our days in the Marbella Club, it's a very relaxing club with some nice people. At night we searched for a good club, we found one on the main street of Marbella...</p>
+                </li>
+                <li>
+                    <h2>LOCATIONS</h2>
+                    <img src="../images/location-marbella.png" alt="">
+                </li>
+            </ul>
+        </ion-slide>
+        <ion-slide id="slide4">
+            <div class="picture">
+            <h1>Search for a LOCATION, NOTE or a USER</h1>
+                <div class="input-icon">
+                    <ion-icon name="search" class="icon"></ion-icon>
+                    <input type="text" placeholder="Marbella, Spain, ...">
+                </div>
+            </div>
+            <ul id="specify">
+                <li><ion-icon name="md-globe"></ion-icon></li>
+                <li><ion-icon name="contact"></ion-icon>
+                </li>
+            </ul>
+            <ul id="all-items">
+                <li>
+                    <h1>MARBELLA</h1>
+                    <h2>ROADTRIP / 2016</h2>
+                    <p>This time I went to Marbella, it's located the south of Spain. We had a lovely time at the beach....</p>
+                </li>
+                <li>
+                    <h1>MARBELLA</h1>
+                    <h2>ROADTRIP / 2016</h2>
+                    <p>This time I went to Marbella, it's located the south of Spain. We had a lovely time at the beach....</p>
+                </li>
+                <li>
+                    <h1>MARBELLA</h1>
+                    <h2>ROADTRIP / 2016</h2>
+                    <p>This time I went to Marbella, it's located the south of Spain. We had a lovely time at the beach....</p>
+                </li>
+                <li>
+                    <h1>MARBELLA</h1>
+                    <h2>ROADTRIP / 2016</h2>
+                    <p>This time I went to Marbella, it's located the south of Spain. We had a lovely time at the beach....</p>
+                </li>
+            </ul>
+            <button (click)="closeSlides()" id="got">GOT IT</button>
+        </ion-slide>
+    </ion-slides>
 </ion-content>
-
-

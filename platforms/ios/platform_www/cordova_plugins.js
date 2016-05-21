@@ -291,7 +291,8 @@ module.exports.metadata =
     "cordova-plugin-spinner-dialog": "1.3.1",
     "cordova-plugin-facebook4": "1.7.0",
     "phonegap-plugin-push": "1.6.2",
-    "cordova-plugin-x-socialsharing": "5.0.12"
+    "cordova-plugin-x-socialsharing": "5.0.12",
+    "cordova-plugin-whitelist": "1.2.2"
 }
 // BOTTOM OF METADATA
 });

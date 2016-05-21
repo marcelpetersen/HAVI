@@ -18,6 +18,8 @@ export class TabsPage {
   }
     
   constructor(navParams,nav) {
+     this.nav = nav;
+     
     // this tells the tabs component which Pages
     // should be each tab's root Page
     this.home = Home;
@@ -26,7 +28,7 @@ export class TabsPage {
     this.search = Search;
     this.messages = Messages;
     
-    this.nav = nav;
+  
     
     // Picture hidden = true
     this.pictureVisible = true;
