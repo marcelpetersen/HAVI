@@ -89,7 +89,8 @@ export class Trip {
             var ref = new Firebase(this.firebaseUrl).child('users').child(this.user).child('created_trips').orderByChild("datetime").startAt(e.datetime).endAt(e.datetime);
             e = this.tripPart;
             ref.once("value",(val) =>{
-               var ref = new Firebase(this.firebaseUrl).child('users').child(this.user).child('created_trips').child(Object.keys(val.val()).toString()).child('pictures');        
+               var ref = new Firebase(this.firebaseUrl).child('users').child(this.user).child('created_trips').child(Object.keys(val.val()).toString()).child('pictures');    
+              
                 ref.push({
                     name: e.name,
                     datetime: e.datetime,
@@ -97,12 +98,15 @@ export class Trip {
                     src: e.src,
                     text: e.text
                 });
-            });            
+            });
+            this.tripPart = "";
+            this.showPiece = true;            
         }else{
             // Push to new trip
             if(this.tripName){
                 var ref = new Firebase(this.firebaseUrl)
                             .child('users').child(this.user).child('created_trips');
+                this.tripPart.datetime = Firebase.ServerValue.TIMESTAMP;  
                 this.addPicture = ref.push({
                     name: this.user,
                     datetime: this.tripPart.datetime,
@@ -119,12 +123,12 @@ export class Trip {
                     src: this.tripPart.src,
                     text: this.tripPart.text
                 });
+                this.tripPart = "";
+                this.showPiece = true;
             }else{
                 this.focusLocate =! this.focusLocate;
             }
         }    
-        this.tripPart = "";
-        this.showPiece = true;
     }
     checkStartFavourite(){
         // Check for favourites

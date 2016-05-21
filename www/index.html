@@ -8,9 +8,19 @@
     <!-- Google Api Font -->
     <link href="https://fonts.googleapis.com/css?family=Source%20Sans%20Pro%3A400%2C200%2C300%2C700%2C600" rel="stylesheet" type="text/css">
     
-    <!-- Firebasee -->
-  <script src="https://cdn.firebase.com/js/client/2.3.0/firebase.js"></script>
-  
+    <!-- Firebase -->
+  <script src="https://cdn.firebase.com/js/client/2.3.0/firebase.js"></script> 
+  <script src="https://www.gstatic.com/firebasejs/live/3.0/firebase.js"></script>
+  <script>
+    // Initialize Firebase
+    var config = {
+      apiKey: "AIzaSyD5b4vyiKUr8KnRK8U8oRcuPMvFiZUBlv4",
+      authDomain: "havi.firebaseapp.com",
+      databaseURL: "https://havi.firebaseio.com",
+      storageBucket: "firebase-havi.appspot.com",
+    };
+    firebase.initializeApp(config);
+  </script>
   <!-- Font awesome -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 

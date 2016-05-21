@@ -2,15 +2,15 @@
 // Author:      Pieter-Jan Sas
 // Last update: 29/04/16
 
-import { Page,Platform,NavController,NavParams, Slides} from 'ionic-angular';
+import { Page,Platform, NavController, NavParams, Slides} from 'ionic-angular';
 import { ViewChild } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { observableFirebaseArray } from 'angular2-firebase';
 // Pages & Constants
 import { Firebase_const, StandardPicture } from '../../const';
-import { Profile } from '../profile/profile';
-import { Trip } from '../trip/trip';
-import { Add } from '../add/add';
+import { Profile }  from '../profile/profile';
+import { Trip }     from '../trip/trip';
+import { Add }      from '../add/add';
 
 
 @Page({

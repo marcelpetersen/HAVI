@@ -1,10 +1,10 @@
 import {Page,NavParams,NavController} from 'ionic-angular';
 // PAGES
-import { Home } from '../home/home';
+import { Home }       from '../home/home';
 import { Favourites } from '../favourites/favourites';
-import { Add } from '../add/add';
-import { Search } from '../search/search';
-import { Messages } from '../messages/messages';
+import { Add }        from '../add/add';
+import { Search }     from '../search/search';
+import { Messages }   from '../messages/messages';
 
 
 @Page({

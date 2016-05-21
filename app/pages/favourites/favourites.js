@@ -1,14 +1,14 @@
 // Page:        Favourites
 // Author:      Pieter-Jan Sas
 
-import { Page, NavController } from 'ionic-angular';
-import { Observable } from 'rxjs/Observable';
-import { observableFirebaseArray } from 'angular2-firebase';
+import { Page, NavController }      from 'ionic-angular';
+import { Observable }               from 'rxjs/Observable';
+import { observableFirebaseArray }  from 'angular2-firebase';
 // Constants
 import { Firebase_const } from '../../const';
 // Pages
-import { Trip } from '../trip/trip';
-import { Profile } from '../profile/profile';
+import { Trip }     from '../trip/trip';
+import { Profile }  from '../profile/profile';
 // Pipes
 import { obfiPipe } from '../../pipes/obfiPipe';
 import { namePipe } from '../../pipes/namePipe';

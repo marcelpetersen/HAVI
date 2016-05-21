@@ -12,12 +12,12 @@ import { Http,Headers,RequestOptions,HTTP_PROVIDERS } from '@angular/http';
 //Pages & constant
 import { Firebase_const, ProfilePicture } from '../../const';
 import { Settings } from '../settings/settings';
-import { Trip } from '../trip/trip';
-import { Part } from '../trip.part/trip.part';
+import { Trip }     from '../trip/trip';
+import { Part }     from '../trip.part/trip.part';
 
 // Pipes
-import { obfiPipe } from '../../pipes/obfiPipe';
-import { namePipe } from '../../pipes/namePipe';
+import { obfiPipe }        from '../../pipes/obfiPipe';
+import { namePipe }        from '../../pipes/namePipe';
 import { orderByDatePipe } from '../../pipes/orderByDatePipe';
 
 // Native

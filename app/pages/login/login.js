@@ -6,8 +6,8 @@ import { Page, Platform, NavController } from 'ionic-angular';
 import { Facebook } from 'ionic-native';
 
 // Pages & constants
-import { Firebase_const } from '../../const';
-import { TabsPage } from '../tabs/tabs';
+import { Firebase_const }   from '../../const';
+import { TabsPage }         from '../tabs/tabs';
 
 @Page({
   selector:'Login',

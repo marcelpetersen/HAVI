@@ -5,8 +5,8 @@
 import { Page, NavParams, NavController } from 'ionic-angular';
 
 // Pages & Constants
-import { Firebase_const } from '../../const';
-import { Maps } from '../maps/maps';
+import { Firebase_const }   from '../../const';
+import { Maps }             from '../maps/maps';
 
 
 @Page({

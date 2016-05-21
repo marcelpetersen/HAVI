@@ -4,7 +4,7 @@
     </ion-title>
 </ion-navbar>
 <ion-content class="add-item" has-header="false"> 
-    <input type="text" [(ngModel)]="albumTitle" id="title" (click)="changeTitle()">
+    <input type="text" [(ngModel)]="albumTitle" id="title">
     <ul id="choose-trip">
         <li *ngFor="let img of images | async" (click)="pickTrip(img)" >
              <div class="image"  [ngStyle]="img.src ? {'background-image': 'url(' + img.src + ')'} : {'background-image': 'url(' + standardPicture + ')'}" (click)="goToTrip(img)"></div>
@@ -23,7 +23,7 @@
         </li>
     </ul>
     <ul id="trip-album" [hidden]="noPictures">
-        <li *ngFor="let newimg of newImages | async;#i = index;"> 
+        <li *ngFor="let newimg of newImages | async;let i = index;"> 
             <img [hidden]="!newimg.src" [src]="newimg.src">
             <img [hidden]="newimg.src" [src]="standardPicture">
             <span>Day {{i + 1}}</span>

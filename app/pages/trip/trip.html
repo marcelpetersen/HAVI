@@ -25,7 +25,7 @@
     <h2 (click)="changeDate()">{{ data.datetime | date:'yyyy'}}</h2>
     <ion-scroll id="trips-timeline" scrollX="true">
         <div id="timeline">
-            <div *ngFor="#trip of pictures;#i = index; ">
+            <div *ngFor="let trip of pictures;let i = index; ">
                 <div class="parts" (click)="goPart(trip)">
                     <img *ngIf="trip.src" [src]="trip.src || '//:0'" class="image" >
                     <img *ngIf="!trip.src" [src]="standardPicture" class="image" >

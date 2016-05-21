@@ -22,8 +22,12 @@ tmp/
 temp/
 www/build/
 $RECYCLE.BIN/
+ionic.config2.js
 
 .DS_Store
 Thumbs.db
 UserInterfaceState.xcuserstate
 briefing.md
+.vscode
+database.rules.json
+.firebaserc

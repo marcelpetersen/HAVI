@@ -3,13 +3,13 @@
 // Last update: 20/02/16
 
 import { Page, NavController } from 'ionic-angular';
-import { Observable } from 'rxjs/Observable';
 import { observableFirebaseArray } from 'angular2-firebase';
+import { Observable } from 'rxjs/Observable';
 
 //Pages & pages
 import { Firebase_const } from '../../const';
-import { Trip } from '../trip/trip';
-import { Profile } from '../profile/profile';
+import { Trip }     from '../trip/trip';
+import { Profile }  from '../profile/profile';
 
 // Pipes
 import { obfiPipe } from '../../pipes/obfiPipe';

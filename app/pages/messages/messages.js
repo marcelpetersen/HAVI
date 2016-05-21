@@ -2,16 +2,17 @@
 // Author:      Pieter-Jan Sas
 // Last update: 20/02/16
 
-import { Page, NavController,Alert } from 'ionic-angular';
-import { Observable } from 'rxjs/Observable';
-import { observableFirebaseArray } from 'angular2-firebase';
-import { Pipe } from '@angular/core';
+import { Page, NavController,Alert }    from 'ionic-angular';
+import { observableFirebaseArray }      from 'angular2-firebase';
+import { Observable }   from 'rxjs/Observable';
+import { Pipe }         from '@angular/core';
+
 // Constants
-import { Firebase_const } from '../../const';
+import { Firebase_const }   from '../../const';
 // Pipes
-import { obfiPipe } from '../../pipes/obfiPipe';
-import { namePipe } from '../../pipes/namePipe';
-import { orderByDatePipe } from '../../pipes/orderByDatePipe';
+import { obfiPipe }         from '../../pipes/obfiPipe';
+import { namePipe }         from '../../pipes/namePipe';
+import { orderByDatePipe }  from '../../pipes/orderByDatePipe';
 // Native
 import { Push } from 'ionic-native';
 
