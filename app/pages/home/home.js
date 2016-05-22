@@ -35,6 +35,9 @@ export class Home {
         this.user = localStorage.getItem('user');
         this.userName = localStorage.getItem('name');
         
+        this.tabBarElement = document.querySelector('tabbar');
+        this.tabBarElement.style.display = 'flex';
+        
         this.showscreen = "";
         this.lessClass = "list";
         this.extraClass = "list2";
@@ -59,6 +62,7 @@ export class Home {
             this.tabBarElement.style.display = 'none';
             this.firstTime = "";
         }
+        
    }
   doRefresh(refresher) {
     // Load new items

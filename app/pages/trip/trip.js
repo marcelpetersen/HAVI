@@ -90,7 +90,7 @@ export class Trip {
             e = this.tripPart;
             ref.once("value",(val) =>{
                var ref = new Firebase(this.firebaseUrl).child('users').child(this.user).child('created_trips').child(Object.keys(val.val()).toString()).child('pictures');    
-              
+               e.datetime = Firebase.ServerValue.TIMESTAMP;
                 ref.push({
                     name: e.name,
                     datetime: e.datetime,

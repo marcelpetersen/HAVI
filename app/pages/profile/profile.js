@@ -4,7 +4,7 @@
 // TODO: trips zijn niet chronologisch geordend, eerste datum komt laatste. 
 // Pipe werkt wel maar de datum is een servervalue, en neemt telkens de huidige datum ipv de datum van dat het gepost is. 
 
-import { Page, NavController, NavParams, Alert } from 'ionic-angular';
+import { Page, NavController, NavParams, Alert, Loading } from 'ionic-angular';
 import { Observable } from 'rxjs/Observable';
 import { observableFirebaseArray } from 'angular2-firebase';
 import { Http,Headers,RequestOptions,HTTP_PROVIDERS } from '@angular/http';

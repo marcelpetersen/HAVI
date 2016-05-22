@@ -1,12 +1,11 @@
 // Page:        Photo wall connecting with Firebase & RXJS
 // Author:      Pieter-Jan Sas
-// Last update: 28/01/16
-// TODO: when nog lat, long & coords
+// Last update: 22/05/16
 
 import { Page,Platform, NavParams, NavController, Alert }   from 'ionic-angular';
 import { Http,Headers,RequestOptions,HTTP_PROVIDERS }       from '@angular/http';
 import { Firebase_const, StandardPicture }                  from '../../const';
-// Pages &Pipes
+// Pages & Pipes
 import { Home }     from '../home/home';
 import { Maps }     from '../maps/maps';
 import { obfiPipe } from '../../pipes/obfiPipe';
@@ -43,7 +42,6 @@ export class Part {
             location: this.data.location,
             text: this.data.text
         }
-
         this.nav = nav;
         this.standardPicture = StandardPicture.URL;
         this.tabBarElement = document.querySelector('tabbar');
@@ -52,12 +50,15 @@ export class Part {
         this.nav.pop();
     }
     goMaps(){
-        if(this.coords){
-            this.nav.push(Maps,{data:this.coords,location:this.data.location});
-        }else if(!this.data.coords || !this.data.coords.lat || !this.data.coords.lon){
-             //this.nav.push(Maps,{data:this.coords,location:this.data.location});
-        }else{
+        if(this.data.coords && this.data.coords.lat && this.data.coords.lon){
             this.nav.push(Maps,{data:this.data.coords,location:this.data.location});
+        }else if(this.coords.lat && this.coords.lng){
+            this.nav.push(Maps,{data:this.coords,location:this.data.location});
+        }else{
+            this.error = "Can't find any location with this name";
+            setTimeout(() => {
+                this.error = "";
+            }, 2500);
         }
     }
     onPageWillEnter(){
@@ -84,11 +85,6 @@ export class Part {
                 }else{
                      this.coords = results[0].geometry.location;
                 }
-               
-               //console.log(this.coords);
-               //var ref = new Firebase(this.firebaseUrl).child('trips').child()
-            } else {
-                //alert('Geocode was not successful for the following reason: ' + status);
             }
         });
     }

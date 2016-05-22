@@ -15,6 +15,7 @@ export class Maps {
     }
     constructor(nav,params){
         this.data = params.get('data');
+        console.log(this.data);
         this.location = params.get('location');
         this.nav = nav;
         if(this.data.lat && this.data.lon){

@@ -1,20 +1,26 @@
 .part{
     position: relative;
-    .normal{
+    
+    .error {
+        z-index:21;
+    }
+    .normal {
         position: absolute;
         top:0;
         right:0;
         left:0;
         bottom:0;
     }
-    .contact{
+    
+    .contact {
         position: absolute;
         top:5px;
         left:31px;
         color:$white;
         z-index:20;
         font-size:10px; 
-        p{
+        
+        p {
             float:left;
             width:auto;
             margin-left:0;
@@ -25,7 +31,9 @@
                 text-transform: uppercase;
             }  
         }
-        .ion-ios-contact{
+        
+        .ion-ios-contact, 
+        .ion-md-contact {
             float:left;
             font-size:20px;
             padding-right:5px;
@@ -55,13 +63,16 @@
                 min-height: 30%;
             }
         }
-        .yellow{
+        .yellow {
             position: absolute;
             bottom:-20px;
             z-index:20;
             margin-top:-20px;
             cursor:pointer;
-            .fa,.ion-ios-arrow-back{
+            
+            .fa, 
+            .ion-ios-arrow-back,
+            .ion-md-arrow-back { 
                 width:40px;
                 height:40px;
                 border-radius: 40px;
@@ -77,10 +88,10 @@
                 padding-right:10px;
             }
         } 
-        #back-home{
+        #back-home {
             left:20px; 
         }
-        #trip-location{
+        #trip-location {
             right:20px;
         }
     }

@@ -4,6 +4,7 @@
     </ion-title>
 </ion-navbar>
 <ion-content class="part" has-header="false">
+    <span class="error" *ngIf="error">{{error}}</span>
     <div class="normal" *ngIf="!edit">
         <div id="trip-buttons">
             <span class="contact"><ion-icon name="contact"></ion-icon><p>{{((data.name | obfiPipe) | async)| namePipe}}</p></span>
