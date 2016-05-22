@@ -312,15 +312,17 @@ export class Trip {
         this.nav.present(actionSheet);
     }
     editSelected(){
-        // Choose which part do you want to edit
-        this.nav.push(Part,{
-            edit:true,
-            data:this.data,
-            location:this.whichEdit
-        });
-        this.whichEdit = "";
-        this.showEditPart =! this.showEditPart;
-        this.editTrips = [];
+       if(this.whichEdit){
+            // Choose which part do you want to edit
+            this.nav.push(Part,{
+                edit:true,
+                data:this.data,
+                location:this.whichEdit
+            });
+            this.whichEdit = "";
+            this.showEditPart =! this.showEditPart;
+            this.editTrips = [];
+       } 
     }
     onCancel(){
         this.whichEdit = "";
@@ -365,8 +367,5 @@ export class Trip {
             ]
         });
         this.nav.present(prompt);
-    }
-    changeDate(){
-        //TODO: Datum wijzigen, wat te doen met timestamp?
     }
 }

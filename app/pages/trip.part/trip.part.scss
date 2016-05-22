@@ -118,12 +118,13 @@
             text-transform: uppercase;
         }
     }
-    #edit-trip{
-        span#close{
+    #edit-trip {
+        
+        span#close {
             position: absolute;
-            top:2px;
+            top:10px;
             left:10px;
-            font-size:25px;
+            font-size:15px;
             z-index: 2;
             color:$yellow;
         }
@@ -180,6 +181,7 @@
             }
         }
         .inputPicture span{
+            
             width:50px;
             position: absolute;
             z-index: 2;
@@ -188,7 +190,9 @@
             height:50px;
             text-align: center;
             line-height: 30px;
-            .ion-ios-camera{
+            
+            .ion-ios-camera, 
+            .ion-md-camera {
                 width:30px;
                 height:30px;
                 color:$yellow;
@@ -197,6 +201,7 @@
         }
     }
     .big-picture{
+        
         position: absolute;
         top:0;
         bottom:0;
@@ -205,6 +210,7 @@
         background-color:rgba(0,0,0,1);
         opacity: 1;
         z-index: 20;
+        
         img{
             position: absolute;
             top:0;
@@ -213,10 +219,12 @@
             bottom:0;
             margin:auto;
         }
+        
         .button-inner{
             margin:0;
             padding:0;
         }
+        
         #cancel-picture{
             background-color: transparent;
             color:$white;

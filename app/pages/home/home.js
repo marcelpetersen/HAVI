@@ -53,8 +53,7 @@ export class Home {
         });
 
         // Check if it's first time
-        
-        if(!localStorage.getItem("first")){
+        if(localStorage.getItem("first")){
             //  It is the first time, show slides
             this.tabBarElement = document.querySelector('ion-tabbar-section');
             this.tabBarElement.style.display = 'none';
@@ -188,6 +187,8 @@ export class Home {
         this.firstTime = "stop";
   }
   onPageLoaded(){
+      this.images = [];
+    this.loadItems(); 
       setTimeout(() =>{
           localStorage.images = JSON.stringify(this.images);
       },5000);

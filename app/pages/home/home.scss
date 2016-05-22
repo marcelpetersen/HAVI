@@ -282,44 +282,46 @@ ion-slides{
 #slide1{
     background-color:$white;
     h4{
+        background: url('../../images/back-slide.jpg') no-repeat;
+        background-position: 100% 30%;
+        background-size: 100%;
         position: absolute;
-        top:0;
-        background: url('http://stuart-nieuwpoort.be/uploads/background.jpg') no-repeat;
-        background-size: 100% auto;
-        position: absolute;
-        top:0;
+        bottom:0;
         color:$white;
         margin:0;
         width:100%;
         padding-top:20px;
         padding-bottom:20px;
         text-transform: uppercase;
-        font-size:10px;
+        font-size:14px;
     }
-    
     #slide-container{
-       
         height: 100%;
+        
         img{
-            max-width:150px;
+            width: 100%;
+            max-width: 130px;
+            margin-bottom:30px;
         }
+        
         h3{
-            color: $yellow;
+            color: #70bae8;
         }
+        
         p{
-            color: #333;
+            color: #AAA;
             padding:0px 40px;
             font-size:14px;
         }
     }
 }
 #slide2{
-    background: url('http://stuart-nieuwpoort.be/uploads/background.jpg') no-repeat 100%;
+    background: url('../../images/back-slide.jpg') no-repeat 100%;
     background-size: auto 100%;  
     
     h4{
         position: absolute;
-        top:0;
+        bottom:0;
         background-color:$white;
         color:$yellow;
         margin:0;
@@ -327,11 +329,11 @@ ion-slides{
         padding-top:20px;
         padding-bottom:20px;
         text-transform: uppercase;
-        font-size:10px;
+        font-size:14px;
     }
     ul{
         position: absolute;
-        top:60px;
+        top:20px;
         margin:0;
         width:100%;
         height: 100%;
@@ -351,12 +353,12 @@ ion-slides{
 }
 
 #slide3{
-    background: url('http://stuart-nieuwpoort.be/uploads/background.jpg') no-repeat 100%;
+    background: url('../../images/back-messages.jpg') no-repeat 100%;
     background-size: auto 100%;  
     
     h4{
         position: absolute;
-        top:0;
+        bottom:0;
         background-color:$white;
         color:$yellow;
         margin:0;
@@ -364,11 +366,11 @@ ion-slides{
         padding-top:20px;
         padding-bottom:20px;
         text-transform: uppercase;
-        font-size:10px;
+        font-size:14px;
     }
     ul{
         position: absolute;
-        top:50px;
+        top:0px;
         margin:0;
         width:100%;
         height: 100%;

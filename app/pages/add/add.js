@@ -5,7 +5,7 @@
 import { Page, NavController, NavParams, Platform, Loading } from 'ionic-angular';
 import { Observable } from 'rxjs/Observable';
 import { observableFirebaseArray } from 'angular2-firebase';
-import { Http,Headers,RequestOptions,HTTP_PROVIDERS } from '@angular/http';
+import { Http, Headers, RequestOptions, HTTP_PROVIDERS } from '@angular/http';
 import { EXIF } from 'exif-js';
 //import { Camera, Geolocation } from 'ionic-native';
 

@@ -22,10 +22,10 @@
              </label>
         </li>
     </ul>
-    <ul id="trip-album" [hidden]="noPictures">
+    <ul id="trip-album" *ngIf="!noPictures">
         <li *ngFor="let newimg of newImages | async;let i = index;"> 
-            <img [hidden]="!newimg.src" [src]="newimg.src">
-            <img [hidden]="newimg.src" [src]="standardPicture">
+            <img *ngIf="newimg.src" [src]="newimg.src">
+            <img *ngIf="!newimg.src" [src]="standardPicture">
             <span>Day {{i + 1}}</span>
         </li>
     </ul>

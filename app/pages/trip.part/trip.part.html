@@ -8,9 +8,6 @@
     <div class="normal" *ngIf="!edit">
         <div id="trip-buttons">
             <span class="contact"><ion-icon name="contact"></ion-icon><p>{{((data.name | obfiPipe) | async)| namePipe}}</p></span>
-            <!--
-            <ion-icon class="heart" ios="ios-heart-outline" md="md-heart-outline"></ion-icon>
-            -->
             <div id="trip-head" [hidden]="!data.src" (click)="bigPicture()">
                 <img [src]="data.src || '//:0'" alt="trip-picture">
             </div>
@@ -30,7 +27,7 @@
      <div id="edit-trip" class="normal" *ngIf="edit">
         <div id="trip-heads">
             <div id="trip-head" [hidden]="!data.src">
-                <span id="close" (click)="deletePart()"><ion-icon name="close"></ion-icon></span>
+                <span id="close" (click)="deletePart()"><ion-icon ios="ios-trash" md="md-trash"></ion-icon></span>
                 <img [src]="data.src || '//:0'" alt="trip-picture">
                 <label class="inputPicture"><!--(click)="takePicture()"-->
                         <input style="width:100%" class="upload" type="file" accept="image/*" capture name="files[]" multiple (change)="uploadPicture($event)" >
@@ -38,7 +35,7 @@
                 </label>
             </div>
             <div id="trip-head" [hidden]="data.src">
-                 <span id="close" (click)="deletePart()"><ion-icon name="close"></ion-icon></span>
+                 <span id="close" (click)="deletePart()"><ion-icon ios="ios-trash" md="md-trash"></ion-icon></span>
                 <img [src]="standardPicture" alt="trip-picture">
                 <label class="inputPicture"><!--(click)="takePicture()"-->
                         <input style="width:100%" class="upload" type="file" accept="image/*" capture name="files[]" multiple (change)="uploadPicture($event)" >
@@ -56,7 +53,8 @@
         </button>
      </div>
      <div class="big-picture" *ngIf="big">
-         <button id="cancel-picture" (click)="bigPicture()"><ion-icon name="close"></ion-icon></button>
+         <button id="cancel-picture" (click)="bigPicture()"><ion-icon name="close"></ion-icon>
+         </button>
          <img [src]="data.src" alt="" />
      </div>
 </ion-content>

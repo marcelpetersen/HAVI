@@ -2,9 +2,10 @@
 // Author:      Pieter-Jan Sas
 // Last update: 22/05/16
 
-import { Page,Platform, NavParams, NavController, Alert }   from 'ionic-angular';
-import { Http,Headers,RequestOptions,HTTP_PROVIDERS }       from '@angular/http';
+import { Page,Platform, NavParams, NavController, Alert, Loading }   from 'ionic-angular';
+import { Http, Headers, RequestOptions, HTTP_PROVIDERS }       from '@angular/http';
 import { Firebase_const, StandardPicture }                  from '../../const';
+
 // Pages & Pipes
 import { Home }     from '../home/home';
 import { Maps }     from '../maps/maps';
@@ -17,9 +18,11 @@ import { namePipe } from '../../pipes/namePipe';
 })
 
 export class Part {
+    
     static get parameters() {
         return [[NavController], [NavParams],[Http],[Platform]];
     }
+    
     constructor(nav,params,http,platform){
         this.platform = platform;
         this.http = http;
@@ -46,9 +49,11 @@ export class Part {
         this.standardPicture = StandardPicture.URL;
         this.tabBarElement = document.querySelector('tabbar');
     }
+    
     goBackHome(){
         this.nav.pop();
     }
+    
     goMaps(){
         if(this.data.coords && this.data.coords.lat && this.data.coords.lon){
             this.nav.push(Maps,{data:this.data.coords,location:this.data.location});
@@ -69,11 +74,8 @@ export class Part {
         if(!this.data.coords || !this.data.coords.lat || !this.data.coords.lon){
              this.searchLocation();
         }
-        //this.tabBarElement.style.display = 'none';
     }
-    onPageWillLeave(){
-        //this.tabBarElement.style.display = 'flex';
-    }
+    
     searchLocation(){
         var geocoder = new google.maps.Geocoder();
         geocoder.geocode({'address': this.data.location}, (results, status)=> {
@@ -88,10 +90,12 @@ export class Part {
             }
         });
     }
+    
     cancelPart(){
         this.edit = "";
     }
-    editPart(){     
+    
+    editPart(){
         this.data.location = this.newData.location;
         this.data.text = this.newData.text;
         var ref = new Firebase(this.firebaseUrl).child('trips').child(this.allData.$$fbKey).child('pictures');
@@ -111,14 +115,22 @@ export class Part {
         this.newData.text = "";
         this.edit = "";
     }
+    
     uploadPicture(evt){
+        // Uploading dots
+        this.loading = Loading.create({
+            spinner: "dots",
+            content: "Uploading, please wait.."
+        });
+        this.nav.present(this.loading);
+        
         var f = evt.target.files[0];
         var reader = new FileReader();
         reader.onload = ((theFile) => {
                 return (e) => {
                     this.data.src = e.target.result;
                     // Upload picture to server;
-                    var data = JSON.stringify({"image":this.data.src});
+                     var data = JSON.stringify({"image":this.data.src, "user":localStorage.getItem('user')});
                     var headers = new Headers();
                     headers.append('Content-Type', 'application/json');
                     this.http.post('/upload.php', data ,{ headers: headers })
@@ -135,6 +147,7 @@ export class Part {
                                         });
                                 } 
                                 });
+                                 this.loading.dismiss();
                             });
                         },
                         err => console.log(err)
@@ -143,6 +156,7 @@ export class Part {
         })(f);
         reader.readAsDataURL(f);
     }
+    
     deletePart(){
         let confirm = Alert.create({
                         title: 'Confirm delete...',
@@ -152,9 +166,8 @@ export class Part {
                             text: 'Cancel',
                             role: 'destructive',
                             handler: () => {
-                                //this.showEditPart =! this.showEditPart;
-                                //this.nav.push()
-                            }
+                                // Silence
+                                }
                             },
                             {
                             text: 'Delete',
@@ -174,7 +187,7 @@ export class Part {
                                             });
                                             
                                         })
-                                         this.nav.pop();
+                                      this.nav.pop();
                                     }                     
                                 }
                             }
@@ -182,9 +195,11 @@ export class Part {
                         });
             this.nav.present(confirm);
     }
+    
     pictureWidth(){
         
     }
+    
     bigPicture(){
         this.big =! this.big;
     }
